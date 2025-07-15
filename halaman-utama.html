@@ -3,105 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard Karyawan - PT Waja Inti Lestari</title>
+  <title>Dashboard - PT Waja Inti Lestari</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body, html { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f8; }
-
-    header {
-      background: linear-gradient(90deg, #0056b3, #007bff);
-      color: white;
-      padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    body { font-family: Arial, sans-serif; margin:0; background: #f4f6f8; }
+    header { background: #007bff; color: white; padding: 20px; text-align: center; }
+    nav { background: #333; display: flex; justify-content: center; }
+    nav a {
+      color: white; padding: 14px 20px; text-decoration: none; display: block;
     }
-
-    .logo img {
-      width: 200px;
+    nav a:hover { background: #575757; }
+    .container { padding: 30px; text-align: center; }
+    .menu {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px; max-width: 800px; margin: auto;
     }
-
-    nav button {
-      background: transparent;
-      border: 1px solid white;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
+    .menu a {
+      background: white; padding: 20px; border-radius: 8px;
+      text-decoration: none; color: #333; font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-
-    nav button:hover {
-      background: white;
-      color: #007bff;
+    .menu a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-
-    .container {
-      padding: 40px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 30px;
-      margin-bottom: 20px;
-    }
-
-    .card h2 {
-      margin-bottom: 15px;
-      color: #333;
-    }
-
-    .card p {
-      color: #666;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #ddd;
-      font-size: 14px;
+    .logout-btn {
+      margin-top: 40px;
+      background: #dc3545; color: white;
+      border: none; padding: 10px 20px;
+      border-radius: 5px; cursor: pointer;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="PT Waja Inti Lestari">
-  </div>
-  <nav>
-    <button onclick="logout()">Logout</button>
-  </nav>
+  <h1>Dashboard Karyawan - PT Waja Inti Lestari</h1>
 </header>
 
+<nav>
+  <a href="halaman-utama.html">Home</a>
+  <a href="data-laporan.html">Data Laporan</a>
+  <a href="profil.html">Profil Karyawan</a>
+</nav>
+
 <div class="container">
-  <div class="card">
-    <h2>Selamat Datang di Dashboard Karyawan</h2>
-    <p>Halo, Anda sudah berhasil login sebagai karyawan PT Waja Inti Lestari.</p>
+  <h2>Selamat Datang di Dashboard</h2>
+  <div class="menu">
+    <a href="data-laporan.html">📄 Data Laporan</a>
+    <a href="profil.html">👤 Profil Karyawan</a>
+    <a href="https://wa.me/6282271244421">📞 Kontak Admin</a>
   </div>
 
-  <div class="card">
-    <h2>Informasi Perusahaan</h2>
-    <p>Perusahaan kami terus berkomitmen terhadap keselamatan operasional dan peningkatan kualitas kerja karyawan.</p>
-  </div>
-
-  <div class="card">
-    <h2>Laporan Operasional</h2>
-    <p>Silakan unggah atau cek laporan operasional Anda melalui fitur yang tersedia (fitur ini dapat dikembangkan selanjutnya).</p>
-  </div>
+  <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
-
-<footer>
-  © 2025 PT Waja Inti Lestari. Semua hak dilindungi.
-</footer>
 
 <script type="module">
 import { auth } from './firebase-config.js';
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 
-// Cek apakah user sudah login, kalau tidak redirect ke login
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = 'index.html';
@@ -111,10 +71,8 @@ onAuthStateChanged(auth, (user) => {
 window.logout = function() {
   signOut(auth).then(() => {
     window.location.href = 'index.html';
-  }).catch((error) => {
-    alert('Gagal logout: ' + error.message);
   });
-}
+};
 </script>
 
 </body>
