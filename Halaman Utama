@@ -1,71 +1,69 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PT Waja Inti Lestari</title>
-  <style>
-    body { margin:0; font-family: sans-serif; line-height:1.6; }
-    header { background:#005f99; padding:20px; color:white; display:flex; align-items:center; justify-content:space-between; }
-    header nav a { color:white; margin:0 10px; text-decoration:none; }
-    .hero { background:#e6f7ff; padding:80px 20px; text-align:center; }
-    .hero h1 { margin-bottom:10px; }
-    .section { padding:60px 20px; max-width:1000px; margin:auto;}
-    .card-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; }
-    .card { background:#f9f9f9; padding:20px; border-radius:8px; }
-    footer { background:#333; color:white; text-align:center; padding:20px; }
-    footer a { color:#ddd; margin:0 5px; text-decoration:none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT Waja Inti Lestari</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { height: 100%; font-family: Arial, sans-serif; }
+        .container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+        .left {
+            flex: 1;
+            background: #000; /* black for contrast */
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .logo img {
+            width: 120px;
+        }
+        .text {
+            margin-top: 100px;
+        }
+        .text h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .text strong {
+            font-size: 28px;
+            color: #fff;
+        }
+        .right {
+            flex: 1.5;
+            background: url('https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/safety%20talk.jpg') no-repeat center center/cover;
+            position: relative;
+        }
+        /* Responsive */
+        @media(max-width:768px){
+            .container { flex-direction: column; }
+            .right { height: 50vh; }
+            .left { height: 50vh; padding: 20px; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <div class="logo"><h2>Waja Inti Lestari</h2></div>
-  <nav>
-    <a href="#about">Tentang Kami</a>
-    <a href="#esg">ESG</a>
-    <a href="#governance">Tata Kelola</a>
-    <a href="#investor">Investor</a>
-    <a href="#contact">Kontak</a>
-  </nav>
-</header>
-
-<section class="hero">
-  <h1>Selamat Datang di PT Waja Inti Lestari</h1>
-  <p>Meningkatkan kualitas hidup dan membangun masa depan yang berkelanjutan</p>
-  <a href="#about" style="padding:12px 24px;background:#007acc;color:white;border-radius:5px;text-decoration:none;">Pelajari Tentang Kami</a>
-</section>
-
-<section id="about" class="section">
-  <h2>Tentang Kami</h2>
-  <p>PT Waja Inti Lestari adalah perusahaan Indonesia di bidang pertambangan nikel. Dengan komitmen kuat terhadap keberlanjutan, kami terus berinovasi untuk masa depan yang lebih baik.</p>
-</section>
-
-<section id="esg" class="section">
-  <h2>Komitmen ESG</h2>
-  <div class="card-grid">
-    <div class="card"><h3>Lingkungan</h3><p>Rehabilitasi pascatambang dan konservasi keanekaragaman hayati.</p></div>
-    <div class="card"><h3>Sosial</h3><p>Pemberdayaan masyarakat dan program kesehatan & keselamatan kerja.</p></div>
-    <div class="card"><h3>Tata Kelola</h3><p>Transparansi, anti-korupsi, dan praktik tata kelola yang kokoh.</p></div>
-  </div>
-</section>
-
-<section id="governance" class="section">
-  <h2>Tata Kelola Perusahaan</h2>
-  <p>Kami menerapkan praktik corporate governance terbaik di tingkat nasional dan internasional.</p>
-</section>
-
-<section id="investor" class="section">
-  <h2>Investor Relations</h2>
-  <p>Akses laporan tahunan, laporan keuangan, dan informasi pemegang saham terbaru.</p>
-</section>
-
-<footer id="contact">
-  <p>© 2025 PT Waja Inti Lestari. Semua hak cipta dilindungi.</p>
-  <p>
-    <a href="#">Facebook</a> • <a href="#">LinkedIn</a> • <a href="#">Instagram</a>
-  </p>
-</footer>
+<div class="container">
+    <div class="left">
+        <div class="logo">
+            <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="Logo PT Waja Inti Lestari">
+        </div>
+        <div class="text">
+            <h1>Kami hadir untuk meningkatkan kualitas hidup dan membangun masa depan yang lebih baik.</h1>
+            <strong>Bersama.</strong>
+        </div>
+    </div>
+    <div class="right">
+        <!-- Gambar latar diatur dari CSS background-image -->
+    </div>
+</div>
 
 </body>
 </html>
