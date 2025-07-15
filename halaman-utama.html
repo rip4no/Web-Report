@@ -6,7 +6,7 @@
   <title>Dashboard - PT Waja Inti Lestari</title>
   <style>
     body { font-family: Arial, sans-serif; margin:0; background: #f4f6f8; }
-    header { background: #007bff; color: white; padding: 20px; text-align: center; }
+    header { background: #007bff; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
     nav { background: #333; display: flex; justify-content: center; }
     nav a {
       color: white; padding: 14px 20px; text-decoration: none; display: block;
@@ -28,17 +28,22 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     .logout-btn {
-      margin-top: 40px;
       background: #dc3545; color: white;
       border: none; padding: 10px 20px;
       border-radius: 5px; cursor: pointer;
+    }
+    .welcome {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: #333;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Dashboard Karyawan - PT Waja Inti Lestari</h1>
+  <h1>PT Waja Inti Lestari - Dashboard Karyawan</h1>
+  <button class="logout-btn" onclick="logout()">Logout</button>
 </header>
 
 <nav>
@@ -48,14 +53,13 @@
 </nav>
 
 <div class="container">
-  <h2>Selamat Datang di Dashboard</h2>
   <div class="menu">
     <a href="data-laporan.html">📄 Data Laporan</a>
     <a href="profil.html">👤 Profil Karyawan</a>
     <a href="https://wa.me/6282271244421">📞 Kontak Admin</a>
   </div>
 
-  <button class="logout-btn" onclick="logout()">Logout</button>
+  <h2 class="welcome">Selamat Datang di Dashboard</h2>
 </div>
 
 <script type="module">
