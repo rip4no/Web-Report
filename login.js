@@ -7,9 +7,8 @@ window.login = function() {
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            alert("Login berhasil!");
-            // Redirect setelah login
-            window.location.href = "halaman-utama.html"; // Ganti sesuai halaman utama Anda
+            // langsung redirect tanpa alert
+            window.location.href = "halaman-utama.html";
         })
         .catch((error) => {
             alert("Login gagal: " + error.message);
