@@ -18,7 +18,7 @@
     }
 
     .logo img {
-      width: 120px;
+      width: 300px;
     }
 
     nav a {
@@ -34,24 +34,16 @@
       height: 80vh;
       display: flex;
       align-items: center;
-      padding: 40px;
+      justify-content: center;
       color: white;
+      text-align: center;
     }
 
-    .hero-text {
-      max-width: 600px;
+    .hero h1 {
+      font-size: 32px;
       background: rgba(0,0,0,0.5);
-      padding: 20px;
-      border-radius: 5px;
-    }
-
-    .hero-text h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    .hero-text p {
-      font-size: 20px;
+      padding: 20px 30px;
+      border-radius: 8px;
     }
 
     footer {
@@ -69,19 +61,14 @@
     <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="PT Waja Inti Lestari">
   </div>
   <nav>
-    <a href="#">Tentang Kami</a>
-    <a href="#">Operasional</a>
-    <a href="#">Keberlanjutan</a>
-    <a href="#">Karir</a>
-    <a href="#">Kontak</a>
+    <a href="#">Login sebagai Karyawan</a>
+    <a href="#">Login sebagai Manajemen</a>
+    <a href="https://wa.me/6282271244421" target="_blank">Kontak</a>
   </nav>
 </header>
 
 <section class="hero">
-  <div class="hero-text">
-    <h1>Kami hadir untuk meningkatkan kualitas hidup dan membangun masa depan yang lebih baik.</h1>
-    <p><strong>Bersama PT Waja Inti Lestari.</strong></p>
-  </div>
+  <h1>Selamat Datang di Website Laporan Operational</h1>
 </section>
 
 <footer>
