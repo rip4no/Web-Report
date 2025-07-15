@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Daftar Karyawan</title>
-</head>
-<body>
-  <h2>Daftar Karyawan</h2>
-  <input type="email" id="email" placeholder="Email"><br><br>
-  <input type="password" id="password" placeholder="Password"><br><br>
-  <button onclick="register()">Daftar</button>
+import { auth } from './firebase-config.js';
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  <p>Sudah punya akun? <a href="index.html">Login di sini</a></p>
+window.register = function() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-  <script type="module" src="firebase-config.js"></script>
-  <script type="module" src="register.js"></script>
-</body>
-</html>
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            alert("Pendaftaran berhasil!");
+            window.location.href = 'index.html'; // kembali ke login
+        })
+        .catch((error) => {
+            alert("Pendaftaran gagal: " + error.message);
+        });
+};
