@@ -31,19 +31,67 @@
     .hero {
       position: relative;
       background: url('https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/safety%20talk.jpg') no-repeat center center/cover;
-      height: 80vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       color: white;
       text-align: center;
+      padding: 20px;
     }
 
     .hero h1 {
       font-size: 32px;
       background: rgba(0,0,0,0.5);
-      padding: 20px 30px;
+      padding: 15px 25px;
       border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .login-box {
+      background: rgba(0,0,0,0.6);
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 350px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .login-box button:hover {
+      background-color: #0056b3;
+    }
+
+    .login-box .links {
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .login-box .links a {
+      color: #fff;
+      text-decoration: underline;
+      display: block;
+      margin: 5px 0;
     }
 
     footer {
@@ -61,14 +109,29 @@
     <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="PT Waja Inti Lestari">
   </div>
   <nav>
-    <a href="#">Login sebagai Karyawan</a>
-    <a href="#">Login sebagai Manajemen</a>
     <a href="https://wa.me/6282271244421" target="_blank">Kontak</a>
   </nav>
 </header>
 
 <section class="hero">
   <h1>Selamat Datang di Website Laporan Operational</h1>
+
+  <div class="login-box">
+    <form>
+      <label>Email</label>
+      <input type="email" placeholder="Masukkan Email" required>
+
+      <label>Password</label>
+      <input type="password" placeholder="Masukkan Password" required>
+
+      <button type="submit">Login</button>
+
+      <div class="links">
+        <a href="#">Lupa Password?</a>
+        <a href="#">Daftar Akun Baru</a>
+      </div>
+    </form>
+  </div>
 </section>
 
 <footer>
