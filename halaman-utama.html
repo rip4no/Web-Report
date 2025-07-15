@@ -13,29 +13,16 @@
     }
     nav a:hover { background: #575757; }
     .container { padding: 30px; text-align: center; }
-    .menu {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px; max-width: 800px; margin: auto;
-    }
-    .menu a {
+    .section {
       background: white; padding: 20px; border-radius: 8px;
-      text-decoration: none; color: #333; font-weight: bold;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 20px auto; max-width: 800px; text-align: left;
     }
-    .menu a:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
+    .section h3 { color: #007bff; margin-bottom: 10px; }
     .logout-btn {
       background: #dc3545; color: white;
       border: none; padding: 10px 20px;
       border-radius: 5px; cursor: pointer;
-    }
-    .welcome {
-      font-size: 24px;
-      margin: 40px 0;
-      color: #333;
     }
   </style>
 </head>
@@ -47,14 +34,28 @@
 </header>
 
 <nav>
-  <a href="halaman-utama.html">Home</a>
+  <a href="halaman-utama.html">Dashboard</a>
   <a href="data-laporan.html">Data Laporan</a>
   <a href="profil.html">Profil Karyawan</a>
-  <a href="https://wa.me/6282271244421">Kontak Admin</a>
 </nav>
 
 <div class="container">
-  <h2 class="welcome">Selamat Datang di Dashboard</h2>
+  <h2>Selamat Datang di Dashboard</h2>
+
+  <div class="section">
+    <h3>Pemberitahuan</h3>
+    <p>Tidak ada pemberitahuan baru saat ini. Tetap semangat bekerja dan selalu jaga keselamatan!</p>
+  </div>
+
+  <div class="section">
+    <h3>Riwayat Kehadiran</h3>
+    <ul>
+      <li>15 Juli 2025 - Hadir</li>
+      <li>14 Juli 2025 - Hadir</li>
+      <li>13 Juli 2025 - Tidak Hadir</li>
+      <li>12 Juli 2025 - Hadir</li>
+    </ul>
+  </div>
 </div>
 
 <script type="module">
