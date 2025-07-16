@@ -3,65 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profil Karyawan</title>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <title>Profil Karyawan & Laporan</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBq5U_hQ8FPYEpBzYxMMO_8uXLo4lS0CZA",
+      authDomain: "karyawan-835af.firebaseapp.com",
+      projectId: "karyawan-835af",
+      storageBucket: "karyawan-835af.appspot.com",
+      messagingSenderId: "712164404160",
+      appId: "1:712164404160:web:d298319fabc87987088561",
+      measurementId: "G-5H7FW81VBM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      try {
+        const uid = user.uid;
+
+        // Ambil data profil dari Firestore
+        const docRef = doc(db, "profil", uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          for (const key in data) {
+            const el = document.getElementById(key);
+            if (el) el.textContent = data[key];
+          }
+        } else {
+          alert("Data profil tidak ditemukan.");
+        }
+
+        // Ambil data laporan berdasarkan UID user
+        const laporanRef = collection(db, "laporan");
+        const q = query(laporanRef, where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+
+        const laporanList = document.getElementById("laporanList");
+        laporanList.innerHTML = "";
+
+        if (querySnapshot.empty) {
+          laporanList.innerHTML = "<p>Tidak ada laporan tersedia.</p>";
+        } else {
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const item = document.createElement("li");
+            item.textContent = `${data.tanggal || 'Tanpa Tanggal'} - ${data.judul || 'Tanpa Judul'}: ${data.isi || 'Tanpa Isi'}`;
+            laporanList.appendChild(item);
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Gagal memuat data profil atau laporan.");
+      }
+    });
+  </script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    h1, h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    #profile p, #laporanList li {
+      margin: 5px 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
 </head>
 <body>
   <h1>Profil Karyawan</h1>
   <div id="profile">
-    <p><strong>Nama Lengkap:</strong> <span id="namaLengkap"></span></p>
-    <p><strong>Alamat:</strong> <span id="alamat"></span></p>
-    <p><strong>BPJS KES:</strong> <span id="bpjsKes"></span></p>
-    <p><strong>BPJS KET:</strong> <span id="bpjsKet"></span></p>
-    <p><strong>Golongan Darah:</strong> <span id="golDarah"></span></p>
-    <p><strong>ID Card:</strong> <span id="idCard"></span></p>
-    <p><strong>Jabatan:</strong> <span id="jabatan"></span></p>
-    <p><strong>Tanggal Masuk:</strong> <span id="join"></span></p>
-    <p><strong>NIK KTP:</strong> <span id="nik"></span></p>
-    <p><strong>NPWP:</strong> <span id="npwp"></span></p>
-    <p><strong>Status:</strong> <span id="status"></span></p>
-    <p><strong>BIO:</strong> <span id="bio"></span></p>
-  </div>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        const uid = user.uid;
-        db.collection("profil").doc(uid).get().then(doc => {
-          if (doc.exists) {
-            const data = doc.data();
-            document.getElementById("namaLengkap").textContent = data["Nama Lengkap"] || "";
-            document.getElementById("alamat").textContent = data["Alamat"] || "";
-            document.getElementById("bpjsKes").textContent = data["BPJS KES"] || "";
-            document.getElementById("bpjsKet").textContent = data["BPJS KET"] || "";
-            document.getElementById("golDarah").textContent = data["Gol Darah"] || "";
-            document.getElementById("idCard").textContent = data["ID Card"] || "";
-            document.getElementById("jabatan").textContent = data["Jabatan"] || "";
-            document.getElementById("join").textContent = data["Join"] || "";
-            document.getElementById("nik").textContent = data["NIK KTP"] || "";
-            document.getElementById("npwp").textContent = data["NPWP"] || "";
-            document.getElementById("status").textContent = data["Status"] || "";
-            document.getElementById("bio").textContent = data["BIO"] || "";
-          } else {
-            alert("Data tidak ditemukan.");
-          }
-        });
-      } else {
-        alert("Silakan login terlebih dahulu.");
-        window.location.href = "/login.html";
-      }
-    });
-  </script>
-</body>
-</html>
+    <p><strong>Nama Lengkap:</strong> <span id="namaLengkap">-</span></p>
+    <p><strong>Alamat:</strong> <span id="alamat">-</span></p>
+    <p><strong>BPJS KES:</strong> <span id="bpjsKes">-</span></p>
+    <p><strong>BPJS KET:</strong> <span id="bpjsKet">-</span></p>
+    <p><strong>Golongan Darah:</strong> <span id="golDarah">-</span></p>
+    <p><strong>ID Card:</strong> <span id="idCard">-</span></p>
+    <p><strong>Jabatan:</strong> <span id="jabatan">-</span></p>
+    <
