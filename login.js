@@ -5,30 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profil Karyawan & Laporan</title>
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { cekLogin } from "./auth-check.js";
+    import { db } from "./firebase-config.js";
+    import {
+      doc,
+      getDoc,
+      collection,
+      query,
+      where,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBq5U_hQ8FPYEpBzYxMMO_8uXLo4lS0CZA",
-      authDomain: "karyawan-835af.firebaseapp.com",
-      projectId: "karyawan-835af",
-      storageBucket: "karyawan-835af.appspot.com",
-      messagingSenderId: "712164404160",
-      appId: "1:712164404160:web:d298319fabc87987088561",
-      measurementId: "G-5H7FW81VBM"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = "/login.html";
-        return;
-      }
-
+    cekLogin(async (user) => {
       try {
         const uid = user.uid;
 
@@ -65,8 +53,10 @@
         const querySnapshot = await getDocs(q);
 
         const laporanList = document.getElementById("laporanList");
+        laporanList.innerHTML = ""; // kosongkan
+
         if (querySnapshot.empty) {
-          laporanList.innerHTML = "<p>Tidak ada laporan tersedia.</p>";
+          laporanList.innerHTML = "<li>Tidak ada laporan tersedia.</li>";
         } else {
           querySnapshot.forEach((doc) => {
             const data = doc.data();
