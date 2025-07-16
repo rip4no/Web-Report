@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profil Karyawan - PT Waja Inti Lestari</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+    }
+    header {
+      background: #007bff;
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .header-left img {
+      max-height: 60px;
+    }
+    .header-left h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .header-right button.logout-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background: #575757;
+    }
+    .container {
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+    .section h2 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="Logo PT WIL" />
+      <h1>Profil Karyawan</h1>
+    </div>
+    <div class="header-right">
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <nav>
+    <a href="halaman-utama.html">Dashboard</a>
+    <a href="data-laporan.html">Data Laporan</a>
+    <a href="profil.htm">Profil Karyawan</a>
+  </nav>
+
+  <div class="container">
+    <div class="section">
+      <h2>Data Karyawan</h2>
+      <div id="formKaryawan"></div>
+      <button onclick="toggleEdit()">Edit Profil</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { cekLogin } from "./auth-check.js";
+    import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { db } from "./firebase-config.js";
+
+    let uid = "";
+    let isEditing = false;
+    const formFields = [
+      "Nama Lengkap", "Alamat", "BPJS KES", "BPJS KET", "Golongan Darah", "ID Card",
+      "Jabatan", "Tanggal Masuk", "NIK KTP", "NPWP", "Status", "BIO"
+    ];
+
+    cekLogin(async (user) => {
+      uid = user.uid;
+      const docRef = doc(db, "karyawan", uid);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.exists() ? docSnap.data() : {};
+
+      renderForm(data, false);
+    });
+
+    function renderForm(data, editable) {
+      const container = document.getElementById("formKaryawan");
+      container.innerHTML = "";
+
+      formFields.forEach(field => {
+        const id = field.replace(/\s+/g, "_").toLowerCase();
+        const value = data[id] || "";
+
+        const div = document.createElement("div");
+        div.className = "form-group";
+
+        const label = document.createElement("label");
+        label.textContent = field;
+
+        if (editable) {
+          const input = document.createElement("input");
+          input.id = id;
+          input.value = value;
+          div.appendChild(label);
+          div.appendChild(input);
+        } else {
+          const p = document.createElement("p");
+          p.textContent = value || "-";
+          div.appendChild(label);
+          div.appendChild(p);
+        }
+
+        container.appendChild(div);
+      });
+
+      if (editable) {
+        const saveBtn = document.createElement("button");
+        saveBtn.textContent = "Simpan Data";
+        saveBtn.onclick = simpanProfil;
+        container.appendChild(saveBtn);
+      }
+    }
+
+    async function simpanProfil() {
+      const dataBaru = {};
+      formFields.forEach(field => {
+        const id = field.replace(/\s+/g, "_").toLowerCase();
+        dataBaru[id] = document.getElementById(id).value.trim();
+      });
+
+      await setDoc(doc(db, "karyawan", uid), dataBaru);
+      alert("Data berhasil disimpan!");
+      isEditing = false;
+      renderForm(dataBaru, false);
+    }
+
+    window.toggleEdit = function () {
+      isEditing = !isEditing;
+      getDoc(doc(db, "karyawan", uid)).then(snap => {
+        if (snap.exists()) {
+          renderForm(snap.data(), isEditing);
+        }
+      });
+    };
+
+    window.logout = function () {
+      import("./firebase-config.js").then(({ auth }) => {
+        import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js").then(({ signOut }) => {
+          signOut(auth).then(() => {
+            window.location.href = "index.html";
+          });
+        });
+      });
+    };
+  </script>
+</body>
+</html>
