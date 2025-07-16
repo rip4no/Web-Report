@@ -25,35 +25,46 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        window.location.href = "login.html";
+        window.location.href = "/login.html";
         return;
       }
 
       try {
         const uid = user.uid;
 
-        // Ambil data profil dari Firestore
+        // Ambil data profil
         const docRef = doc(db, "profil", uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const data = docSnap.data();
-          for (const key in data) {
-            const el = document.getElementById(key);
-            if (el) el.textContent = data[key];
-          }
+          const fields = {
+            namaLengkap: "Nama Lengkap",
+            alamat: "Alamat",
+            bpjsKes: "BPJS KES",
+            bpjsKet: "BPJS KET",
+            golDarah: "Gol Darah",
+            idCard: "ID Card",
+            jabatan: "Jabatan",
+            join: "Join",
+            nik: "NIK KTP",
+            npwp: "NPWP",
+            status: "Status",
+            bio: "BIO"
+          };
+          Object.keys(fields).forEach(id => {
+            document.getElementById(id).textContent = data[fields[id]] || "-";
+          });
         } else {
-          alert("Data profil tidak ditemukan.");
+          alert("Data tidak ditemukan untuk pengguna ini.");
         }
 
-        // Ambil data laporan berdasarkan UID user
+        // Ambil data laporan berdasarkan UID
         const laporanRef = collection(db, "laporan");
         const q = query(laporanRef, where("uid", "==", uid));
         const querySnapshot = await getDocs(q);
 
         const laporanList = document.getElementById("laporanList");
-        laporanList.innerHTML = "";
-
         if (querySnapshot.empty) {
           laporanList.innerHTML = "<p>Tidak ada laporan tersedia.</p>";
         } else {
@@ -64,9 +75,9 @@
             laporanList.appendChild(item);
           });
         }
-      } catch (err) {
-        console.error(err);
-        alert("Gagal memuat data profil atau laporan.");
+      } catch (error) {
+        console.error("Gagal mengambil data:", error);
+        alert("Terjadi kesalahan saat mengambil data.");
       }
     });
   </script>
@@ -90,23 +101,15 @@
 <body>
   <h1>Profil Karyawan</h1>
   <div id="profile">
-    <p><strong>Nama Lengkap:</strong> <span id="namaLengkap">-</span></p>
-    <p><strong>Alamat:</strong> <span id="alamat">-</span></p>
-    <p><strong>BPJS KES:</strong> <span id="bpjsKes">-</span></p>
-    <p><strong>BPJS KET:</strong> <span id="bpjsKet">-</span></p>
-    <p><strong>Golongan Darah:</strong> <span id="golDarah">-</span></p>
-    <p><strong>ID Card:</strong> <span id="idCard">-</span></p>
-    <p><strong>Jabatan:</strong> <span id="jabatan">-</span></p>
-    <p><strong>Tanggal Masuk:</strong> <span id="join">-</span></p>
-    <p><strong>NIK KTP:</strong> <span id="nik">-</span></p>
-    <p><strong>NPWP:</strong> <span id="npwp">-</span></p>
-    <p><strong>Status:</strong> <span id="status">-</span></p>
-    <p><strong>BIO:</strong> <span id="bio">-</span></p>
-  </div>
-
-  <h2>Data Laporan</h2>
-  <ul id="laporanList">
-    <li>Memuat laporan...</li>
-  </ul>
-</body>
-</html>
+    <p><strong>Nama Lengkap:</strong> <span id="namaLengkap"></span></p>
+    <p><strong>Alamat:</strong> <span id="alamat"></span></p>
+    <p><strong>BPJS KES:</strong> <span id="bpjsKes"></span></p>
+    <p><strong>BPJS KET:</strong> <span id="bpjsKet"></span></p>
+    <p><strong>Golongan Darah:</strong> <span id="golDarah"></span></p>
+    <p><strong>ID Card:</strong> <span id="idCard"></span></p>
+    <p><strong>Jabatan:</strong> <span id="jabatan"></span></p>
+    <p><strong>Tanggal Masuk:</strong> <span id="join"></span></p>
+    <p><strong>NIK KTP:</strong> <span id="nik"></span></p>
+    <p><strong>NPWP:</strong> <span id="npwp"></span></p>
+    <p><strong>Status:</strong> <span id="status"></span></p>
+    <p><strong>BIO:</strong> <span id="bio"></span></p
