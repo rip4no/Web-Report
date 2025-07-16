@@ -1,161 +1,117 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Profil Karyawan - PT Waja Inti Lestari</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-    }
-    header {
-      background: #007bff;
-      color: white;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    header img {
-      max-height: 60px;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-      font-weight: normal;
-    }
-    nav {
-      background: #333;
-      display: flex;
-      justify-content: center;
-    }
-    nav a {
-      color: white;
-      padding: 14px 20px;
-      text-decoration: none;
-      display: block;
-    }
-    nav a:hover {
-      background: #575757;
-    }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #007bff;
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #007bff;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="Logo PT Waja Inti Lestari" />
-    <h1>Profil Karyawan</h1>
-  </header>
-  <nav>
-    <a href="halaman-utama.html">Dashboard</a>
-    <a href="data-laporan.html">Data Laporan</a>
-    <a href="profil.html">Profil Karyawan</a>
-  </nav>
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Profil Karyawan</title>
+<style>
+ body{font-family:Arial;background:#f4f6f8;margin:0}
+ header{background:#007bff;color:#fff;display:flex;align-items:center;gap:15px;padding:20px}
+ header img{max-height:60px;border-radius:50%}
+ header h1{margin:0;font-size:24px;font-weight:normal}
+ nav{background:#333;display:flex;justify-content:center}
+ nav a{color:#fff;padding:14px 20px;text-decoration:none}
+ nav a:hover{background:#575757}
+ .container{max-width:800px;margin:30px auto;background:#fff;padding:25px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+ .profile-header{text-align:center;margin-bottom:30px}
+ .profile-header img{width:120px;height:120px;border-radius:50%;border:3px solid #007bff;object-fit:cover;cursor:pointer}
+ .profile-info p{margin:8px 0;font-size:16px}
+ .profile-info strong{width:140px;display:inline-block;color:#555}
+ button{margin-top:20px;padding:10px 20px;background:#007bff;border:none;color:#fff;border-radius:5px;cursor:pointer;font-size:16px}
+ button:hover{background:#0056b3}
+ .edit-form{display:none;margin-top:30px}
+ input,textarea{width:100%;padding:10px;margin:5px 0 15px;border:1px solid #ccc;border-radius:5px;font-size:16px}
+</style>
+</head><body>
+<header>
+  <img id="fotoProfil" src="https://ui-avatars.com/api/?name=User&background=007bff&color=fff" alt="Foto Profil"/>
+  <h1>Profil Karyawan</h1>
+</header>
+<nav><a href="halaman-utama.html">Dashboard</a><a href="data-laporan.html">Data Laporan</a><a href="profil.html">Profil Karyawan</a></nav>
 
-  <div class="container">
-    <h2>Data Pribadi</h2>
-    <form id="profilForm">
-      <label for="namaLengkap">Nama Lengkap</label>
-      <input type="text" id="namaLengkap" name="namaLengkap" required />
-
-      <label for="alamat">Alamat</label>
-      <textarea id="alamat" name="alamat" rows="3" required></textarea>
-
-      <label for="noHp">Nomor HP</label>
-      <input type="tel" id="noHp" name="noHp" required />
-
-      <button type="submit">Simpan Profil</button>
-    </form>
+<div class="container">
+  <div class="profile-header">
+    <h2 id="namaProfil">-</h2>
   </div>
+  <div class="profile-info">
+    <p><strong>Email:</strong><span id="emailProfil">-</span></p>
+    <p><strong>Alamat:</strong><span id="alamatProfil">-</span></p>
+    <p><strong>No HP:</strong><span id="hpProfil">-</span></p>
+    <p><strong>Tanggal Lahir:</strong><span id="tglProfil">-</span></p>
+    <p><strong>Jabatan:</strong><span id="jabatanProfil">-</span></p>
+  </div>
+  <button onclick="toggleEdit()">Edit Profil</button>
+  <form id="editForm" class="edit-form">
+    <input type="file" id="editFoto"/>
+    <input type="text" id="editNama" placeholder="Nama Lengkap"/>
+    <textarea id="editAlamat" placeholder="Alamat"></textarea>
+    <input type="text" id="editHp" placeholder="No HP"/>
+    <input type="date" id="editTgl"/>
+    <input type="text" id="editJabatan" placeholder="Jabatan"/>
+    <button type="submit">Simpan</button>
+  </form>
+</div>
 
-  <script type="module">
-    import { auth, db } from './firebase-config.js';
-    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-    import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+<script type="module">
+import { auth, db, storage } from './firebase-config.js';
+import { onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
-    const form = document.getElementById('profilForm');
+let uid;
+const foto = document.getElementById('fotoProfil'),
+      nama = document.getElementById('namaProfil'),
+      emailE = document.getElementById('emailProfil'),
+      alamat = document.getElementById('alamatProfil'),
+      hp = document.getElementById('hpProfil'),
+      tgl = document.getElementById('tglProfil'),
+      jbt = document.getElementById('jabatanProfil'),
+      form = document.getElementById('editForm');
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = 'index.html';
-        return;
-      }
+function toggleEdit() {
+ form.style.display = form.style.display === 'block' ? 'none' : 'block';
+}
 
-      // Load data profil jika sudah ada
-      const docRef = doc(db, 'profilKaryawan', user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        form.namaLengkap.value = data.namaLengkap || '';
-        form.alamat.value = data.alamat || '';
-        form.noHp.value = data.noHp || '';
-      }
-    });
+onAuthStateChanged(auth, async user => {
+ if (!user) return window.location.href='index.html';
+ uid = user.uid;
+ emailE.textContent = user.email;
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+ const snap = await getDoc(doc(db,'profilKaryawan',uid));
+ if (snap.exists()) {
+   const d = snap.data();
+   nama.textContent=d.namaLengkap;
+   alamat.textContent=d.alamat;
+   hp.textContent=d.noHp;
+   tgl.textContent=d.tanggalLahir;
+   jbt.textContent=d.jabatan;
+   if (d.photoURL) foto.src=d.photoURL;
+ }
 
-      const user = auth.currentUser;
-      if (!user) {
-        alert('User belum login!');
-        return;
-      }
+ form[1].value=nama.textContent;
+ form[2].value=alamat.textContent;
+ form[3].value=hp.textContent;
+ form[4].value=tgl.textContent;
+ form[5].value=jbt.textContent;
+});
 
-      const dataProfil = {
-        namaLengkap: form.namaLengkap.value.trim(),
-        alamat: form.alamat.value.trim(),
-        noHp: form.noHp.value.trim(),
-        email: user.email
-      };
-
-      try {
-        await setDoc(doc(db, 'profilKaryawan', user.uid), dataProfil);
-        alert('Profil berhasil disimpan!');
-      } catch (error) {
-        console.error('Error menyimpan data profil:', error);
-        alert('Gagal menyimpan data profil, coba lagi.');
-      }
-    });
-  </script>
-</body>
-</html>
+form.addEventListener('submit', async e => {
+ e.preventDefault();
+ const f = document.getElementById('editFoto').files[0];
+ let photoURL;
+ if (f) {
+   const refStorage = ref(storage, `profilePics/${uid}`);
+   await uploadBytes(refStorage,f);
+   photoURL = await getDownloadURL(refStorage);
+ }
+ const data = {
+   namaLengkap: form[1].value.trim(),
+   alamat: form[2].value.trim(),
+   noHp: form[3].value.trim(),
+   tanggalLahir: form[4].value,
+   jabatan: form[5].value.trim(),
+   email: auth.currentUser.email,
+ };
+ if (photoURL) data.photoURL = photoURL;
+ await setDoc(doc(db,'profilKaryawan',uid),data);
+ alert('Profil disimpan'); location.reload();
+});
+</script>
+</body></html>
