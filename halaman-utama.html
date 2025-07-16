@@ -1,38 +1,72 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard - PT Waja Inti Lestari</title>
   <style>
-    body { font-family: Arial, sans-serif; margin:0; background: #f4f6f8; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+    }
     header {
       background: #007bff;
       color: white;
       padding: 20px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
-    header img {
+    .header-left img {
       max-height: 60px;
     }
-    nav { background: #333; display: flex; justify-content: center; }
+    .header-center {
+      flex: 1;
+      text-align: center;
+    }
+    .header-center h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .header-right button.logout-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      justify-content: center;
+    }
     nav a {
-      color: white; padding: 14px 20px; text-decoration: none; display: block;
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      display: block;
     }
-    nav a:hover { background: #575757; }
-    .container { padding: 30px; text-align: center; }
+    nav a:hover {
+      background: #575757;
+    }
+    .container {
+      padding: 30px;
+      text-align: center;
+    }
     .section {
-      background: white; padding: 20px; border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin: 20px auto; max-width: 800px; text-align: left;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      max-width: 800px;
+      text-align: left;
     }
-    .section h3 { color: #007bff; margin-bottom: 10px; }
-    .logout-btn {
-      background: #dc3545; color: white;
-      border: none; padding: 10px 20px;
-      border-radius: 5px; cursor: pointer;
+    .section h3 {
+      color: #007bff;
+      margin-bottom: 10px;
     }
     .image-section img {
       display: block;
@@ -40,55 +74,69 @@
       height: auto;
       margin: 20px auto 0 auto;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
+  <header>
+    <div class="header-left">
+      <img
+        src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png"
+        alt="Logo PT Waja Inti Lestari"
+      />
+    </div>
+    <div class="header-center">
+      <h1>Dashboard Karyawan</h1>
+    </div>
+    <div class="header-right">
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
 
-<header>
-  <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png"
-       alt="Logo PT Waja Inti Lestari">
-  <button class="logout-btn" onclick="logout()">Logout</button>
-</header>
+  <nav>
+    <a href="halaman-utama.html">Dashboard</a>
+    <a href="data-laporan.html">Data Laporan</a>
+    <a href="profil.html">Profil Karyawan</a>
+  </nav>
 
-<nav>
-  <a href="halaman-utama.html">Dashboard</a>
-  <a href="data-laporan.html">Data Laporan</a>
-  <a href="profil.html">Profil Karyawan</a>
-</nav>
+  <div class="container">
+    <h2>Selamat Datang di Dashboard</h2>
 
-<div class="container">
-  <h2>Selamat Datang di Dashboard</h2>
+    <div class="section">
+      <h3>Pemberitahuan</h3>
+      <p>
+        Tidak ada pemberitahuan baru saat ini. Tetap semangat bekerja dan selalu
+        jaga keselamatan!
+      </p>
 
-  <div class="section">
-    <h3>Pemberitahuan</h3>
-    <p>Tidak ada pemberitahuan baru saat ini. Tetap semangat bekerja dan selalu jaga keselamatan!</p>
-    
-    <!-- Gambar Informasi/Pemberitahuan -->
-    <div class="image-section">
-      <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/contoh-info.png" alt="Info Penting">
+      <div class="image-section">
+        <img
+          src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/reklamasi.jpg"
+          alt="Info Penting"
+        />
+      </div>
     </div>
   </div>
 
-</div>
+  <script type="module">
+    import { auth } from "./firebase-config.js";
+    import {
+      onAuthStateChanged,
+      signOut,
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-<script type="module">
-import { auth } from './firebase-config.js';
-import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
 
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = 'index.html';
-  }
-});
-
-window.logout = function() {
-  signOut(auth).then(() => {
-    window.location.href = 'index.html';
-  });
-};
-</script>
-
+    window.logout = function () {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    };
+  </script>
 </body>
 </html>
