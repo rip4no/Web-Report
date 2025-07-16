@@ -1,125 +1,171 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Data Laporan & Profil Karyawan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Laporan - PT Waja Inti Lestari</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+    }
     header {
-      background: #007bff;
+      background: #007bff; /* warna biru sama dengan dashboard */
       color: white;
       padding: 20px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
     header img {
       max-height: 60px;
     }
-    nav { background: #333; display: flex; justify-content: center; }
-    nav a { color: white; padding: 14px 20px; text-decoration: none; display: block; }
-    nav a:hover { background: #575757; }
-    .container { padding: 20px; }
-    h2 { color: #333; }
-    .form-group { margin-bottom: 15px; }
-    input, textarea {
+    header h1 {
+      margin: 0;
+      font-size: 24px; /* ukuran font sama seperti dashboard */
+      font-weight: normal;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      display: block;
+    }
+    nav a:hover {
+      background: #575757;
+    }
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h2 {
+      color: #007bff; /* warna biru header h2 disamakan dengan dashboard */
+      font-size: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    input,
+    textarea {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
     }
     button {
       padding: 10px 20px;
-      background: #007bff;
+      background: #007bff; /* biru sama dengan header & h2 */
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-size: 16px;
     }
-    button:hover { background: #0056b3; }
-    .report-list, .profile-info {
+    button:hover {
+      background: #0056b3; /* hover biru gelap sama seperti dashboard */
+    }
+    .report-list,
+    .profile-info {
       background: white;
       padding: 15px;
       border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       margin-top: 20px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <img
+      src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png"
+      alt="Logo PT Waja Inti Lestari"
+    />
+    <h1>Data Laporan</h1>
+  </header>
 
-<header>
-  <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png"
-       alt="Logo PT Waja Inti Lestari">
-</header>
+  <nav>
+    <a href="halaman-utama.html">Dashboard</a>
+    <a href="data-laporan.html">Data Laporan</a>
+    <a href="profil.html">Profil Karyawan</a>
+  </nav>
 
-<nav>
-  <a href="halaman-utama.html">Dashboard</a>
-  <a href="#">Data Laporan</a>
-  <a href="#">Profil Karyawan</a>
-</nav>
+  <div class="container">
+    <section id="uploadLaporan">
+      <h2>Upload Laporan Operasional</h2>
+      <div class="form-group">
+        <input type="text" id="judulLaporan" placeholder="Judul Laporan" />
+      </div>
+      <div class="form-group">
+        <textarea
+          id="deskripsiLaporan"
+          placeholder="Deskripsi Laporan"
+        ></textarea>
+      </div>
+      <button onclick="uploadLaporan()">Upload</button>
+    </section>
 
-<div class="container">
-  <section id="uploadLaporan">
-    <h2>Upload Laporan Operasional</h2>
-    <div class="form-group">
-      <input type="text" id="judulLaporan" placeholder="Judul Laporan">
-    </div>
-    <div class="form-group">
-      <textarea id="deskripsiLaporan" placeholder="Deskripsi Laporan"></textarea>
-    </div>
-    <button onclick="uploadLaporan()">Upload</button>
-  </section>
+    <section class="report-list">
+      <h2>Daftar Laporan Anda</h2>
+      <ul id="daftarLaporan"></ul>
+    </section>
 
-  <section class="report-list">
-    <h2>Daftar Laporan Anda</h2>
-    <ul id="daftarLaporan"></ul>
-  </section>
+    <section class="profile-info">
+      <h2>Profil Karyawan</h2>
+      <p>
+        <strong>Nama:</strong> <span id="namaKaryawan">-</span>
+      </p>
+      <p>
+        <strong>Email:</strong> <span id="emailKaryawan">-</span>
+      </p>
+    </section>
+  </div>
 
-  <section class="profile-info">
-    <h2>Profil Karyawan</h2>
-    <p><strong>Nama:</strong> <span id="namaKaryawan">-</span></p>
-    <p><strong>Email:</strong> <span id="emailKaryawan">-</span></p>
-  </section>
-</div>
+  <script type="module">
+    import { auth } from "./firebase-config.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-<script type="module">
-import { auth } from './firebase-config.js';
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    let laporan = [];
 
-let laporan = [];
+    function renderLaporan() {
+      const daftar = document.getElementById("daftarLaporan");
+      daftar.innerHTML = "";
+      laporan.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${index + 1}. ${item.judul} - ${item.deskripsi}`;
+        daftar.appendChild(li);
+      });
+    }
 
-function renderLaporan() {
-  const daftar = document.getElementById('daftarLaporan');
-  daftar.innerHTML = '';
-  laporan.forEach((item, index) => {
-    const li = document.createElement('li');
-    li.textContent = `${index+1}. ${item.judul} - ${item.deskripsi}`;
-    daftar.appendChild(li);
-  });
-}
+    window.uploadLaporan = function () {
+      const judul = document.getElementById("judulLaporan").value.trim();
+      const deskripsi = document.getElementById("deskripsiLaporan").value.trim();
+      if (judul && deskripsi) {
+        laporan.push({ judul, deskripsi });
+        renderLaporan();
+        document.getElementById("judulLaporan").value = "";
+        document.getElementById("deskripsiLaporan").value = "";
+      } else {
+        alert("Isi semua form terlebih dahulu.");
+      }
+    };
 
-window.uploadLaporan = function() {
-  const judul = document.getElementById('judulLaporan').value;
-  const deskripsi = document.getElementById('deskripsiLaporan').value;
-  if (judul && deskripsi) {
-    laporan.push({ judul, deskripsi });
-    renderLaporan();
-    document.getElementById('judulLaporan').value = '';
-    document.getElementById('deskripsiLaporan').value = '';
-  } else {
-    alert('Isi semua form terlebih dahulu.');
-  }
-};
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    document.getElementById('emailKaryawan').textContent = user.email;
-    document.getElementById('namaKaryawan').textContent = user.email.split('@')[0];
-  } else {
-    window.location.href = 'index.html';
-  }
-});
-</script>
-
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("emailKaryawan").textContent = user.email;
+        document.getElementById("namaKaryawan").textContent = user.email.split("@")[0];
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
 </body>
 </html>
