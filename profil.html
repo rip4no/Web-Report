@@ -58,21 +58,27 @@
       max-width: 800px;
       margin: 0 auto;
     }
-    .profile-section {
+    h2 {
+      color: #007bff;
+      font-size: 20px;
+    }
+    .profile-box {
       background: white;
       padding: 20px;
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .profile-section h2 {
-      color: #007bff;
-    }
-    .profile-item {
+    .profile-box p {
       margin: 10px 0;
     }
-    .edit-btn {
-      margin-top: 20px;
-      background: #28a745;
+    #editBtn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -90,39 +96,39 @@
   <nav>
     <a href="halaman-utama.html">Dashboard</a>
     <a href="data-laporan.html">Data Laporan</a>
-    <a href="profil.html">Profil Karyawan</a>
+    <a href="profil-karyawan.html">Profil Karyawan</a>
   </nav>
 
   <div class="container">
-    <div class="profile-section">
+    <div class="profile-box">
       <h2>Data Karyawan</h2>
-      <div class="profile-item"><strong>Nama Lengkap:</strong> <span id="namaLengkap">-</span></div>
-      <div class="profile-item"><strong>Alamat:</strong> <span id="alamat">-</span></div>
-      <div class="profile-item"><strong>BPJS KES:</strong> <span id="bpjsKes">-</span></div>
-      <div class="profile-item"><strong>BPJS KET:</strong> <span id="bpjsKet">-</span></div>
-      <div class="profile-item"><strong>Golongan Darah:</strong> <span id="golDarah">-</span></div>
-      <div class="profile-item"><strong>ID Card:</strong> <span id="idCard">-</span></div>
-      <div class="profile-item"><strong>Jabatan:</strong> <span id="jabatan">-</span></div>
-      <div class="profile-item"><strong>Tanggal Masuk:</strong> <span id="tglMasuk">-</span></div>
-      <div class="profile-item"><strong>NIK KTP:</strong> <span id="nikKtp">-</span></div>
-      <div class="profile-item"><strong>NPWP:</strong> <span id="npwp">-</span></div>
-      <div class="profile-item"><strong>Status:</strong> <span id="status">-</span></div>
-      <div class="profile-item"><strong>BIO:</strong> <span id="bio">-</span></div>
-      <button class="logout-btn edit-btn" onclick="window.location.href='edit-profil.html'">Edit Profil</button>
+      <p><strong>Nama Lengkap:</strong> <span id="namaLengkap">-</span></p>
+      <p><strong>Alamat:</strong> <span id="alamat">-</span></p>
+      <p><strong>BPJS KES:</strong> <span id="bpjsKes">-</span></p>
+      <p><strong>BPJS KET:</strong> <span id="bpjsKet">-</span></p>
+      <p><strong>Golongan Darah:</strong> <span id="golDarah">-</span></p>
+      <p><strong>ID Card:</strong> <span id="idCard">-</span></p>
+      <p><strong>Jabatan:</strong> <span id="jabatan">-</span></p>
+      <p><strong>Tanggal Masuk:</strong> <span id="tglMasuk">-</span></p>
+      <p><strong>NIK KTP:</strong> <span id="nikKtp">-</span></p>
+      <p><strong>NPWP:</strong> <span id="npwp">-</span></p>
+      <p><strong>Status:</strong> <span id="status">-</span></p>
+      <p><strong>BIO:</strong> <span id="bio">-</span></p>
+      <button id="editBtn" onclick="window.location.href='edit-profil.html'">Edit Profil</button>
     </div>
   </div>
 
   <script type="module">
     import { cekLogin } from "./auth-check.js";
-    import { db } from "./firebase-config.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    cekLogin(async (user) => {
-      const uid = user.uid;
-      const docRef = doc(db, "datakaryawan", uid);
-      const snap = await getDoc(docRef);
-      if (snap.exists()) {
-        const data = snap.data();
+    cekLogin(async (user, app) => {
+      const db = getFirestore(app);
+      const docRef = doc(db, "karyawan", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
         document.getElementById("namaLengkap").textContent = data.namaLengkap || "-";
         document.getElementById("alamat").textContent = data.alamat || "-";
         document.getElementById("bpjsKes").textContent = data.bpjsKes || "-";
@@ -135,6 +141,8 @@
         document.getElementById("npwp").textContent = data.npwp || "-";
         document.getElementById("status").textContent = data.status || "-";
         document.getElementById("bio").textContent = data.bio || "-";
+      } else {
+        alert("Data profil tidak ditemukan di Firestore.");
       }
     });
 
