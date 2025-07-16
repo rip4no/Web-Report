@@ -1,5 +1,8 @@
-<!DOCTYPE html><html lang="id"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Profil Karyawan</title>
 <style>
  body{font-family:Arial;background:#f4f6f8;margin:0}
@@ -19,7 +22,8 @@
  .edit-form{display:none;margin-top:30px}
  input,textarea{width:100%;padding:10px;margin:5px 0 15px;border:1px solid #ccc;border-radius:5px;font-size:16px}
 </style>
-</head><body>
+</head>
+<body>
 <header>
   <img id="fotoProfil" src="https://ui-avatars.com/api/?name=User&background=007bff&color=fff" alt="Foto Profil"/>
   <h1>Profil Karyawan</h1>
@@ -36,22 +40,24 @@
     <p><strong>No HP:</strong><span id="hpProfil">-</span></p>
     <p><strong>Tanggal Lahir:</strong><span id="tglProfil">-</span></p>
     <p><strong>Jabatan:</strong><span id="jabatanProfil">-</span></p>
+    <p><strong>Status:</strong><span id="statusProfil">-</span></p>
   </div>
   <button onclick="toggleEdit()">Edit Profil</button>
   <form id="editForm" class="edit-form">
-    <input type="file" id="editFoto"/>
+    <input type="file" id="editFoto" accept="image/*"/>
     <input type="text" id="editNama" placeholder="Nama Lengkap"/>
     <textarea id="editAlamat" placeholder="Alamat"></textarea>
     <input type="text" id="editHp" placeholder="No HP"/>
     <input type="date" id="editTgl"/>
     <input type="text" id="editJabatan" placeholder="Jabatan"/>
+    <input type="text" id="editStatus" placeholder="Status"/>
     <button type="submit">Simpan</button>
   </form>
 </div>
 
 <script type="module">
 import { auth, db, storage } from './firebase-config.js';
-import { onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
@@ -63,6 +69,7 @@ const foto = document.getElementById('fotoProfil'),
       hp = document.getElementById('hpProfil'),
       tgl = document.getElementById('tglProfil'),
       jbt = document.getElementById('jabatanProfil'),
+      sts = document.getElementById('statusProfil'),
       form = document.getElementById('editForm');
 
 function toggleEdit() {
@@ -74,44 +81,53 @@ onAuthStateChanged(auth, async user => {
  uid = user.uid;
  emailE.textContent = user.email;
 
- const snap = await getDoc(doc(db,'profilKaryawan',uid));
+ const snap = await getDoc(doc(db, 'profil', uid));
  if (snap.exists()) {
    const d = snap.data();
-   nama.textContent=d.namaLengkap;
-   alamat.textContent=d.alamat;
-   hp.textContent=d.noHp;
-   tgl.textContent=d.tanggalLahir;
-   jbt.textContent=d.jabatan;
-   if (d.photoURL) foto.src=d.photoURL;
+   nama.textContent = d["Nama Lengkap"] || '-';
+   alamat.textContent = d["Alamat"] || '-';
+   hp.textContent = d["No HP"] || '-';
+   tgl.textContent = d["Tanggal Lahir"] || '-';
+   jbt.textContent = d["Jabatan"] || '-';
+   sts.textContent = d["Status"] || '-';
+   if (d.photoURL) foto.src = d.photoURL;
  }
 
- form[1].value=nama.textContent;
- form[2].value=alamat.textContent;
- form[3].value=hp.textContent;
- form[4].value=tgl.textContent;
- form[5].value=jbt.textContent;
+ form["editNama"].value = nama.textContent !== '-' ? nama.textContent : '';
+ form["editAlamat"].value = alamat.textContent !== '-' ? alamat.textContent : '';
+ form["editHp"].value = hp.textContent !== '-' ? hp.textContent : '';
+ form["editTgl"].value = tgl.textContent !== '-' ? tgl.textContent : '';
+ form["editJabatan"].value = jbt.textContent !== '-' ? jbt.textContent : '';
+ form["editStatus"].value = sts.textContent !== '-' ? sts.textContent : '';
 });
 
 form.addEventListener('submit', async e => {
  e.preventDefault();
- const f = document.getElementById('editFoto').files[0];
+ const file = document.getElementById('editFoto').files[0];
  let photoURL;
- if (f) {
-   const refStorage = ref(storage, `profilePics/${uid}`);
-   await uploadBytes(refStorage,f);
-   photoURL = await getDownloadURL(refStorage);
+
+ if (file) {
+   const storageRef = ref(storage, `profilePics/${uid}`);
+   await uploadBytes(storageRef, file);
+   photoURL = await getDownloadURL(storageRef);
  }
+
  const data = {
-   namaLengkap: form[1].value.trim(),
-   alamat: form[2].value.trim(),
-   noHp: form[3].value.trim(),
-   tanggalLahir: form[4].value,
-   jabatan: form[5].value.trim(),
+   "Nama Lengkap": form["editNama"].value.trim(),
+   "Alamat": form["editAlamat"].value.trim(),
+   "No HP": form["editHp"].value.trim(),
+   "Tanggal Lahir": form["editTgl"].value,
+   "Jabatan": form["editJabatan"].value.trim(),
+   "Status": form["editStatus"].value.trim(),
    email: auth.currentUser.email,
  };
+
  if (photoURL) data.photoURL = photoURL;
- await setDoc(doc(db,'profilKaryawan',uid),data);
- alert('Profil disimpan'); location.reload();
+
+ await setDoc(doc(db, 'profil', uid), data);
+ alert('Profil disimpan');
+ location.reload();
 });
 </script>
-</body></html>
+</body>
+</html>
