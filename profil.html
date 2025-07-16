@@ -58,39 +58,21 @@
       max-width: 800px;
       margin: 0 auto;
     }
-    h2 {
-      color: #007bff;
-      font-size: 20px;
-    }
-    form {
+    .profile-section {
       background: white;
-      padding: 15px;
+      padding: 20px;
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .profile-section h2 {
+      color: #007bff;
+    }
+    .profile-item {
+      margin: 10px 0;
+    }
+    .edit-btn {
       margin-top: 20px;
-    }
-    .form-group {
-      margin-bottom: 12px;
-    }
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button.save-btn {
       background: #28a745;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 15px;
     }
   </style>
 </head>
@@ -112,90 +94,59 @@
   </nav>
 
   <div class="container">
-    <h2>Edit Profil Karyawan</h2>
-    <form id="formProfil">
-      <div class="form-group"><label>Nama Lengkap</label><input id="nama" type="text" /></div>
-      <div class="form-group"><label>Alamat</label><input id="alamat" type="text" /></div>
-      <div class="form-group"><label>BPJS KES</label><input id="bpjsKes" type="text" /></div>
-      <div class="form-group"><label>BPJS KET</label><input id="bpjsKet" type="text" /></div>
-      <div class="form-group"><label>Golongan Darah</label><input id="darah" type="text" /></div>
-      <div class="form-group"><label>ID Card</label><input id="idCard" type="text" /></div>
-      <div class="form-group"><label>Jabatan</label><input id="jabatan" type="text" /></div>
-      <div class="form-group"><label>Tanggal Masuk</label><input id="tanggalMasuk" type="date" /></div>
-      <div class="form-group"><label>NIK KTP</label><input id="nik" type="text" /></div>
-      <div class="form-group"><label>NPWP</label><input id="npwp" type="text" /></div>
-      <div class="form-group"><label>Status</label><input id="status" type="text" /></div>
-      <div class="form-group"><label>BIO</label><textarea id="bio" rows="3"></textarea></div>
-      <button class="save-btn" type="submit">Simpan Perubahan</button>
-    </form>
+    <div class="profile-section">
+      <h2>Data Karyawan</h2>
+      <div class="profile-item"><strong>Nama Lengkap:</strong> <span id="namaLengkap">-</span></div>
+      <div class="profile-item"><strong>Alamat:</strong> <span id="alamat">-</span></div>
+      <div class="profile-item"><strong>BPJS KES:</strong> <span id="bpjsKes">-</span></div>
+      <div class="profile-item"><strong>BPJS KET:</strong> <span id="bpjsKet">-</span></div>
+      <div class="profile-item"><strong>Golongan Darah:</strong> <span id="golDarah">-</span></div>
+      <div class="profile-item"><strong>ID Card:</strong> <span id="idCard">-</span></div>
+      <div class="profile-item"><strong>Jabatan:</strong> <span id="jabatan">-</span></div>
+      <div class="profile-item"><strong>Tanggal Masuk:</strong> <span id="tglMasuk">-</span></div>
+      <div class="profile-item"><strong>NIK KTP:</strong> <span id="nikKtp">-</span></div>
+      <div class="profile-item"><strong>NPWP:</strong> <span id="npwp">-</span></div>
+      <div class="profile-item"><strong>Status:</strong> <span id="status">-</span></div>
+      <div class="profile-item"><strong>BIO:</strong> <span id="bio">-</span></div>
+      <button class="logout-btn edit-btn" onclick="window.location.href='edit-profil.html'">Edit Profil</button>
+    </div>
   </div>
 
   <script type="module">
-    import { db } from "./firebase-config.js";
     import { cekLogin } from "./auth-check.js";
-    import {
-      doc,
-      getDoc,
-      setDoc,
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { db } from "./firebase-config.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    let currentUID = null;
+    cekLogin(async (user) => {
+      const uid = user.uid;
+      const docRef = doc(db, "datakaryawan", uid);
+      const snap = await getDoc(docRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        document.getElementById("namaLengkap").textContent = data.namaLengkap || "-";
+        document.getElementById("alamat").textContent = data.alamat || "-";
+        document.getElementById("bpjsKes").textContent = data.bpjsKes || "-";
+        document.getElementById("bpjsKet").textContent = data.bpjsKet || "-";
+        document.getElementById("golDarah").textContent = data.golDarah || "-";
+        document.getElementById("idCard").textContent = data.idCard || "-";
+        document.getElementById("jabatan").textContent = data.jabatan || "-";
+        document.getElementById("tglMasuk").textContent = data.tglMasuk || "-";
+        document.getElementById("nikKtp").textContent = data.nikKtp || "-";
+        document.getElementById("npwp").textContent = data.npwp || "-";
+        document.getElementById("status").textContent = data.status || "-";
+        document.getElementById("bio").textContent = data.bio || "-";
+      }
+    });
 
     window.logout = function () {
-      import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js").then(({ signOut }) => {
-        import("./firebase-config.js").then(({ auth }) => {
+      import("./firebase-config.js").then(({ auth }) => {
+        import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js").then(({ signOut }) => {
           signOut(auth).then(() => {
             window.location.href = "index.html";
           });
         });
       });
     };
-
-    cekLogin(async (user) => {
-      currentUID = user.uid;
-      const docRef = doc(db, "datakaryawan", user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        document.getElementById("nama").value = data.nama || "";
-        document.getElementById("alamat").value = data.alamat || "";
-        document.getElementById("bpjsKes").value = data.bpjsKes || "";
-        document.getElementById("bpjsKet").value = data.bpjsKet || "";
-        document.getElementById("darah").value = data.darah || "";
-        document.getElementById("idCard").value = data.idCard || "";
-        document.getElementById("jabatan").value = data.jabatan || "";
-        document.getElementById("tanggalMasuk").value = data.tanggalMasuk || "";
-        document.getElementById("nik").value = data.nik || "";
-        document.getElementById("npwp").value = data.npwp || "";
-        document.getElementById("status").value = data.status || "";
-        document.getElementById("bio").value = data.bio || "";
-      }
-    });
-
-    document.getElementById("formProfil").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const data = {
-        nama: document.getElementById("nama").value,
-        alamat: document.getElementById("alamat").value,
-        bpjsKes: document.getElementById("bpjsKes").value,
-        bpjsKet: document.getElementById("bpjsKet").value,
-        darah: document.getElementById("darah").value,
-        idCard: document.getElementById("idCard").value,
-        jabatan: document.getElementById("jabatan").value,
-        tanggalMasuk: document.getElementById("tanggalMasuk").value,
-        nik: document.getElementById("nik").value,
-        npwp: document.getElementById("npwp").value,
-        status: document.getElementById("status").value,
-        bio: document.getElementById("bio").value,
-      };
-      try {
-        await setDoc(doc(db, "datakaryawan", currentUID), data);
-        alert("Data berhasil disimpan.");
-      } catch (err) {
-        alert("Gagal menyimpan: " + err.message);
-      }
-    });
   </script>
 </body>
 </html>
