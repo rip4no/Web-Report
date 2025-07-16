@@ -1,9 +1,11 @@
-// firebase-config.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Konfigurasi Firebase kamu (dari SDK)
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBq5U_hQ8FPYEpBzYxMMO_8uXLo4lS0CZA",
   authDomain: "karyawan-835af.firebaseapp.com",
@@ -14,12 +16,6 @@ const firebaseConfig = {
   measurementId: "G-5H7FW81VBM"
 };
 
-// Inisialisasi Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Inisialisasi Auth dan Firestore
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// Export supaya bisa dipakai file lain
-export { auth, db };
+const analytics = getAnalytics(app);
