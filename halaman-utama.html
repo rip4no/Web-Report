@@ -120,21 +120,18 @@
   </div>
 
   <script type="module">
-    import { auth } from "./firebase-config.js";
-    import {
-      onAuthStateChanged,
-      signOut,
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { cekLogin } from "./auth-check.js";
+    import { signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "index.html";
-      }
+    cekLogin((user, app, auth) => {
+      console.log("User terautentikasi:", user.email);
     });
 
     window.logout = function () {
-      signOut(auth).then(() => {
-        window.location.href = "index.html";
+      import("./firebase-config.js").then(({ auth }) => {
+        signOut(auth).then(() => {
+          window.location.href = "index.html";
+        });
       });
     };
   </script>
