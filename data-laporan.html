@@ -6,23 +6,50 @@
   <title>Data Laporan & Profil Karyawan</title>
   <style>
     body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; }
-    header { background: #007bff; color: white; padding: 20px; text-align: center; }
+    header {
+      background: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header img {
+      max-height: 60px;
+    }
     nav { background: #333; display: flex; justify-content: center; }
     nav a { color: white; padding: 14px 20px; text-decoration: none; display: block; }
     nav a:hover { background: #575757; }
     .container { padding: 20px; }
     h2 { color: #333; }
     .form-group { margin-bottom: 15px; }
-    input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-    button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
     button:hover { background: #0056b3; }
-    .report-list, .profile-info { background: white; padding: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-top: 20px; }
+    .report-list, .profile-info {
+      background: white;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>PT Waja Inti Lestari - Data Laporan & Profil Karyawan</h1>
+  <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png"
+       alt="Logo PT Waja Inti Lestari">
 </header>
 
 <nav>
@@ -87,7 +114,6 @@ window.uploadLaporan = function() {
 onAuthStateChanged(auth, (user) => {
   if (user) {
     document.getElementById('emailKaryawan').textContent = user.email;
-    // Untuk contoh, nama diisi default karena Firebase Auth default hanya email
     document.getElementById('namaKaryawan').textContent = user.email.split('@')[0];
   } else {
     window.location.href = 'index.html';
