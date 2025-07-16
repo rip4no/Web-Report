@@ -3,111 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profil Karyawan & Laporan</title>
+  <title>Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button type="submit">Masuk</button>
+  </form>
+
   <script type="module">
-    import { cekLogin } from "./auth-check.js";
-    import { db } from "./firebase-config.js";
-    import {
-      doc,
-      getDoc,
-      collection,
-      query,
-      where,
-      getDocs
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    cekLogin(async (user) => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyBq5U_hQ8FPYEpBzYxMMO_8uXLo4lS0CZA",
+      authDomain: "karyawan-835af.firebaseapp.com",
+      projectId: "karyawan-835af",
+      storageBucket: "karyawan-835af.appspot.com",
+      messagingSenderId: "712164404160",
+      appId: "1:712164404160:web:d298319fabc87987088561"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
       try {
-        const uid = user.uid;
-
-        // Ambil data profil
-        const docRef = doc(db, "profil", uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          const fields = {
-            namaLengkap: "Nama Lengkap",
-            alamat: "Alamat",
-            bpjsKes: "BPJS KES",
-            bpjsKet: "BPJS KET",
-            golDarah: "Gol Darah",
-            idCard: "ID Card",
-            jabatan: "Jabatan",
-            join: "Join",
-            nik: "NIK KTP",
-            npwp: "NPWP",
-            status: "Status",
-            bio: "BIO"
-          };
-          Object.keys(fields).forEach(id => {
-            document.getElementById(id).textContent = data[fields[id]] || "-";
-          });
-        } else {
-          alert("Data tidak ditemukan untuk pengguna ini.");
-        }
-
-        // Ambil data laporan berdasarkan UID
-        const laporanRef = collection(db, "laporan");
-        const q = query(laporanRef, where("uid", "==", uid));
-        const querySnapshot = await getDocs(q);
-
-        const laporanList = document.getElementById("laporanList");
-        laporanList.innerHTML = ""; // kosongkan
-
-        if (querySnapshot.empty) {
-          laporanList.innerHTML = "<li>Tidak ada laporan tersedia.</li>";
-        } else {
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const item = document.createElement("li");
-            item.textContent = `${data.tanggal || 'Tanpa Tanggal'} - ${data.judul || 'Tanpa Judul'}: ${data.isi || 'Tanpa Isi'}`;
-            laporanList.appendChild(item);
-          });
-        }
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "halaman-utama.html";
       } catch (error) {
-        console.error("Gagal mengambil data:", error);
-        alert("Terjadi kesalahan saat mengambil data.");
+        alert("Login gagal: " + error.message);
       }
     });
   </script>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-    }
-    h1, h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    #profile p, #laporanList li {
-      margin: 5px 0;
-    }
-    ul {
-      padding-left: 20px;
-    }
-  </style>
-</head>
-<body>
-  <h1>Profil Karyawan</h1>
-  <div id="profile">
-    <p><strong>Nama Lengkap:</strong> <span id="namaLengkap"></span></p>
-    <p><strong>Alamat:</strong> <span id="alamat"></span></p>
-    <p><strong>BPJS KES:</strong> <span id="bpjsKes"></span></p>
-    <p><strong>BPJS KET:</strong> <span id="bpjsKet"></span></p>
-    <p><strong>Golongan Darah:</strong> <span id="golDarah"></span></p>
-    <p><strong>ID Card:</strong> <span id="idCard"></span></p>
-    <p><strong>Jabatan:</strong> <span id="jabatan"></span></p>
-    <p><strong>Tanggal Masuk:</strong> <span id="join"></span></p>
-    <p><strong>NIK KTP:</strong> <span id="nik"></span></p>
-    <p><strong>NPWP:</strong> <span id="npwp"></span></p>
-    <p><strong>Status:</strong> <span id="status"></span></p>
-    <p><strong>BIO:</strong> <span id="bio"></span></p>
-  </div>
-
-  <h2>Data Laporan</h2>
-  <ul id="laporanList">
-    <li>Memuat laporan...</li>
-  </ul>
 </body>
 </html>
