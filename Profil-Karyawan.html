@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profil Karyawan - PT Waja Inti Lestari</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+    }
+    header {
+      background: #007bff;
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    header img {
+      max-height: 60px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: normal;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      display: block;
+    }
+    nav a:hover {
+      background: #575757;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #007bff;
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="Logo PT Waja Inti Lestari" />
+    <h1>Profil Karyawan</h1>
+  </header>
+  <nav>
+    <a href="halaman-utama.html">Dashboard</a>
+    <a href="data-laporan.html">Data Laporan</a>
+    <a href="profil.html">Profil Karyawan</a>
+  </nav>
+
+  <div class="container">
+    <h2>Data Pribadi</h2>
+    <form id="profilForm">
+      <label for="namaLengkap">Nama Lengkap</label>
+      <input type="text" id="namaLengkap" name="namaLengkap" required />
+
+      <label for="alamat">Alamat</label>
+      <textarea id="alamat" name="alamat" rows="3" required></textarea>
+
+      <label for="noHp">Nomor HP</label>
+      <input type="tel" id="noHp" name="noHp" required />
+
+      <button type="submit">Simpan Profil</button>
+    </form>
+  </div>
+
+  <script type="module">
+    import { auth, db } from './firebase-config.js';
+    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+    const form = document.getElementById('profilForm');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // Load data profil jika sudah ada
+      const docRef = doc(db, 'profilKaryawan', user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        form.namaLengkap.value = data.namaLengkap || '';
+        form.alamat.value = data.alamat || '';
+        form.noHp.value = data.noHp || '';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const user = auth.currentUser;
+      if (!user) {
+        alert('User belum login!');
+        return;
+      }
+
+      const dataProfil = {
+        namaLengkap: form.namaLengkap.value.trim(),
+        alamat: form.alamat.value.trim(),
+        noHp: form.noHp.value.trim(),
+        email: user.email
+      };
+
+      try {
+        await setDoc(doc(db, 'profilKaryawan', user.uid), dataProfil);
+        alert('Profil berhasil disimpan!');
+      } catch (error) {
+        console.error('Error menyimpan data profil:', error);
+        alert('Gagal menyimpan data profil, coba lagi.');
+      }
+    });
+  </script>
+</body>
+</html>
