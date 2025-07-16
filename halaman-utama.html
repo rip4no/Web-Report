@@ -18,16 +18,18 @@
       align-items: center;
       justify-content: space-between;
     }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
     .header-left img {
       max-height: 60px;
     }
-    .header-center {
-      flex: 1;
-      text-align: center;
-    }
-    .header-center h1 {
+    .header-left h1 {
       margin: 0;
       font-size: 24px;
+      font-weight: normal;
     }
     .header-right button.logout-btn {
       background: #dc3545;
@@ -85,9 +87,7 @@
         src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png"
         alt="Logo PT Waja Inti Lestari"
       />
-    </div>
-    <div class="header-center">
-      <h1>Dashboard Karyawan</h1>
+      <h1>Dashboard</h1>
     </div>
     <div class="header-right">
       <button class="logout-btn" onclick="logout()">Logout</button>
