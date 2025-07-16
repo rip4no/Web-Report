@@ -6,7 +6,17 @@
   <title>Dashboard - PT Waja Inti Lestari</title>
   <style>
     body { font-family: Arial, sans-serif; margin:0; background: #f4f6f8; }
-    header { background: #007bff; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+    header {
+      background: #007bff;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header img {
+      max-height: 60px;
+    }
     nav { background: #333; display: flex; justify-content: center; }
     nav a {
       color: white; padding: 14px 20px; text-decoration: none; display: block;
@@ -24,12 +34,21 @@
       border: none; padding: 10px 20px;
       border-radius: 5px; cursor: pointer;
     }
+    .image-section img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px auto 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>PT Waja Inti Lestari - Dashboard Karyawan</h1>
+  <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png"
+       alt="Logo PT Waja Inti Lestari">
   <button class="logout-btn" onclick="logout()">Logout</button>
 </header>
 
@@ -45,17 +64,13 @@
   <div class="section">
     <h3>Pemberitahuan</h3>
     <p>Tidak ada pemberitahuan baru saat ini. Tetap semangat bekerja dan selalu jaga keselamatan!</p>
+    
+    <!-- Gambar Informasi/Pemberitahuan -->
+    <div class="image-section">
+      <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/contoh-info.png" alt="Info Penting">
+    </div>
   </div>
 
-  <div class="section">
-    <h3>Riwayat Kehadiran</h3>
-    <ul>
-      <li>15 Juli 2025 - Hadir</li>
-      <li>14 Juli 2025 - Hadir</li>
-      <li>13 Juli 2025 - Tidak Hadir</li>
-      <li>12 Juli 2025 - Hadir</li>
-    </ul>
-  </div>
 </div>
 
 <script type="module">
