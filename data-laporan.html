@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Data Laporan - PT Waja Inti Lestari</title>
+  <title>Laporan Harian - PT Waja Inti Lestari</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,7 +29,6 @@
     .header-left h1 {
       margin: 0;
       font-size: 24px;
-      font-weight: normal;
     }
     .header-right button.logout-btn {
       background: #dc3545;
@@ -63,12 +62,12 @@
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       margin: 20px auto;
-      max-width: 800px;
+      max-width: 900px;
       text-align: left;
     }
     .section h3 {
       color: #007bff;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     .form-group {
       margin-bottom: 15px;
@@ -82,8 +81,11 @@
       box-sizing: border-box;
       font-size: 16px;
     }
+    input[type="file"] {
+      border: none;
+    }
     button.upload-btn {
-      padding: 10px 20px;
+      padding: 12px 25px;
       background: #007bff;
       color: white;
       border: none;
@@ -94,11 +96,32 @@
     button.upload-btn:hover {
       background: #0056b3;
     }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    table th {
+      background: #e9ecef;
+    }
     ul#daftarLaporan {
       padding-left: 20px;
     }
     ul#daftarLaporan li {
       margin-bottom: 10px;
+    }
+    .preview-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
@@ -106,7 +129,7 @@
   <header>
     <div class="header-left">
       <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="Logo PT Waja Inti Lestari" />
-      <h1>Data Laporan</h1>
+      <h1>Laporan Harian</h1>
     </div>
     <div class="header-right">
       <button class="logout-btn" onclick="logout()">Logout</button>
@@ -115,20 +138,52 @@
 
   <nav>
     <a href="halaman-utama.html">Dashboard</a>
-    <a href="data-laporan.html">Data Laporan</a>
+    <a href="data-laporan.html">Laporan Harian</a>
     <a href="profil.html">Profil Karyawan</a>
   </nav>
 
   <div class="container">
     <div class="section">
-      <h3>Upload Laporan Operasional</h3>
+      <h3>Input Laporan Harian</h3>
+
       <div class="form-group">
-        <input type="text" id="judulLaporan" placeholder="Judul Laporan" />
+        <input type="text" id="namaPelapor" placeholder="Nama Pelapor" />
       </div>
+
       <div class="form-group">
-        <textarea id="deskripsiLaporan" placeholder="Deskripsi Laporan"></textarea>
+        <input type="date" id="tanggalLaporan" />
       </div>
-      <button class="upload-btn" onclick="uploadLaporan()">Upload</button>
+
+      <h4>Timesheet Kegiatan</h4>
+      <table id="tabelKegiatan">
+        <thead>
+          <tr>
+            <th>Waktu</th>
+            <th>Kegiatan</th>
+            <th>Keterangan</th>
+          </tr>
+        </thead>
+        <tbody id="isiKegiatan">
+          <tr>
+            <td><input type="time" /></td>
+            <td><input type="text" placeholder="Contoh: Penggalian area timur" /></td>
+            <td><input type="text" placeholder="Cuaca cerah, aman" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" onclick="tambahBaris()">+ Tambah Baris</button>
+
+      <div class="form-group">
+        <textarea id="deskripsiLaporan" placeholder="Isi laporan kegiatan harian..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Upload Dokumentasi (bisa lebih dari satu)</label>
+        <input type="file" id="uploadGambar" multiple accept="image/*" onchange="previewImages()" />
+        <div id="previewContainer"></div>
+      </div>
+
+      <button class="upload-btn" onclick="uploadLaporan()">Upload Laporan</button>
     </div>
 
     <div class="section">
@@ -139,14 +194,13 @@
 
   <script type="module">
     import { cekLogin } from "./auth-check.js";
-    import { db } from "./firebase-config.js";
+    import { db, storage } from "./firebase-config.js";
     import {
-      collection,
-      addDoc,
-      query,
-      where,
-      getDocs
+      collection, addDoc, query, where, getDocs
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+      ref, uploadBytes, getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
     let currentUser = null;
 
@@ -154,6 +208,88 @@
       currentUser = user;
       await ambilLaporan();
     });
+
+    function tambahBaris() {
+      const tbody = document.getElementById("isiKegiatan");
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><input type="time" /></td>
+        <td><input type="text" placeholder="Kegiatan" /></td>
+        <td><input type="text" placeholder="Keterangan" /></td>`;
+      tbody.appendChild(row);
+    }
+
+    function previewImages() {
+      const files = document.getElementById("uploadGambar").files;
+      const container = document.getElementById("previewContainer");
+      container.innerHTML = "";
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.className = "preview-img";
+          container.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    window.uploadLaporan = async function () {
+      const nama = document.getElementById("namaPelapor").value.trim();
+      const tanggal = document.getElementById("tanggalLaporan").value;
+      const deskripsi = document.getElementById("deskripsiLaporan").value.trim();
+
+      if (!nama || !tanggal || !deskripsi) {
+        alert("Isi semua data laporan terlebih dahulu!");
+        return;
+      }
+
+      const rows = document.querySelectorAll("#isiKegiatan tr");
+      const kegiatan = [];
+      rows.forEach(row => {
+        const waktu = row.children[0].children[0].value;
+        const kegiatanText = row.children[1].children[0].value;
+        const ket = row.children[2].children[0].value;
+        if (waktu || kegiatanText || ket) {
+          kegiatan.push({ waktu, kegiatan: kegiatanText, keterangan: ket });
+        }
+      });
+
+      const files = document.getElementById("uploadGambar").files;
+      const urls = [];
+
+      for (const file of files) {
+        const storageRef = ref(storage, `laporan/${currentUser.uid}/${Date.now()}_${file.name}`);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        urls.push(url);
+      }
+
+      await addDoc(collection(db, "laporan"), {
+        uid: currentUser.uid,
+        nama,
+        tanggal,
+        kegiatan,
+        deskripsi,
+        gambar: urls,
+        waktuUpload: new Date().toISOString()
+      });
+
+      alert("✅ Laporan berhasil diupload!");
+      document.getElementById("namaPelapor").value = "";
+      document.getElementById("tanggalLaporan").value = "";
+      document.getElementById("deskripsiLaporan").value = "";
+      document.getElementById("uploadGambar").value = "";
+      document.getElementById("previewContainer").innerHTML = "";
+      document.getElementById("isiKegiatan").innerHTML = `
+        <tr>
+          <td><input type="time" /></td>
+          <td><input type="text" placeholder="Contoh: Penggalian area timur" /></td>
+          <td><input type="text" placeholder="Cuaca cerah, aman" /></td>
+        </tr>`;
+      await ambilLaporan();
+    };
 
     async function ambilLaporan() {
       const q = query(collection(db, "laporan"), where("uid", "==", currentUser.uid));
@@ -163,27 +299,13 @@
       querySnapshot.forEach((doc, index) => {
         const data = doc.data();
         const li = document.createElement("li");
-        li.textContent = `${index + 1}. ${data.judul} - ${data.deskripsi}`;
+        li.innerHTML = `
+          <strong>${data.nama}</strong> (${data.tanggal})<br/>
+          <em>${data.deskripsi}</em><br/>
+          <small>${data.gambar?.length || 0} foto terlampir</small>`;
         daftar.appendChild(li);
       });
     }
-
-    window.uploadLaporan = async function () {
-      const judul = document.getElementById("judulLaporan").value.trim();
-      const deskripsi = document.getElementById("deskripsiLaporan").value.trim();
-      if (!judul || !deskripsi) {
-        alert("Isi semua form terlebih dahulu.");
-        return;
-      }
-      await addDoc(collection(db, "laporan"), {
-        uid: currentUser.uid,
-        judul,
-        deskripsi
-      });
-      document.getElementById("judulLaporan").value = "";
-      document.getElementById("deskripsiLaporan").value = "";
-      await ambilLaporan();
-    };
 
     window.logout = function () {
       import("./firebase-config.js").then(({ auth }) => {
