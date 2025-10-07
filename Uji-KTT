@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latihan Soal KTT - Kepala Teknik Tambang (30 Soal)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #1f2937;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+    .correct {
+      color: green;
+      font-weight: bold;
+    }
+    .wrong {
+      color: red;
+      font-weight: bold;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Latihan Soal KTT (Kepala Teknik Tambang)</h1>
+    <form id="quizForm"></form>
+    <button type="button" onclick="checkAnswers()">Periksa Jawaban</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    const quizData = [
+      {q: '1. Regulasi utama yang mengatur kegiatan pertambangan mineral dan batubara di Indonesia adalah...', a: ['UU No. 3 Tahun 2020', 'UU No. 4 Tahun 2009', 'UU No. 32 Tahun 2009', 'UU No. 11 Tahun 1967'], correct: 0},
+      {q: '2. Tanggung jawab utama Kepala Teknik Tambang (KTT) adalah...', a: ['Meningkatkan produksi tambang', 'Menjamin pelaksanaan kaidah teknik pertambangan yang baik', 'Mengelola keuangan perusahaan', 'Melaksanakan audit lingkungan'], correct: 1},
+      {q: '3. Buku tambang wajib disahkan oleh...', a: ['KTT', 'Inspektur Tambang', 'Kepala Dinas ESDM', 'Gubernur'], correct: 1},
+      {q: '4. Reklamasi pascatambang bertujuan untuk...', a: ['Meningkatkan produksi batubara', 'Mengembalikan fungsi lahan', 'Menambah nilai jual mineral', 'Menurunkan kadar sulfur'], correct: 1},
+      {q: '5. Kecelakaan tambang dikategorikan fatal jika...', a: ['Menimbulkan korban jiwa', 'Merusak alat berat', 'Menimbulkan kerugian finansial', 'Menghambat produksi'], correct: 0},
+      {q: '6. Dokumen yang menjelaskan kegiatan teknis penambangan disebut...', a: ['RKAB', 'RKL', 'RKP', 'AMD'], correct: 0},
+      {q: '7. Unsur utama dalam Good Mining Practice adalah...', a: ['Efisiensi biaya', 'Keselamatan, lingkungan, dan konservasi', 'Produksi tinggi', 'Profit maksimal'], correct: 1},
+      {q: '8. Ventilasi tambang bawah tanah berfungsi untuk...', a: ['Mengatur tekanan air', 'Menurunkan suhu dan gas berbahaya', 'Menambah kadar oksigen batuan', 'Mengatur debit air tambang'], correct: 1},
+      {q: '9. Inspektur tambang memiliki tugas untuk...', a: ['Mengevaluasi RKAB', 'Mengawasi penerapan kaidah pertambangan', 'Menyetujui laporan produksi', 'Menentukan harga jual batubara'], correct: 1},
+      {q: '10. Salah satu indikator K3 pertambangan adalah...', a: ['Jumlah tenaga kerja', 'Jam kerja aman (safe man-hours)', 'Produksi per hari', 'Efisiensi alat'], correct: 1},
+      {q: '11. KTT wajib melapor kecelakaan tambang ke...', a: ['Menteri ESDM', 'Inspektur Tambang', 'Pemegang saham', 'Dinas Ketenagakerjaan'], correct: 1},
+      {q: '12. Dokumen lingkungan pertambangan terdiri atas...', a: ['RKAB dan AMDAL', 'RKL dan RPL', 'KTT dan Inspektur', 'K3 dan KTT'], correct: 1},
+      {q: '13. Dalam tambang terbuka, slope lereng harus...', a: ['Serealistis mungkin', 'Stabil dan aman', 'Curam agar cepat produksi', 'Ditentukan oleh operator alat'], correct: 1},
+      {q: '14. Air asam tambang terbentuk dari...', a: ['Reaksi oksidasi mineral sulfida', 'Pembusukan organik', 'Pelapukan batuan granit', 'Evaporasi air tanah'], correct: 0},
+      {q: '15. Peta tambang harus diperbarui minimal...', a: ['1 tahun sekali', '6 bulan sekali', 'Setiap bulan', 'Saat produksi meningkat'], correct: 1},
+      {q: '16. Dalam kegiatan peledakan, bahan peledak dikendalikan oleh...', a: ['KTT', 'Blaster berlisensi', 'Operator alat berat', 'Foreman'], correct: 1},
+      {q: '17. Metode penambangan batubara yang paling umum di Indonesia adalah...', a: ['Tambang bawah tanah', 'Tambang terbuka (open pit)', 'Tambang laut', 'Tambang lubang bor'], correct: 1},
+      {q: '18. Tujuan utama konservasi mineral adalah...', a: ['Menghemat energi', 'Meningkatkan keselamatan kerja', 'Memanfaatkan sumber daya secara optimal', 'Menurunkan biaya'], correct: 2},
+      {q: '19. AMDAL wajib disusun pada tahap...', a: ['Eksplorasi', 'Konstruksi', 'Operasi produksi', 'Pasca tambang'], correct: 0},
+      {q: '20. Yang dimaksud dengan overburden adalah...', a: ['Lapisan penutup bijih', 'Lapisan batubara', 'Lapisan bijih logam', 'Lapisan tanah reklamasi'], correct: 0},
+      {q: '21. Pengawasan tambang dilakukan oleh...', a: ['Inspektur Tambang', 'KTT', 'Dirjen Minerba', 'Kontraktor'], correct: 0},
+      {q: '22. Salah satu tugas penting KTT dalam K3 adalah...', a: ['Membeli APD', 'Menjamin pelaksanaan program keselamatan', 'Menentukan upah kerja', 'Menandatangani kontrak alat'], correct: 1},
+      {q: '23. Laporan triwulanan tambang diserahkan ke...', a: ['Menteri ESDM', 'Gubernur', 'Inspektur Tambang', 'Kepala Dinas'], correct: 2},
+      {q: '24. Salah satu alat ukur gas di tambang bawah tanah adalah...', a: ['Thermometer', 'Manometer', 'Gas detector', 'Barometer'], correct: 2},
+      {q: '25. Kegiatan reklamasi dilakukan setelah...', a: ['Produksi meningkat', 'Lahan terganggu tidak dipakai lagi', 'Harga batu bara naik', 'Cuaca cerah'], correct: 1},
+      {q: '26. Drainase tambang berfungsi untuk...', a: ['Mengatur aliran air tambang', 'Menambah kadar oksigen', 'Mengalirkan udara segar', 'Mengurangi getaran'], correct: 0},
+      {q: '27. Pengelolaan limbah B3 diatur oleh...', a: ['UU Minerba', 'PP No. 101 Tahun 2014', 'UU No. 32 Tahun 2009', 'Perda'], correct: 1},
+      {q: '28. Salah satu tujuan inspeksi tambang adalah...', a: ['Menilai kinerja alat', 'Menegakkan disiplin kerja', 'Menilai penerapan keselamatan dan lingkungan', 'Menentukan harga pasar'], correct: 2},
+      {q: '29. Tanda bahaya gas metana di tambang bawah tanah adalah...', a: ['Kadar gas di atas ambang batas', 'Kadar air tinggi', 'Ventilasi kuat', 'Suhu rendah'], correct: 0},
+      {q: '30. KTT harus memiliki sertifikat kompetensi dari...', a: ['BNSP', 'ESDM', 'Perusahaan', 'Dinas Tenaga Kerja'], correct: 1}
+    ];
+
+    const form = document.getElementById('quizForm');
+
+    quizData.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.classList.add('question');
+      div.innerHTML = `<p>${item.q}</p>`;
+      const opts = document.createElement('div');
+      opts.classList.add('options');
+      item.a.forEach((ans, i) => {
+        opts.innerHTML += `<label><input type='radio' name='q${index}' value='${i}'> ${ans}</label>`;
+      });
+      div.appendChild(opts);
+      form.appendChild(div);
+    });
+
+    function checkAnswers() {
+      let score = 0;
+      const total = quizData.length;
+      document.querySelectorAll('.question').forEach((div, idx) => {
+        const selected = div.querySelector('input[type=radio]:checked');
+        const labels = div.querySelectorAll('label');
+        labels.forEach(l => l.classList.remove('correct','wrong'));
+        if (selected) {
+          if (parseInt(selected.value) === quizData[idx].correct) {
+            labels[selected.value].classList.add('correct');
+            score++;
+          } else {
+            labels[selected.value].classList.add('wrong');
+            labels[quizData[idx].correct].classList.add('correct');
+          }
+        }
+      });
+      document.getElementById('result').textContent = `Skor kamu: ${score} dari ${total}`;
+    }
+  </script>
+</body>
+</html>
