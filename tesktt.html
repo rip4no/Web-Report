@@ -1,155 +1,265 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Uji KTT - Kepala Teknik Tambang (30 Soal)</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      margin: 0;
-      padding: 20px;
+    :root{
+      --primary:#007bff;
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --muted:#6b7280;
     }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    body{
+      margin:0;
+      font-family:Inter, Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:#111827;
     }
-    h1 {
-      text-align: center;
-      color: #1f2937;
+    header{
+      background:var(--primary);
+      color:#fff;
+      padding:14px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
-    .question {
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
-    .options label {
-      display: block;
-      margin-bottom: 6px;
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 5px;
-      transition: 0.2s;
+    .brand img{height:44px;border-radius:6px;}
+    .brand h1{font-size:18px;margin:0;font-weight:600;}
+    .header-actions{display:flex;gap:8px;align-items:center;}
+    .logout-btn{
+      background:#dc3545;padding:8px 12px;border-radius:6px;color:#fff;border:0;cursor:pointer;
     }
-    .options label:hover {
-      background: #f9fafb;
+    nav{
+      background:#111827;color:#fff;display:flex;gap:8px;justify-content:center;padding:8px 0;
     }
-    .correct {
-      background: #d4edda;
-      color: #155724;
-      font-weight: bold;
+    nav a{color:#fff;padding:10px 14px;text-decoration:none;border-radius:6px;}
+    nav a:hover{background:rgba(255,255,255,0.06);}
+    .wrap{max-width:1000px;margin:22px auto;padding:0 16px;}
+    .card{
+      background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(17,24,39,0.06);
     }
-    .wrong {
-      background: #f8d7da;
-      color: #721c24;
-      font-weight: bold;
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;}
+    .controls{display:flex;gap:8px;align-items:center;}
+    .btn{background:var(--primary);color:#fff;padding:8px 12px;border-radius:8px;border:0;cursor:pointer;}
+    .btn.secondary{background:#6b7280;}
+    .status{color:var(--muted);font-size:14px;}
+    .quiz{margin-top:10px;}
+    .question{
+      padding:12px;border-radius:8px;border:1px solid #eef2f7;margin-bottom:12px;
+      transition:background .15s,border-color .15s;
     }
-    #result {
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      color: #2563eb;
-      margin-top: 20px;
+    .qtext{font-weight:600;margin-bottom:8px;}
+    .options{display:flex;flex-direction:column;gap:8px;}
+    .option{
+      display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;border:1px dashed transparent;
+      background:#fafafa;cursor:pointer;user-select:none;transition:all .12s;
+    }
+    .option:hover{transform:translateY(-1px);}
+    .option input{margin-right:8px;}
+    .option.correct{background:#dff3e6;border-color:#2f9e55;color:#0b3d1f;}
+    .option.wrong{background:#fde2e6;border-color:#c92a2a;color:#5a0f0f;}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;color:var(--muted);font-size:14px;}
+    #result{font-weight:700;color:var(--primary);text-align:center;margin-top:14px;}
+    .footer-links{display:flex;gap:8px;align-items:center;}
+    a.link-btn{background:#111827;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;}
+    @media (max-width:640px){
+      .brand h1{font-size:15px;}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Latihan Soal KTT (Kepala Teknik Tambang)</h1>
-    <form id="quizForm"></form>
-    <p id="result"></p>
-  </div>
+  <header>
+    <div class="brand">
+      <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo_Pt.wil.png" alt="Logo">
+      <h1>Dashboard - PT Waja Inti Lestari</h1>
+    </div>
+    <div class="header-actions">
+      <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <nav>
+    <a href="halaman-utama.html">Dashboard</a>
+    <a href="data-laporan.html">Data Laporan</a>
+    <a href="profil.html">Profil Karyawan</a>
+    <a href="Web-Report/Uji-KTT.html" aria-current="page">Uji KTT</a>
+  </nav>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="topbar">
+        <div>
+          <h2 style="margin:0">Uji Kompetensi Kepala Teknik Tambang (30 Soal)</h2>
+          <div class="status">Jawab tiap soal — hasil muncul langsung saat memilih.</div>
+        </div>
+        <div class="controls">
+          <div class="footer-links">
+            <a class="link-btn" href="halaman-utama.html">Kembali ke Dashboard</a>
+          </div>
+          <button class="btn secondary" id="resetBtn" title="Reset semua jawaban">Reset Ujian</button>
+        </div>
+      </div>
+
+      <div id="scorebar" class="meta">
+        <div>Soal terjawab: <span id="answeredCount">0</span> / 30</div>
+        <div>Skor sementara: <span id="score">0</span></div>
+      </div>
+
+      <div id="quiz" class="quiz" aria-live="polite"></div>
+
+      <p id="result" aria-atomic="true"></p>
+    </section>
+  </main>
 
   <script>
+    // ====== 30 Soal BARU (berbasis referensi publik: pretest KTT / POP / dokumen kaidah teknik) ======
     const quizData = [
-      {q: '1. Regulasi utama yang mengatur kegiatan pertambangan mineral dan batubara di Indonesia adalah...', a: ['UU No. 3 Tahun 2020', 'UU No. 4 Tahun 2009', 'UU No. 32 Tahun 2009', 'UU No. 11 Tahun 1967'], correct: 0},
-      {q: '2. Tanggung jawab utama Kepala Teknik Tambang (KTT) adalah...', a: ['Meningkatkan produksi tambang', 'Menjamin pelaksanaan kaidah teknik pertambangan yang baik', 'Mengelola keuangan perusahaan', 'Melaksanakan audit lingkungan'], correct: 1},
-      {q: '3. Buku tambang wajib disahkan oleh...', a: ['KTT', 'Inspektur Tambang', 'Kepala Dinas ESDM', 'Gubernur'], correct: 1},
-      {q: '4. Reklamasi pascatambang bertujuan untuk...', a: ['Meningkatkan produksi batubara', 'Mengembalikan fungsi lahan', 'Menambah nilai jual mineral', 'Menurunkan kadar sulfur'], correct: 1},
-      {q: '5. Kecelakaan tambang dikategorikan fatal jika...', a: ['Menimbulkan korban jiwa', 'Merusak alat berat', 'Menimbulkan kerugian finansial', 'Menghambat produksi'], correct: 0},
-      {q: '6. Dokumen yang menjelaskan kegiatan teknis penambangan disebut...', a: ['RKAB', 'RKL', 'RKP', 'AMD'], correct: 0},
-      {q: '7. Unsur utama dalam Good Mining Practice adalah...', a: ['Efisiensi biaya', 'Keselamatan, lingkungan, dan konservasi', 'Produksi tinggi', 'Profit maksimal'], correct: 1},
-      {q: '8. Ventilasi tambang bawah tanah berfungsi untuk...', a: ['Mengatur tekanan air', 'Menurunkan suhu dan gas berbahaya', 'Menambah kadar oksigen batuan', 'Mengatur debit air tambang'], correct: 1},
-      {q: '9. Inspektur tambang memiliki tugas untuk...', a: ['Mengevaluasi RKAB', 'Mengawasi penerapan kaidah pertambangan', 'Menyetujui laporan produksi', 'Menentukan harga jual batubara'], correct: 1},
-      {q: '10. Salah satu indikator K3 pertambangan adalah...', a: ['Jumlah tenaga kerja', 'Jam kerja aman (safe man-hours)', 'Produksi per hari', 'Efisiensi alat'], correct: 1},
-      {q: '11. KTT wajib melapor kecelakaan tambang ke...', a: ['Menteri ESDM', 'Inspektur Tambang', 'Pemegang saham', 'Dinas Ketenagakerjaan'], correct: 1},
-      {q: '12. Dokumen lingkungan pertambangan terdiri atas...', a: ['RKAB dan AMDAL', 'RKL dan RPL', 'KTT dan Inspektur', 'K3 dan KTT'], correct: 1},
-      {q: '13. Dalam tambang terbuka, slope lereng harus...', a: ['Serealistis mungkin', 'Stabil dan aman', 'Curam agar cepat produksi', 'Ditentukan oleh operator alat'], correct: 1},
-      {q: '14. Air asam tambang terbentuk dari...', a: ['Reaksi oksidasi mineral sulfida', 'Pembusukan organik', 'Pelapukan batuan granit', 'Evaporasi air tanah'], correct: 0},
-      {q: '15. Peta tambang harus diperbarui minimal...', a: ['1 tahun sekali', '6 bulan sekali', 'Setiap bulan', 'Saat produksi meningkat'], correct: 1},
-      {q: '16. Dalam kegiatan peledakan, bahan peledak dikendalikan oleh...', a: ['KTT', 'Blaster berlisensi', 'Operator alat berat', 'Foreman'], correct: 1},
-      {q: '17. Metode penambangan batubara yang paling umum di Indonesia adalah...', a: ['Tambang bawah tanah', 'Tambang terbuka (open pit)', 'Tambang laut', 'Tambang lubang bor'], correct: 1},
-      {q: '18. Tujuan utama konservasi mineral adalah...', a: ['Menghemat energi', 'Meningkatkan keselamatan kerja', 'Memanfaatkan sumber daya secara optimal', 'Menurunkan biaya'], correct: 2},
-      {q: '19. AMDAL wajib disusun pada tahap...', a: ['Eksplorasi', 'Konstruksi', 'Operasi produksi', 'Pasca tambang'], correct: 0},
-      {q: '20. Yang dimaksud dengan overburden adalah...', a: ['Lapisan penutup bijih', 'Lapisan batubara', 'Lapisan bijih logam', 'Lapisan tanah reklamasi'], correct: 0},
-      {q: '21. Pengawasan tambang dilakukan oleh...', a: ['Inspektur Tambang', 'KTT', 'Dirjen Minerba', 'Kontraktor'], correct: 0},
-      {q: '22. Salah satu tugas penting KTT dalam K3 adalah...', a: ['Membeli APD', 'Menjamin pelaksanaan program keselamatan', 'Menentukan upah kerja', 'Menandatangani kontrak alat'], correct: 1},
-      {q: '23. Laporan triwulanan tambang diserahkan ke...', a: ['Menteri ESDM', 'Gubernur', 'Inspektur Tambang', 'Kepala Dinas'], correct: 2},
-      {q: '24. Salah satu alat ukur gas di tambang bawah tanah adalah...', a: ['Thermometer', 'Manometer', 'Gas detector', 'Barometer'], correct: 2},
-      {q: '25. Kegiatan reklamasi dilakukan setelah...', a: ['Produksi meningkat', 'Lahan terganggu tidak dipakai lagi', 'Harga batu bara naik', 'Cuaca cerah'], correct: 1},
-      {q: '26. Drainase tambang berfungsi untuk...', a: ['Mengatur aliran air tambang', 'Menambah kadar oksigen', 'Mengalirkan udara segar', 'Mengurangi getaran'], correct: 0},
-      {q: '27. Pengelolaan limbah B3 diatur oleh...', a: ['UU Minerba', 'PP No. 101 Tahun 2014', 'UU No. 32 Tahun 2009', 'Perda'], correct: 1},
-      {q: '28. Salah satu tujuan inspeksi tambang adalah...', a: ['Menilai kinerja alat', 'Menegakkan disiplin kerja', 'Menilai penerapan keselamatan dan lingkungan', 'Menentukan harga pasar'], correct: 2},
-      {q: '29. Tanda bahaya gas metana di tambang bawah tanah adalah...', a: ['Kadar gas di atas ambang batas', 'Kadar air tinggi', 'Ventilasi kuat', 'Suhu rendah'], correct: 0},
-      {q: '30. KTT harus memiliki sertifikat kompetensi dari...', a: ['BNSP', 'ESDM', 'Perusahaan', 'Dinas Tenaga Kerja'], correct: 1}
+      // 1-10: dari contoh yang kamu sediakan (referensi: Scribd, Inspektur.id, dll.)
+      { q: '1. Regulasi yang mengatur pelaksanaan kegiatan pertambangan mineral dan batubara (Minerba) di Indonesia adalah …', a: ['UU No. 23 Tahun 2014','UU No. 4 Tahun 2009','UU No. 32 Tahun 2009','UU No. 11 Tahun 1967'], correct: 1 },
+      { q: '2. Pelaksanaan reklamasi wajib dilakukan paling lambat … hari kalender setelah tidak ada kegiatan usaha pertambangan pada lahan terganggu.', a: ['1','15','30','90'], correct: 2 },
+      { q: '3. Berikut adalah bagian dari kegiatan reklamasi yang harus diperhitungkan di dokumen rencana reklamasi, kecuali …', a: ['Pengendalian erosi dan sedimentasi','Pengaturan permukaan lahan','Pencegahan dan penanggulangan air asam tambang','Penebaran tanah zona pengarakan'], correct: 3 },
+      { q: '4. Suatu kecelakaan dapat dikategorikan sebagai kecelakaan tambang setelah memenuhi unsur-unsur di bawah ini, kecuali …', a: ['Mengakibatkan kerusakan peralatan dan kerugian material dalam jumlah besar','Mengakibatkan cedera pekerja tambang atau orang yang diberi izin oleh KTT','Akibat kegiatan usaha pertambangan','Terjadi di dalam wilayah kegiatan usaha pertambangan atau wilayah proyek'], correct: 0 },
+      { q: '5. Setiap usaha pertambangan yang mempunyai KTT harus memiliki Buku Tambang. Buku Tambang tersebut harus disahkan oleh …', a: ['Kepala Teknik Tambang (KTT)','Inspektur Tambang','Kepala Inspektur Tambang','Kepala Dinas Pertambangan dan Energi'], correct: 1 },
+      { q: '6. Manakah dari berikut ini bukan tugas dari KTT sebagaimana diatur dalam pedoman kaidah teknik pertambangan yang baik?', a: ['Membuat peraturan internal perusahaan terkait penerapan kaidah teknik pertambangan yang baik','Mengesahkan Penanggung Jawab Operasional (PJO)','Menetapkan standar keselamatan pertambangan untuk seluruh industri nasional','Melaporkan penerapan kegiatan pengelolaan lingkungan secara berkala'], correct: 2 },
+      { q: '7. Syarat menjadi KTT kelas IV bagi IUP Produksi Batuan atau Non Logam mencakup …', a: ['Memiliki pengalaman minimal 10 tahun','Tidak boleh menggunakan bahan peledak','Sertifikat kualifikasi yang diakui oleh KaIT atau mengikuti pelatihan kaidah teknik pertambangan yang baik','Harus lulusan teknik pertambangan'], correct: 2 },
+      { q: '8. Dalam dokumen petunjuk teknis Keselamatan Pertambangan dijelaskan bahwa sistem manajemen keselamatan pertambangan mencakup …', a: ['Hanya tata kelola administratif','Manajemen risiko, pelatihan, inspeksi, keadaan darurat, dan kampanye keselamatan','Hanya inspeksi alat berat','Pengawasan eksternal saja'], correct: 1 },
+      { q: '9. Apa fungsi utama dari Pengawas Operasional dalam struktur pertambangan?', a: ['Mengawasi aspek administrasi internal perusahaan','Bertanggung jawab atas keselamatan pekerja di area operasi','Menentukan alokasi anggaran pembangunan','Merumuskan kebijakan publik pertambangan'], correct: 1 },
+      { q: '10. Perbedaan utama antara Kecelakaan Tambang dan Kecelakaan Kerja adalah …', a: ['Kecelakaan tambang selalu fatal','Kecelakaan kerja tidak pernah dilaporkan','Kecelakaan tambang harus memenuhi kriteria yang diatur dalam peraturan pertambangan','Kecelakaan kerja selalu di luar area tambang'], correct: 2 },
+
+      // 11-30: soal tambahan yang variatif (berdasarkan materi POP/KTT/Pretest)
+      { q: '11. RKAB adalah singkatan dari …', a: ['Rencana Kerja dan Anggaran Biaya','Rencana Kegiatan Administratif Bisnis','Rekaman Kinerja Alat Besar','Rencana K3 dan Audit Berkala'], correct: 0 },
+      { q: '12. AMDAL wajib disusun untuk proyek pertambangan apabila …', a: ['Kegiatan diperkirakan memberikan dampak besar terhadap lingkungan','Kegiatan berskala kecil dan sementara','Hanya untuk kegiatan reklamasi','Tidak pernah diperlukan'], correct: 0 },
+      { q: '13. Overburden dalam penambangan adalah …', a: ['Lapisan penutup bijih yang harus dibuang/diangkat','Lapisan batubara','Lapisan ore yang akan diproses','Lapisan reklamasi yang sudah matang'], correct: 0 },
+      { q: '14. Siapa yang berwenang melakukan peledakan pada lokasi tambang menurut praktik yang aman?', a: ['Operator alat berat','Blaster berlisensi','Pengawas kantor','Mandor tambang tanpa lisensi'], correct: 1 },
+      { q: '15. Tanda bahaya gas metana di tambang bawah tanah biasanya diidentifikasi melalui …', a: ['Kadar gas di atas ambang batas yang terukur','Kadar air tinggi','Ventilasi kuat','Suhu rendah'], correct: 0 },
+      { q: '16. Peraturan terkait pengelolaan limbah bahan berbahaya dan beracun (B3) yang sering dirujuk adalah …', a: ['UU Minerba (semata)','PP No. 101 Tahun 2014 tentang Pengelolaan Limbah B3','Peraturan perusahaan saja','Perda lokal tanpa pedoman pusat'], correct: 1 },
+      { q: '17. Ventilasi yang baik di tambang bawah tanah terutama bertujuan untuk …', a: ['Mengatur tekanan air','Menurunkan suhu dan membuang gas berbahaya','Menambah kadar oksigen pada batuan','Mengatur debit air tambang'], correct: 1 },
+      { q: '18. Peta tambang idealnya diperbarui secara berkala; banyak pedoman menyebut interval minimal …', a: ['1 bulan','6 bulan','5 tahun','Tidak perlu diperbarui'], correct: 1 },
+      { q: '19. Siapa yang biasanya melakukan pengawasan teknis dari sisi regulator pada kegiatan pertambangan di lapangan?', a: ['Inspektur Tambang','Kepala Teknik Tambang (KTT)','Kontraktor tambang','Pemasok alat'], correct: 0 },
+      { q: '20. Sertifikat kompetensi untuk KTT umumnya dikeluarkan/diakui oleh … (pilih jawaban yang sering dicantumkan pada pretest)', a: ['BNSP','ESDM / instansi terkait','Perusahaan swasta','Dinas Tenaga Kerja lokal'], correct: 1 },
+      { q: '21. Salah satu kegiatan penting dalam reklamasi adalah …', a: ['Revegetasi (penanaman kembali vegetasi)','Menambah bongkahan batu untuk estetika','Mengecat area bekas tambang','Melebur bekas area tambang'], correct: 0 },
+      { q: '22. Indikator produktif dalam aspek K3 yang sering dipakai adalah …', a: ['Jumlah tenaga kerja total','Jam kerja aman (safe man-hours) tanpa kecelakaan','Jumlah shift per hari','Profit per ton'], correct: 1 },
+      { q: '23. Laporan triwulanan operasional/tambang biasanya diserahkan ke …', a: ['Menteri ESDM','Gubernur','Inspektur Tambang','Kepala Dinas setempat'], correct: 2 },
+      { q: '24. Alat yang umum dipakai untuk mendeteksi keberadaan gas berbahaya di tambang adalah …', a: ['Thermometer','Manometer','Gas detector','Barometer'], correct: 2 },
+      { q: '25. Fungsi drainase yang baik pada area pertambangan adalah …', a: ['Mengatur aliran air tambang agar tidak menggenang','Menambah kadar oksigen pada tanah','Mengalirkan udara segar','Mengurangi getaran mekanis'], correct: 0 },
+      { q: '26. Tujuan konservasi mineral dalam kegiatan pertambangan termasuk …', a: ['Menghemat energi listrik','Meningkatkan keselamatan kerja saja','Memanfaatkan sumber daya secara optimal dan berkelanjutan','Mengurangi upah pekerja'], correct: 2 },
+      { q: '27. Metode penambangan batubara yang paling lazim di Indonesia adalah …', a: ['Tambang bawah tanah','Tambang terbuka (open pit)','Tambang laut','Tambang lubang bor vertikal'], correct: 1 },
+      { q: '28. APD (Alat Pelindung Diri) wajib digunakan oleh pekerja pada area berisiko. Mana yang termasuk APD?', a: ['Helm keselamatan, sepatu safety, rompi, pelindung telinga','Hanya seragam kantor','Hanya masker kain','Sepatu biasa tanpa pelindung'], correct: 0 },
+      { q: '29. Air asam tambang (acid mine drainage) umumnya terjadi akibat …', a: ['Reaksi oksidasi mineral sulfida (mis. pirit)','Pembusukan organik sederhana','Evaporasi air permukaan','Penambahan pupuk'], correct: 0 },
+      { q: '30. Dokumen lingkungan operasional yang biasanya disusun adalah …', a: ['Rencana Kerja dan Anggaran Biaya (RKAB) saja','RKL dan RPL (Rencana Pengelolaan Lingkungan dan Rencana Pemantauan Lingkungan)','Buku tambang tanpa lampiran lingkungan','Laporan keuangan'], correct: 1 }
     ];
 
-    const form = document.getElementById('quizForm');
+    // ====== RENDER SOAL ======
+    const quizEl = document.getElementById('quiz');
+    quizData.forEach((item, qIdx) => {
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+      qDiv.setAttribute('data-idx', qIdx);
 
-    quizData.forEach((item, index) => {
-      const div = document.createElement('div');
-      div.classList.add('question');
-      div.innerHTML = `<p>${item.q}</p>`;
+      const qText = document.createElement('div');
+      qText.className = 'qtext';
+      qText.textContent = item.q;
+      qDiv.appendChild(qText);
+
       const opts = document.createElement('div');
-      opts.classList.add('options');
+      opts.className = 'options';
 
-      item.a.forEach((ans, i) => {
+      item.a.forEach((optText, optIdx) => {
         const label = document.createElement('label');
-        label.innerHTML = `<input type='radio' name='q${index}' value='${i}'> ${ans}`;
-        label.querySelector('input').addEventListener('change', () => handleAnswer(index, i, label));
+        label.className = 'option';
+        label.setAttribute('data-opt', optIdx);
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'q' + qIdx;
+        radio.value = optIdx;
+        radio.setAttribute('aria-label', optText);
+
+        // click handler
+        radio.addEventListener('change', () => {
+          handleAnswer(qIdx, optIdx, qDiv);
+        });
+
+        label.appendChild(radio);
+        const span = document.createElement('span');
+        span.textContent = optText;
+        label.appendChild(span);
         opts.appendChild(label);
       });
 
-      div.appendChild(opts);
-      form.appendChild(div);
+      qDiv.appendChild(opts);
+      quizEl.appendChild(qDiv);
     });
 
-    function handleAnswer(questionIndex, selectedIndex, selectedLabel) {
-      const questionDiv = selectedLabel.closest('.question');
-      const labels = questionDiv.querySelectorAll('label');
+    // ====== LOGIKA PENILAIAN REAL-TIME ======
+    function handleAnswer(questionIndex, selectedIndex, questionDiv){
+      const labels = Array.from(questionDiv.querySelectorAll('.option'));
+      // jika sudah dijawab, jangan ulangi
+      const alreadyAnswered = labels.some(l => l.classList.contains('correct') || l.classList.contains('wrong'));
+      if(alreadyAnswered) return;
 
-      // Kunci semua opsi setelah memilih
+      // kunci semua input
       labels.forEach(l => {
-        l.querySelector('input').disabled = true;
-        l.classList.remove('correct', 'wrong');
+        const inp = l.querySelector('input');
+        if (inp) inp.disabled = true;
       });
 
       const correctIndex = quizData[questionIndex].correct;
-
-      if (selectedIndex === correctIndex) {
-        selectedLabel.classList.add('correct');
+      const chosenLabel = labels.find(l => Number(l.getAttribute('data-opt')) === selectedIndex);
+      if(selectedIndex === correctIndex){
+        chosenLabel.classList.add('correct');
       } else {
-        selectedLabel.classList.add('wrong');
-        labels[correctIndex].classList.add('correct');
+        chosenLabel.classList.add('wrong');
+        const correctLabel = labels.find(l => Number(l.getAttribute('data-opt')) === correctIndex);
+        if(correctLabel) correctLabel.classList.add('correct');
       }
 
-      // Hitung skor sementara
       updateScore();
     }
 
-    function updateScore() {
+    function updateScore(){
+      let answered = 0;
       let score = 0;
-      quizData.forEach((item, idx) => {
-        const selected = document.querySelector(`input[name='q${idx}']:checked`);
-        if (selected && parseInt(selected.value) === item.correct) score++;
+      quizData.forEach((it, idx) => {
+        const sel = document.querySelector(`input[name='q${idx}']:checked`);
+        if(sel) answered++;
+        if(sel && Number(sel.value) === it.correct) score++;
       });
-      document.getElementById('result').textContent = `Skor sementara: ${score} dari ${quizData.length}`;
+      document.getElementById('answeredCount').textContent = answered;
+      document.getElementById('score').textContent = score;
+      document.getElementById('result').textContent = answered === quizData.length ? `Ujian selesai — Skor akhir: ${score} / ${quizData.length}` : '';
     }
+
+    // ====== RESET ======
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.classList.remove('correct','wrong');
+        const inp = opt.querySelector('input');
+        if(inp){
+          inp.disabled = false;
+          inp.checked = false;
+        }
+      });
+      document.getElementById('answeredCount').textContent = '0';
+      document.getElementById('score').textContent = '0';
+      document.getElementById('result').textContent = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ====== LOGOUT (stub; ganti dengan signOut(auth) jika pakai Firebase) ======
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      // jika menggunakan Firebase Auth, ganti baris ini dengan signOut(auth).then(...)
+      window.location.href = 'index.html';
+    });
+
   </script>
 </body>
 </html>
