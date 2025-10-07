@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Latihan Soal KTT - Kepala Teknik Tambang (30 Soal)</title>
+  <title>Uji KTT - Kepala Teknik Tambang (30 Soal)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -25,27 +25,36 @@
     }
     .question {
       margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
     }
     .options label {
       display: block;
       margin-bottom: 6px;
       cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 5px;
+      transition: 0.2s;
+    }
+    .options label:hover {
+      background: #f9fafb;
     }
     .correct {
-      color: green;
+      background: #d4edda;
+      color: #155724;
       font-weight: bold;
     }
     .wrong {
-      color: red;
+      background: #f8d7da;
+      color: #721c24;
       font-weight: bold;
     }
-    button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
+    #result {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #2563eb;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -53,7 +62,6 @@
   <div class="container">
     <h1>Latihan Soal KTT (Kepala Teknik Tambang)</h1>
     <form id="quizForm"></form>
-    <button type="button" onclick="checkAnswers()">Periksa Jawaban</button>
     <p id="result"></p>
   </div>
 
@@ -99,31 +107,48 @@
       div.innerHTML = `<p>${item.q}</p>`;
       const opts = document.createElement('div');
       opts.classList.add('options');
+
       item.a.forEach((ans, i) => {
-        opts.innerHTML += `<label><input type='radio' name='q${index}' value='${i}'> ${ans}</label>`;
+        const label = document.createElement('label');
+        label.innerHTML = `<input type='radio' name='q${index}' value='${i}'> ${ans}`;
+        label.querySelector('input').addEventListener('change', () => handleAnswer(index, i, label));
+        opts.appendChild(label);
       });
+
       div.appendChild(opts);
       form.appendChild(div);
     });
 
-    function checkAnswers() {
-      let score = 0;
-      const total = quizData.length;
-      document.querySelectorAll('.question').forEach((div, idx) => {
-        const selected = div.querySelector('input[type=radio]:checked');
-        const labels = div.querySelectorAll('label');
-        labels.forEach(l => l.classList.remove('correct','wrong'));
-        if (selected) {
-          if (parseInt(selected.value) === quizData[idx].correct) {
-            labels[selected.value].classList.add('correct');
-            score++;
-          } else {
-            labels[selected.value].classList.add('wrong');
-            labels[quizData[idx].correct].classList.add('correct');
-          }
-        }
+    function handleAnswer(questionIndex, selectedIndex, selectedLabel) {
+      const questionDiv = selectedLabel.closest('.question');
+      const labels = questionDiv.querySelectorAll('label');
+
+      // Kunci semua opsi setelah memilih
+      labels.forEach(l => {
+        l.querySelector('input').disabled = true;
+        l.classList.remove('correct', 'wrong');
       });
-      document.getElementById('result').textContent = `Skor kamu: ${score} dari ${total}`;
+
+      const correctIndex = quizData[questionIndex].correct;
+
+      if (selectedIndex === correctIndex) {
+        selectedLabel.classList.add('correct');
+      } else {
+        selectedLabel.classList.add('wrong');
+        labels[correctIndex].classList.add('correct');
+      }
+
+      // Hitung skor sementara
+      updateScore();
+    }
+
+    function updateScore() {
+      let score = 0;
+      quizData.forEach((item, idx) => {
+        const selected = document.querySelector(`input[name='q${idx}']:checked`);
+        if (selected && parseInt(selected.value) === item.correct) score++;
+      });
+      document.getElementById('result').textContent = `Skor sementara: ${score} dari ${quizData.length}`;
     }
   </script>
 </body>
