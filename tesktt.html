@@ -31,6 +31,7 @@
     .options{display:flex;flex-direction:column;gap:8px}
     .option{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
     .option:hover{transform:translateY(-3px)}
+    .option input{margin-right:8px}
     .option.correct{background:rgba(22,163,74,0.12);border-color:rgba(16,185,129,0.18);color:var(--success)}
     .option.wrong{background:rgba(220,38,38,0.08);border-color:rgba(220,38,38,0.14);color:var(--danger)}
     .small{font-size:13px;color:var(--muted)}
@@ -51,11 +52,13 @@
         </div>
         <div class="meta">
           <div>Waktu tersisa: <span id="timer">60:00</span></div>
-          <div>Soal terjawab: <span id="answeredCount">0</span>/30</div>           <div>Skor: <span id="score">0</span></div>
+          <div>Soal terjawab: <span id="answeredCount">0</span>/30</div>
+          <div>Skor: <span id="score">0</span></div>
         </div>
       </header>
 
-            <div class="section card" style="margin-bottom:12px;background:transparent;border:0;padding:0">
+      <!-- FORM NAMA & EMAIL PESERTA -->
+      <div class="section card" style="margin-bottom:12px;background:transparent;border:0;padding:0">
         <div style="margin-bottom:8px" class="small">Masukkan nama & email peserta sebelum memulai ujian:</div>
         <div class="form-row">
           <input id="participantName" type="text" placeholder="Nama peserta (wajib)" autocomplete="name" />
@@ -67,7 +70,8 @@
         <div class="small note">Selama ujian aktif, tombol reset & navigasi akan dikunci. Jika menutup tab, ujian dianggap selesai dan hasil dikirim otomatis.</div>
       </div>
 
-            <div id="quiz" class="quiz" aria-live="polite"></div>
+      <!-- QUIZ AREA -->
+      <div id="quiz" class="quiz" aria-live="polite"></div>
 
       <p id="result" class="hidden"></p>
 
@@ -80,7 +84,8 @@
     </div>
   </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
 
   <script>
     /***** KONFIG EMAILJS (dari kamu) *****/
@@ -96,56 +101,257 @@
       if(window.emailjs) emailjs.init(EMAILJS_PUBLIC_KEY);
     })();
 
-    // ===== DATA SOAL (30 SOAL) =====
-    const quizData = [
-      { q:'1. Perubahan Studi Kelayakan Teknis: Manakah di bawah ini yang BUKAN merupakan faktor yang perlu dipertimbangkan dalam perubahan studi kelayakan secara teknis?', a:['Mempunyai lokasi penambangan baru yang sebelumnya belum ada dalam dokumen studi kelayakan.','Menemukan cadangan baru sehingga merubah umur tambang.','Adanya penambahan peralatan sehingga meningkatkan tingkat produksi tambang yang sesuai kapasitas produksi dokumen studi kelayakan.','Adanya perubahan metode penambangan yang disetujui.','Adanya perubahan batas akhir penambangan.'], correct:2 },
-      { q:'2. Format Laporan Khusus: Format untuk laporan khusus kajian teknis pertambangan dan teknologi baru terdapat dalam:', a:['Kepmen ESDM No 1827 K/30/MEM/2018.','Kepmen ESDM No 1806 K/30/MEM/2018.','Kepmen ESDM No 1825 K/30/MEM/2018.','Kepmen ESDM No 1826 K/30/MEM/2018.','Peraturan Pemerintah No. 55 Tahun 2010.'], correct:0 },
-      { q:'3. Ketentuan Pembersihan Lahan: Dalam ketentuan Kepmen ESDM No. 1827.K/30/MEM/2018, pembersihan lahan dilakukan dengan cara penebangan terhadap:', a:['Tanaman dengan diameter lebih besar dari 5 (lima) cm.','Tanaman dengan diameter lebih besar dari 10 (sepuluh) cm.','Tanaman dengan diameter lebih besar dari 15 (lima belas) cm.','Tanaman dengan diameter lebih besar dari 20 (dua puluh) cm.','Seluruh vegetasi tanpa kecuali.'], correct:1 },
-      { q:'4. Stiffness Ratio Peledakan: Kegiatan pengeboran untuk peledakan di PT ABC menggunakan mata bor 200 mm, burden (B) 7,5 m, spasi 8,5 m, subdrill 1,5 m, kedalaman lubang ledak (H) 16,5m. Berapakah stiffness ratio peledakan dan apakah sesuai dengan ketentuan dalam Kepmen ESDM No.1827.K/30/MEM/2018? (Catatan: Stiffness Ratio = H/B)', a:['Stiffness ratio 2,0, sesuai.','Stiffness ratio 2,0, tidak sesuai.','Stiffness ratio 2,2, sesuai dengan Kepmen ESDM No. 1827.K/30/MEM/2018.','Stiffness ratio 2,2, tidak sesuai.','Stiffness ratio 1,1, sesuai.'], correct:2 },
-      { q:'5. Unjuk Kerja Peralatan: Unjuk kerja peralatan pengolahan dan/atau pemurnian yang terkait dengan waktu kerja, waktu perbaikan, dan waktu standby/tunggu adalah:', a:['Physical Availability (PA).','Mechanical Availability (MA).','Utilization of Availability (UA).','Effective Utilization (EU).','Overall Equipment Effectiveness (OEE).'], correct:0 },
-      { q:'6. Klasifikasi Sumber Daya Mineral: Sumber daya mineral yang dipublikasi secara formal kepada publik atau disampaikan kepada pemerintah untuk keperluan evaluasi adalah:', a:['Sumber daya teridentifikasi, terkira, dan terukur.','Sumber daya tereka, terindikasi, dan terukur.','Sumber daya tereka, terindikasi, dan terbukti.','Sumber daya teridentifikasi, terindikasi, dan terukur.','Sumber daya terindikasi, terukur, dan terbukti.'], correct:1 },
-      { q:'7. Recovery Pengolahan Bauksit: Angka recovery pengolahan optimal untuk komoditas bauksit sesuai dengan Lampiran VII Peraturan Perundangan tentang Pedoman Pelaksanaan Konservasi Minerba (Kepmen ESDM No. 1827.K/30/MEM/2018) adalah:', a:['Paling sedikit 80 %.','Paling sedikit 90 %.','Paling sedikit 85 %.','Paling sedikit 70 %.','Paling sedikit 95 %.'], correct:2 },
-      { q:'8. Faktor Pengubah Cadangan Marginal: Salah satu faktor pengubah yang berkaitan aspek legal sehingga mengakibatkan cadangan terkira tidak dapat ditingkatkan menjadi cadangan terbukti dan ditetapkan sebagai cadangan marginal, kecuali:', a:['Cadangan berada di bawah sungai aktif.','Cadangan berada di buffer zone.','Cadangan yang berada di jalan nasional, provinsi dan kabupaten.','Cadangan berada di bekas lokasi longsoran lereng tambang.','Cadangan berada di area yang dilarang untuk ditambang sesuai peraturan daerah.'], correct:3 },
-      { q:'9. Kewajiban KTT Recovery Tidak Optimal: Yang harus dilakukan oleh KTT jika tidak dapat merencanakan recovery penambangan optimal sesuai Lampiran VII Kepmen ESDM No. 1827.K/30/MEM/2018 adalah:', a:['Menyampaikan di dalam laporan berkala triwulan konservasi.','Merevisi Studi Kelayakan.','Membuat dan menyampaikan kajian teknis konservasi minerba kepada Direktur Teknik dan Lingkungan/Kepala Inspektur Tambang.','Membuat laporan kejadian khusus kepada KaIT.','Tidak ada yang perlu dilakukan karena sudah dilaporkan dalam RKAB.'], correct:2 },
-      { q:'10. Kriteria Batubara Kualitas Rendah: Kriteria batubara kualitas rendah dari aspek konservasi batubara (Lampiran VII Kepmen ESDM No. 1827.K/30/MEM/2018) adalah:', a:['Calorific Value ≤4.500 kkal/kg (gar), Total moisture ≥40 %, Ash >10 %, atau Sulfur >1 %.','Calorific Value ≤4.000 kkal/kg (gar), Total moisture ≥30 %, Ash >5 %, atau Sulfur >2 %.','Calorific Value ≤4.000 kkal/kg (gar), Total moisture ≥30 %, Ash >10 %, atau Sulfur >1 %.','Calorific Value ≤4.000 kkal/kg (gar), Total moisture ≥40 %, Ash >10 %, atau Sulfur >1 %.','Calorific Value ≤4.500 kkal/kg (gar), Total moisture ≥30 %, Ash >10 %, atau Sulfur >1 %.'], correct:3 },
-      { q:'11. Laporan Berkala: Laporan berkala triwulan yang memuat kegiatan teknis dan konservasi mineral dan/atau batubara diatur dalam Lampiran:', a:['Lampiran I Kepmen ESDM No. 1806 K/30/MEM/2018.','Lampiran II Kepmen ESDM No. 1806 K/30/MEM/2018.','Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.'], correct:4 },
-      { q:'12. Keadaan Khusus: Laporan khusus yang harus dibuat oleh KTT dalam hal keadaan khusus yang berkaitan dengan aspek teknis diatur dalam Lampiran:', a:['Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran IV Kepmen ESDM No. 1806 K/30/MEM/2018.','Lampiran IV Kepmen ESDM No. 1827.K/30/MEM/2018.'], correct:4 },
-      { q:'13. Tugas KTT: Yang BUKAN merupakan tugas dan tanggung jawab KTT terkait keselamatan operasi adalah:', a:['Mengangkat Pengawas Operasional dan Pengawas Teknik.','Membuat dan menyampaikan laporan berkala triwulan mengenai keselamatan operasi.','Menetapkan batas akhir pengoperasian tambang.','Menunjuk perusahaan jasa pertambangan sebagai pengawas teknik tambang.','Membuat laporan khusus kejadian yang berkaitan dengan keselamatan operasi.'], correct:3 },
-      { q:'14. Kriteria Kecukupan Tenaga Teknis: Dalam hal kecukupan tenaga teknis, setiap KTT wajib memiliki tenaga teknis minimal untuk masing-masing bidang berikut, kecuali:', a:['Tenaga teknis di bidang geoteknik.','Tenaga teknis di bidang hidrologi.','Tenaga teknis di bidang peledakan.','Tenaga teknis di bidang konservasi.','Tenaga teknis di bidang teknologi informasi.'], correct:4 },
-      { q:'15. Kriteria Kecukupan Fasilitas: Kriteria kecukupan fasilitas untuk pertambangan, kecuali:', a:['Adanya ruang penyimpanan alat berat.','Adanya kantor/ruang kerja bagi KTT.','Adanya laboratorium pengujian.','Adanya fasilitas komunikasi.','Adanya fasilitas penanganan keadaan darurat.'], correct:0 },
-      { q:'16. Tugas Pengawas Operasional: Tugas Pengawas Operasional pada setiap awal shift sebelum memulai pekerjaan adalah:', a:['Melaksanakan dan mengawasi setiap kegiatan operasi penambangan.','Melaporkan setiap kejadian berbahaya dan kecelakaan kepada KTT.','Memastikan semua pekerja menggunakan APD yang sesuai.','Memeriksa kelayakan operasi alat yang akan digunakan.','Memberikan pengarahan kepada pekerja terkait tugas dan bahaya.'], correct:3 },
-      { q:'17. Pelaporan Ketersediaan Fasilitas: Laporan ketersediaan fasilitas penunjang kegiatan pertambangan dilaporkan dalam laporan berkala triwulan yang terdapat dalam Lampiran:', a:['Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran IV Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran V Kepmen ESDM No. 1827.K/30/MEM/2018.'], correct:2 },
-      { q:'18. Kewajiban KTT Laporan Khusus: KTT wajib membuat dan menyampaikan laporan khusus dalam hal terjadi keadaan khusus terkait teknis yang dapat mengakibatkan:', a:['Peningkatan produksi melebihi 10%.','Penurunan produksi lebih dari 20%.','Perubahan desain teknis dan atau penghentian operasi penambangan.','Perubahan harga komoditas.','Perubahan batas wilayah IUP.'], correct:2 },
-      { q:'19. Kewajiban KTT Pengadaan Fasilitas: Dalam hal KTT tidak dapat memenuhi kewajiban pengadaan fasilitas penunjang kegiatan pertambangan, KTT wajib membuat dan menyampaikan:', a:['Laporan berkala triwulan teknis.','Laporan khusus penghentian operasi.','Revisi RKAB.','Revisi studi kelayakan.','Kajian teknis pengadaan fasilitas penunjang kegiatan pertambangan kepada Direktur Teknik dan Lingkungan/Kepala Inspektur Tambang.'], correct:4 },
-      { q:'20. Kriteria Larangan Penggunaan Bahan Peledak: Penggunaan bahan peledak dilarang pada kegiatan penambangan:', a:['Di area terowongan dengan ventilasi yang buruk.','Pada jarak kurang dari 50 meter dari jalan umum.','Di wilayah yang bersebelahan langsung dengan objek vital nasional.','Di tambang bawah tanah dengan kandungan gas metana tinggi.','Pada kondisi cuaca hujan lebat.'], correct:2 },
-      { q:'21. Tahapan Pembukaan Lahan: Dalam proses pembukaan lahan untuk kegiatan penambangan, pemegang IUP Operasi Produksi maupun IUPK Operasi Produksi menjalankan serangkaian tahapan kegiatan yang mencakup:', a:['monitoring jenis-jenis tanaman; dan pembersihan vegetasi.','identifikasi jenis-jenis tanaman; pembersihan vegetasi; dan pengupasan dan pengelolaan cover crop.','identifikasi jenis-jenis tanaman; pembersihan vegetasi; pengupasan dan pengelolaan lapisan tanah zona pengakaran.','identifikasi jenis-jenis tanaman; pengupasan lapisan tanah subsoil; dan penempatan tanah pucuk.','monitoring jenis-jenis tanaman; pengelolaan hasil kayu; pengupasan dan pengelolaan lapisan tanah zona pengakaran.'], correct:2 },
-      { q:'22. Faktor Perencanaan Kolam Sedimen: Faktor-faktor yang perlu diperhitungkan pada perencanaan kolam sedimen di area pertambangan adalah:', a:['Curah hujan rata-rata tahunan.','Debit air limpasan pada daerah tangkapan.','Ketersediaan dana.','Jawaban A dan B benar.','Seluruh jawaban benar.'], correct:4 },
-      { q:'23. Komponen Penilaian Keberhasilan Reklamasi: Berikut ini merupakan komponen penilaian keberhasilan reklamasi sesuai Lampiran VI Kepmen ESDM Nomor 1827 Tahun 2018, kecuali:', a:['Penataan lahan.','Penanaman tanaman lokal.','Penutupan tajuk.','Pembibitan.','Perawatan.'], correct:3 },
-      { q:'24. Komponen Biaya Pemanfaatan Lubang Bekas Tambang: Berikut ini yang bukan merupakan komponen biaya pemanfaatan lubang bekas tambang sebagaimana tercantum pada Lampiran VI Kepmen ESDM Nomor 1827 Tahun 2018 adalah:', a:['Konsultasi pemangku kepentingan.','Pengamanan lubang bekas tambang.','Pemulihan dan pemantauan kualitas air.','Pemeliharaan lubang bekas tambang.','Stabilisasi lereng.'], correct:3 },
-      { q:'25. Batas Aman Pemboran: Batas toleransi simpangan lubang bor pada kegiatan peledakan di tambang terbuka adalah:', a:['1% dari kedalaman lubang bor.','1,5% dari kedalaman lubang bor.','2% dari kedalaman lubang bor.','2,5% dari kedalaman lubang bor.','3% dari kedalaman lubang bor.'], correct:2 },
-      { q:'26. Kualifikasi Perusahaan Jasa Pertambangan: Berikut merupakan ketentuan Penentuan Kualifikasi Perusahaan Jasa Pertambangan berdasarkan Lampiran VIII Kepmen ESDM 1827.K/30/MEM/2018, kecuali:', a:['Pemegang IUP, dan IUJP terlebih dahulu menentukan persyaratan administrasi perusahaan jasa pertambangan yang akan dipekerjakan.','Perusahaan jasa pertambangan dapat melakukan kegiatan jasa pertambangan inti sesuai dengan lampiran yang terdapat dalam izin yang diterbitkan oleh instansi terkait.','Kegiatan noninti dapat dilakukan oleh perusahaan jasa pertambangan yang telah memiliki izin yang diterbitkan oleh Direktorat Jenderal Mineral dan Batubara.','Kegiatan inti dapat dilakukan oleh perusahaan jasa pertambangan pemegang IUJP, SKT dan Tanda Registrasi.','Pemegang IUP/IUPK wajib melakukan evaluasi kinerja perusahaan jasa pertambangan secara periodik.'], correct:3 },
-      { q:'27. Definisi Standar: Standar adalah persyaratan teknis atau sesuatu yang dibakukan, termasuk tata cara dan metode yang disusun berdasarkan:', a:['Konsensus Pemerintah dan Perusahaan.','Konsensus semua pihak yang berkepentingan.','Konsensus Pemerintah dan Akademisi.','Keputusan Kepala Teknik Tambang.','Keputusan Direksi Perusahaan.'], correct:1 },
-      { q:'28. Standar Nasional Indonesia (SNI): Standar Nasional Indonesia adalah:', a:['Standar yang ditetapkan oleh Kementerian Energi dan Sumber Daya Mineral (ESDM) dan berlaku di wilayah NKRI.','Standar yang ditetapkan oleh Pemerintah dan berlaku di wilayah NKRI.','Standar yang ditetapkan oleh Komite Akreditasi Nasional (KAN) dan berlaku di wilayah NKRI.','Standar yang ditetapkan oleh Badan Standardisasi Nasional (BSN) dan berlaku di wilayah NKRI.','Standar yang ditetapkan oleh Kepala Inspektur Tambang dan berlaku di wilayah kegiatan pertambangan.'], correct:3 },
-      { q:'29. SNI Wajib Diterapkan: Dibawah ini merupakan Standar Nasional Indonesia yang wajib diterapkan pada kegiatan usaha pertambangan mineral atau batubara, kecuali:', a:['SNI 4726:2019 Pedoman pelaporan hasil eksplorasi, sumber daya, dan cadangan mineral.','SNI 5015:2019 Pedoman pelaporan hasil eksplorasi, sumber daya, dan cadangan batubara.','SNI 6350:2016 Demarkasi di area pertambangan.','SNI 7571:2010 Baku tingkat getaran peledakan pada kegiatan terbuka terhadap bangunan.','SNI 13-4726-1998 Klasifikasi sumber daya dan cadangan mineral (versi lama).'], correct:2 },
-      { q:'30. Pihak yang Boleh Memiliki Izin Usaha Jasa Pertambangan (IUJP): Yang boleh memiliki Izin Usaha Jasa Pertambangan (IUJP) adalah:', a:['Badan Usaha, Koperasi, dan Perseorangan yang juga memiliki IUP, IUPK, atau IPR.','Badan Usaha, Koperasi, dan Perseorangan yang tidak memiliki IUP, IUPK, IUPK sebagai Kelanjutan Operasi Kontrak/Perjanjian, IPR, SIPB, Izin pengangkutan dan penjualan, dan IUP untuk penjualan.','Hanya Badan Usaha yang memiliki IUJP dan IUP sekaligus.','Badan Usaha, Koperasi, dan Perseorangan yang tidak memiliki IUP tetapi boleh memiliki IUPK.','Badan Usaha yang memiliki SKT dari Kepala Inspektur Tambang.'], correct:1 }
-    ];
+    // ===== Soal 30 (versi final yang kita sepakati) =====
+   const quizData = [
+  // Bagian 1
+  { q: '1. Perubahan Studi Kelayakan Teknis: Manakah di bawah ini yang BUKAN merupakan faktor yang perlu dipertimbangkan dalam perubahan studi kelayakan secara teknis?', 
+    a: [
+      'Mempunyai lokasi penambangan baru yang sebelumnya belum ada dalam dokumen studi kelayakan.',
+      'Menemukan cadangan baru sehingga merubah umur tambang.',
+      'Adanya penambahan peralatan sehingga meningkatkan tingkat produksi tambang yang sesuai kapasitas produksi dokumen studi kelayakan.',
+      'Adanya perubahan metode penambangan yang disetujui.',
+      'Adanya perubahan batas akhir penambangan.'
+    ], correct: 2 },
+  { q: '2. Format Laporan Khusus: Format untuk laporan khusus kajian teknis pertambangan dan teknologi baru terdapat dalam:', 
+    a: [
+      'Kepmen ESDM No 1827 K/30/MEM/2018.',
+      'Kepmen ESDM No 1806 K/30/MEM/2018.',
+      'Kepmen ESDM No 1825 K/30/MEM/2018.',
+      'Kepmen ESDM No 1826 K/30/MEM/2018.',
+      'Peraturan Pemerintah No. 55 Tahun 2010.'
+    ], correct: 0 },
+  { q: '3. Ketentuan Pembersihan Lahan: Dalam ketentuan Kepmen ESDM No. 1827.K/30/MEM/2018, pembersihan lahan dilakukan dengan cara penebangan terhadap:', 
+    a: [
+      'Tanaman dengan diameter lebih besar dari 5 (lima) cm.',
+      'Tanaman dengan diameter lebih besar dari 10 (sepuluh) cm.',
+      'Tanaman dengan diameter lebih besar dari 15 (lima belas) cm.',
+      'Tanaman dengan diameter lebih besar dari 20 (dua puluh) cm.',
+      'Seluruh vegetasi tanpa kecuali.'
+    ], correct: 1 },
+  { q: '4. Stiffness Ratio Peledakan: Kegiatan pengeboran untuk peledakan di PT ABC menggunakan mata bor 200 mm, burden (B) 7,5 m, spasi 8,5 m, subdrill 1,5 m, kedalaman lubang ledak (H) 16,5m. Berapakah stiffness ratio peledakan dan apakah sesuai dengan ketentuan dalam Kepmen ESDM No.1827.K/30/MEM/2018?', 
+    a: [
+      'Stiffness ratio 2,0, sesuai.',
+      'Stiffness ratio 2,0, tidak sesuai.',
+      'Stiffness ratio 2,2, sesuai dengan Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Stiffness ratio 2,2, tidak sesuai.',
+      'Stiffness ratio 1,1, sesuai.'
+    ], correct: 2 },
+  { q: '5. Unjuk Kerja Peralatan: Unjuk kerja peralatan pengolahan dan/atau pemurnian yang terkait dengan waktu kerja, waktu perbaikan, dan waktu standby/tunggu adalah:', 
+    a: [
+      'Physical Availability (PA).',
+      'Mechanical Availability (MA).',
+      'Utilization of Availability (UA).',
+      'Effective Utilization (EU).',
+      'Overall Equipment Effectiveness (OEE).'
+    ], correct: 0 },
 
-    // ===== STATE & TIMER (Logika ini tetap sama) =====
-    let examActive = false;
-    let timerInterval = null;
-    let timeLeft = 60*60;
-    const startBtn = document.getElementById('startBtn');
-    const sendBtn = document.getElementById('sendBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const forceSend = document.getElementById('forceSend');
-    const timerEl = document.getElementById('timer');
-    const nameInput = document.getElementById('participantName');
-    const emailInput = document.getElementById('participantEmail');
-    const TOTAL_QUESTIONS = quizData.length;
+  { q: '6. Klasifikasi Sumber Daya Mineral: Sumber daya mineral yang dipublikasi secara formal kepada publik atau disampaikan kepada pemerintah untuk keperluan evaluasi adalah:', 
+    a: [
+      'Sumber daya teridentifikasi, terkira, dan terukur.',
+      'Sumber daya tereka, terindikasi, dan terukur.',
+      'Sumber daya tereka, terindikasi, dan terbukti.',
+      'Sumber daya teridentifikasi, terindikasi, dan terukur.',
+      'Sumber daya terindikasi, terukur, dan terbukti.'
+    ], correct: 1 },
+  { q: '7. Recovery Pengolahan Bauksit: Angka recovery pengolahan optimal untuk komoditas bauksit sesuai Lampiran VII Peraturan Perundangan tentang Pedoman Pelaksanaan Konservasi Minerba (Kepmen ESDM No. 1827.K/30/MEM/2018) adalah:', 
+    a: [
+      'Paling sedikit 80 %.',
+      'Paling sedikit 90 %.',
+      'Paling sedikit 85 %.',
+      'Paling sedikit 70 %.',
+      'Paling sedikit 95 %.'
+    ], correct: 2 },
+  { q: '8. Faktor Pengubah Cadangan Marginal: Salah satu faktor pengubah yang berkaitan aspek legal sehingga mengakibatkan cadangan terkira tidak dapat ditingkatkan menjadi cadangan terbukti dan ditetapkan sebagai cadangan marginal, kecuali:', 
+    a: [
+      'Cadangan berada di bawah sungai aktif.',
+      'Cadangan berada di buffer zone.',
+      'Cadangan yang berada di jalan nasional, provinsi dan kabupaten.',
+      'Cadangan berada di bekas lokasi longsoran lereng tambang.',
+      'Cadangan berada di area yang dilarang untuk ditambang sesuai peraturan daerah.'
+    ], correct: 3 },
+  { q: '9. Kewajiban KTT Recovery Tidak Optimal: Yang harus dilakukan oleh KTT jika tidak dapat merencanakan recovery penambangan optimal sesuai Lampiran VII Kepmen ESDM No. 1827.K/30/MEM/2018 adalah:', 
+    a: [
+      'Menyampaikan di dalam laporan berkala triwulan konservasi.',
+      'Merevisi Studi Kelayakan.',
+      'Membuat dan menyampaikan kajian teknis konservasi minerba kepada Direktur Teknik dan Lingkungan/Kepala Inspektur Tambang.',
+      'Membuat laporan kejadian khusus kepada KaIT.',
+      'Tidak ada yang perlu dilakukan karena sudah dilaporkan dalam RKAB.'
+    ], correct: 2 },
+  { q: '10. Kriteria Batubara Kualitas Rendah: Kriteria batubara kualitas rendah dari aspek konservasi batubara (Lampiran VII Kepmen ESDM No. 1827.K/30/MEM/2018) adalah:', 
+    a: [
+      'Calorific Value 4.500 kkal/kg (gar), Total moisture 40 %, Ash %, atau Sulfur %.',
+      'Calorific Value 4.000 kkal/kg (gar), Total moisture 30 %, Ash %, atau Sulfur %.',
+      'Calorific Value 4.000 kkal/kg (gar), Total moisture 30 %, Ash %, atau Sulfur %.',
+      'Calorific Value 4.000 kkal/kg (gar), Total moisture 40 %, Ash %, atau Sulfur %.',
+      'Calorific Value 4.500 kkal/kg (gar), Total moisture 30 %, Ash %, atau Sulfur %.'
+    ], correct: 3 },
 
-    function formatTime(s){const m=Math.floor(s/60).toString().padStart(2,'0');const sec=(s%60).toString().padStart(2,'0');return `${m}:${sec}`;}
+  // Bagian 2
+  { q: '11. Laporan Berkala: Laporan berkala triwulan yang memuat kegiatan teknis dan konservasi mineral dan/atau batubara diatur dalam Lampiran:', 
+    a: [
+      'Lampiran I Kepmen ESDM No. 1806 K/30/MEM/2018.',
+      'Lampiran II Kepmen ESDM No. 1806 K/30/MEM/2018.',
+      'Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.'
+    ], correct: 4 },
+  { q: '12. Keadaan Khusus: Laporan khusus yang harus dibuat oleh KTT dalam hal keadaan khusus yang berkaitan dengan aspek teknis diatur dalam Lampiran:', 
+    a: [
+      'Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran IV Kepmen ESDM No. 1806 K/30/MEM/2018.',
+      'Lampiran IV Kepmen ESDM No. 1827.K/30/MEM/2018.'
+    ], correct: 4 },
+  { q: '13. Tugas KTT: Yang BUKAN merupakan tugas dan tanggung jawab KTT terkait keselamatan operasi adalah:', 
+    a: [
+      'Mengangkat Pengawas Operasional dan Pengawas Teknik.',
+      'Membuat dan menyampaikan laporan berkala triwulan mengenai keselamatan operasi.',
+      'Menetapkan batas akhir pengoperasian tambang.',
+      'Menunjuk perusahaan jasa pertambangan sebagai pengawas teknik tambang.',
+      'Membuat laporan khusus kejadian yang berkaitan dengan keselamatan operasi.'
+    ], correct: 3 },
+  { q: '14. Kriteria Kecukupan Tenaga Teknis: Dalam hal kecukupan tenaga teknis, setiap KTT wajib memiliki tenaga teknis minimal untuk masing-masing bidang berikut, kecuali:', 
+    a: [
+      'Tenaga teknis di bidang geoteknik.',
+      'Tenaga teknis di bidang hidrologi.',
+      'Tenaga teknis di bidang peledakan.',
+      'Tenaga teknis di bidang konservasi.',
+      'Tenaga teknis di bidang teknologi informasi.'
+    ], correct: 4 },
+  { q: '15. Kriteria Kecukupan Fasilitas: Kriteria kecukupan fasilitas untuk pertambangan, kecuali:', 
+    a: [
+      'Adanya ruang penyimpanan alat berat.',
+      'Adanya kantor/ruang kerja bagi KTT.',
+      'Adanya laboratorium pengujian.',
+      'Adanya fasilitas komunikasi.',
+      'Adanya fasilitas penanganan keadaan darurat.'
+    ], correct: 0 },
+  { q: '16. Tugas Pengawas Operasional: Tugas Pengawas Operasional pada setiap awal shift sebelum memulai pekerjaan adalah:', 
+    a: [
+      'Melaksanakan dan mengawasi setiap kegiatan operasi penambangan.',
+      'Melaporkan setiap kejadian berbahaya dan kecelakaan kepada KTT.',
+      'Memastikan semua pekerja menggunakan APD yang sesuai.',
+      'Memeriksa kelayakan operasi alat yang akan digunakan.',
+      'Memberikan pengarahan kepada pekerja terkait tugas dan bahaya.'
+    ], correct: 3 },
+  { q: '17. Pelaporan Ketersediaan Fasilitas: Laporan ketersediaan fasilitas penunjang kegiatan pertambangan dilaporkan dalam laporan berkala triwulan yang terdapat dalam Lampiran:', 
+    a: [
+      'Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran IV Kepmen ESDM No. 1827.K/30/MEM/2018.',
+      'Lampiran V Kepmen ESDM No. 1827.K/30/MEM/2018.'
+    ], correct: 2 },
+  { q: '18. Kewajiban KTT Laporan Khusus: KTT wajib membuat dan menyampaikan laporan khusus dalam hal terjadi keadaan khusus terkait teknis yang dapat mengakibatkan:', 
+    a: [
+      'Peningkatan produksi melebihi 10 %.',
+      'Penurunan produksi lebih dari 20 %.',
+      'Perubahan desain teknis dan atau penghentian operasi penambangan.',
+      'Perubahan harga komoditas.',
+      'Perubahan batas wilayah IUP.'
+    ], correct: 2 },
+  { q: '19. Kewajiban KTT Pengadaan Fasilitas: Dalam hal KTT tidak dapat memenuhi kewajiban pengadaan fasilitas penunjang kegiatan pertambangan, KTT wajib membuat dan menyampaikan:', 
+    a: [
+      'Laporan berkala triwulan teknis.',
+      'Laporan khusus penghentian operasi.',
+      'Revisi RKAB.',
+      'Revisi studi kelayakan.',
+      'Kajian teknis pengadaan fasilitas penunjang kegiatan pertambangan kepada Direktur Teknik dan Lingkungan/Kepala Inspektur Tambang.'
+    ], correct: 4 },
+  { q: '20. Kriteria Larangan Penggunaan Bahan Peledak: Penggunaan bahan peledak dilarang pada kegiatan penambangan:', 
+    a: [
+      'Di area terowongan dengan ventilasi yang buruk.',
+      'Pada jarak kurang dari 50 meter dari jalan umum.',
+      'Di wilayah yang bersebelahan langsung dengan objek vital nasional.',
+      'Di tambang bawah tanah dengan kandungan gas metana tinggi.',
+      'Pada kondisi cuaca hujan lebat.'
+    ], correct: 2 },
 
-    // ===== Render soal (diulang) =====
+  // Bagian 3
+  { q: '21. Tahapan Pembukaan Lahan: Dalam proses pembukaan lahan untuk kegiatan penambangan, pemegang IUP Operasi Produksi maupun IUPK Operasi Produksi menjalankan serangkaian tahapan kegiatan yang mencakup:', 
+    a: [
+      'monitoring jenis-jenis tanaman; dan pembersihan vegetasi.',
+      'identifikasi jenis-jenis tanaman; pembersihan vegetasi; dan pengupasan dan pengelolaan cover crop.',
+      'identifikasi jenis-jenis tanaman; pembersihan vegetasi; pengupasan dan pengelolaan lapisan tanah zona pengakaran.',
+      'identifikasi jenis-jenis tanaman; pengupasan lapisan tanah subsoil; dan penempatan tanah pucuk.',
+      'monitoring jenis-jenis tanaman; pengelolaan hasil kayu; pengupasan dan pengelolaan lapisan tanah zona pengakaran.'
+    ], correct: 2 },
+  { q: '22. Faktor Perencanaan Kolam Sedimen: Faktor-faktor yang perlu diperhitungkan pada perencanaan kolam sedimen di area pertambangan adalah:', 
+    a: [
+      'Curah hujan rata-rata tahunan.',
+      'Debit air limpasan pada daerah tangkapan.',
+      'Ketersediaan dana.',
+      'Jawaban A dan B benar.',
+      'Seluruh jawaban benar.'
+    ], correct: 4 },
+  { q: '23. Komponen Penilaian Keberhasilan Reklamasi: Berikut ini merupakan komponen penilaian keberhasilan reklamasi sesuai Lampiran VI Kepmen ESDM Nomor 1827 Tahun 2018, kecuali:', 
+    a: [
+      'Penataan lahan.',
+      'Penanaman tanaman lokal.',
+      'Penutupan tajuk.',
+      'Pembibitan.',
+      'Perawatan.'
+    ], correct: 3 },
+  { q: '24. Komponen Biaya Pemanfaatan Lubang Bekas Tambang: Berikut ini yang bukan merupakan komponen biaya pemanfaatan lubang bekas tambang sebagaimana tercantum pada Lampiran VI Kepmen ESDM Nomor 1827 Tahun 2018 adalah:', 
+    a: [
+      'Konsultasi pemangku kepentingan.',
+      'Pengamanan lubang bekas tambang.',
+      'Pemulihan dan pemantauan kualitas air.',
+      'Pemeliharaan lubang bekas tambang.',
+      'Stabilisasi lereng.'
+    ], correct: 3 },
+  { q: '25. Batas Aman Pemboran: Batas toleransi simpangan lubang bor pada kegiatan peledakan di tambang terbuka adalah:', 
+    a: [
+      '1 % dari kedalaman lubang bor.',
+      '1,5 % dari kedalaman lubang bor.',
+      '2 % dari kedalaman lubang bor.',
+      '2,5 % dari kedalaman lubang bor.',
+      '3 % dari kedalaman lubang bor.'
+    ], correct: 2 },
+  { q: '26. Kualifikasi Perusahaan Jasa Pertambangan: Berikut merupakan ketentuan Penentuan Kualifikasi Perusahaan Jasa Pertambangan berdasarkan Lampiran VIII Kepmen ESDM 1827.K/30/MEM/2018, kecuali:', 
+    a: [
+      'Pemegang IUP, dan IUJP terlebih dahulu menentukan persyaratan administrasi perusahaan jasa pertambangan yang akan dipekerjakan.',
+      'Perusahaan jasa pertambangan dapat melakukan kegiatan jasa pertambangan inti sesuai dengan lampiran yang terdapat dalam izin yang diterbitkan oleh instansi terkait.',
+      'Kegiatan noninti dapat dilakukan oleh perusahaan jasa pertambangan yang telah memiliki izin yang diterbitkan oleh Direktorat Jenderal Mineral dan Batubara.',
+      'Kegiatan inti dapat dilakukan oleh perusahaan jasa pertambangan pemegang IUJP, SKT dan Tanda Registrasi.',
+      'Pemegang IUP/IUPK wajib melakukan evaluasi kinerja perusahaan jasa pertambangan secara periodik.'
+    ], correct: 3 },
+  { q: '27. Definisi Standar: Standar adalah persyaratan teknis atau sesuatu yang dibakukan, termasuk tata cara dan metode yang disusun berdasarkan:', 
+    a: [
+      'Konsensus Pemerintah dan Perusahaan.',
+      'Konsensus semua pihak yang berkepentingan.',
+      'Konsensus Pemerintah dan Akademisi.',
+      'Keputusan Kepala Teknik Tambang.',
+      'Keputusan Direksi Perusahaan.'
+    ], correct: 1 },
+  { q: '28. Standar Nasional Indonesia (SNI): Standar Nasional Indonesia adalah:', 
+    a: [
+      'Standar yang ditetapkan oleh Kementerian Energi dan Sumber Daya Mineral (ESDM) dan berlaku di wilayah NKRI.',
+      'Standar yang ditetapkan oleh Pemerintah dan berlaku di wilayah NKRI.',
+      'Standar yang ditetapkan oleh Komite Akreditasi Nasional (KAN) dan berlaku di wilayah NKRI.',
+      'Standar yang ditetapkan oleh Badan Standardisasi Nasional (BSN) dan berlaku di wilayah NKRI.',
+      'Standar yang ditetapkan oleh Kepala Inspektur Tambang dan berlaku di wilayah kegiatan pertambangan.'
+    ], correct: 3 },
+  { q: '29. SNI Wajib Diterapkan: Dibawah ini merupakan Standar Nasional Indonesia yang wajib diterapkan pada kegiatan usaha pertambangan mineral atau batubara, kecuali:', 
+    a: [
+      'SNI 4726:2019 Pedoman pelaporan hasil eksplorasi, sumber daya, dan cadangan mineral.',
+      'SNI 5015:2019 Pedoman pelaporan hasil eksplorasi, sumber daya, dan cadangan batubara.',
+      'SNI 6350:2016 Demarkasi di area pertambangan.',
+      'SNI 7571:2010 Baku tingkat getaran peledakan pada kegiatan terbuka terhadap bangunan.',
+      'SNI 13-4726-1998 Klasifikasi sumber daya dan cadangan mineral (versi lama).'
+    ], correct: 2 },
+  { q: '30. Pihak yang Boleh Memiliki Izin Usaha Jasa Pertambangan (IUJP): Yang boleh memiliki Izin Usaha Jasa Pertambangan (IUJP) adalah:', 
+    a: [
+      'Badan Usaha, Koperasi, dan Perseorangan yang juga memiliki IUP, IUPK, atau IPR.',
+      'Badan Usaha, Koperasi, dan Perseorangan yang tidak memiliki IUP, IUPK, IUPK sebagai Kelanjutan Operasi Kontrak/Perjanjian, IPR, SIPB, Izin pengangkutan dan penjualan, dan IUP untuk penjualan.',
+      'Hanya Badan Usaha yang memiliki IUJP dan IUP sekaligus.',
+      'Badan Usaha, Koperasi, dan Perseorangan yang tidak memiliki IUP tetapi boleh memiliki IUPK.',
+      'Badan Usaha yang memiliki SKT dari Kepala Inspektur Tambang.'
+    ], correct: 1 }
+];
+
+    // ===== Render soal (input disabled until start) =====
     const quizEl = document.getElementById('quiz');
     quizData.forEach((item, qIdx) => {
       const qDiv = document.createElement('div');
@@ -154,7 +360,7 @@
 
       const qText = document.createElement('div');
       qText.className = 'qtext';
-      qText.textContent = `${qIdx + 1}. ${item.q.replace(/^\d+\.\s*/, '')}`; // Use sequential numbering
+      qText.textContent = item.q;
       qDiv.appendChild(qText);
 
       const opts = document.createElement('div');
@@ -187,6 +393,19 @@
       quizEl.appendChild(qDiv);
     });
 
+    // ===== STATE & TIMER =====
+    let examActive = false;
+    let timerInterval = null;
+    let timeLeft = 60*60;
+    const startBtn = document.getElementById('startBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const forceSend = document.getElementById('forceSend');
+    const timerEl = document.getElementById('timer');
+    const nameInput = document.getElementById('participantName');
+    const emailInput = document.getElementById('participantEmail');
+
+    function formatTime(s){const m=Math.floor(s/60).toString().padStart(2,'0');const sec=(s%60).toString().padStart(2,'0');return `${m}:${sec}`;}
 
     function startExam(){
       const nameVal = nameInput.value.trim();
@@ -242,7 +461,7 @@
       });
       document.getElementById('answeredCount').textContent = answered;
       document.getElementById('score').textContent = score;
-      if(answered === TOTAL_QUESTIONS && examActive){ finishExamAuto(); }
+      if(answered === quizData.length && examActive){ finishExamAuto(); }
     }
 
     // ===== build results text =====
@@ -253,7 +472,7 @@
         const selText = sel ? it.a[Number(sel.value)] : '(Belum dijawab)';
         const correctText = it.a[it.correct];
         const isCorrect = sel && Number(sel.value) === it.correct;
-        lines.push(`${idx+1}. ${it.q.replace(/^\d+\.\s*/, '')}\nJawaban peserta: ${selText}\nJawaban benar: ${correctText}\nHasil: ${isCorrect ? 'Benar' : 'Salah/Belum jawab'}`);
+        lines.push(`${idx+1}. ${it.q}\nJawaban peserta: ${selText}\nJawaban benar: ${correctText}\nHasil: ${isCorrect ? 'Benar' : 'Salah/Belum jawab'}`);
       });
       return lines.join('\n\n');
     }
@@ -277,7 +496,7 @@
         participant_name: participantName,
         participant_email: participantEmail,
         quiz_results: resultsText,
-        quiz_score: `${score} / ${TOTAL_QUESTIONS}`,
+        quiz_score: `${score} / ${quizData.length}`,
         time_taken: timeTaken
       };
 
@@ -286,7 +505,7 @@
           .then(resp => {
             stopExam();
             document.getElementById('result').classList.remove('hidden');
-            document.getElementById('result').textContent = `Hasil berhasil dikirim ke ${DEST_EMAIL}. (Skor: ${score}/${TOTAL_QUESTIONS})`;
+            document.getElementById('result').textContent = `Hasil berhasil dikirim ke ${DEST_EMAIL}. (Skor: ${score}/${quizData.length})`;
             // lock inputs and allow reset
             document.querySelectorAll('input[type=radio]').forEach(inp => inp.disabled = true);
             startBtn.disabled = true;
@@ -363,3 +582,4 @@
   </script>
 </body>
 </html>
+
