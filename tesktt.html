@@ -1,370 +1,365 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Uji KTT - Kepala Teknik Tambang (60 menit)</title>
-  <style>
-    :root{
-      --bg:#0f172a; --card:#0b1220; --accent:#0ea5ff; --muted:#94a3b8; --success:#16a34a; --danger:#dc2626;
-      color-scheme: dark;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#020617 0%,#071033 100%);color:#e6eef8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
-    .wrap{width:100%;max-width:1000px;}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-    h1{margin:0;font-size:20px;color:#fff}
-    .controls{display:flex;gap:8px;align-items:center}
-    .btn{background:var(--accent);color:#022;padding:10px 12px;border-radius:8px;border:0;cursor:pointer;font-weight:600;}
-    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-    .btn.danger{background:var(--danger);color:#fff}
-    .statusline{color:var(--muted);font-size:14px}
-    .meta{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:14px}
-    #timer{font-weight:700;color:var(--accent)}
-    .section{margin-top:12px}
-    .form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-    input[type="text"], input[type="email"]{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#e6eef8;min-width:200px}
-    .quiz{margin-top:12px;max-height:58vh;overflow:auto;padding-right:8px}
-    .question{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)}
-    .qtext{font-weight:700;margin-bottom:8px;color:#f8fafc}
-    .options{display:flex;flex-direction:column;gap:8px}
-    .option{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-    .option:hover{transform:translateY(-3px)}
-    .option input{margin-right:8px}
-    .option.correct{background:rgba(22,163,74,0.12);border-color:rgba(16,185,129,0.18);color:var(--success)}
-    .option.wrong{background:rgba(220,38,38,0.08);border-color:rgba(220,38,38,0.14);color:var(--danger)}
-    .small{font-size:13px;color:var(--muted)}
-    #result{margin-top:10px;text-align:center;font-weight:700;color:var(--accent)}
-    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:12px}
-    .note{font-size:13px;color:var(--muted)}
-    .hidden{display:none}
-    @media (max-width:720px){ .meta{flex-direction:column;align-items:flex-start;gap:6px} header{flex-direction:column;align-items:flex-start;gap:8px} }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Uji KTT - Kepala Teknik Tambang (60 menit)</title>
+  <style>
+    :root{
+      --bg:#0f172a; --card:#0b1220; --accent:#0ea5ff; --muted:#94a3b8; --success:#16a34a; --danger:#dc2626;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#020617 0%,#071033 100%);color:#e6eef8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+    .wrap{width:100%;max-width:1000px;}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    h1{margin:0;font-size:20px;color:#fff}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--accent);color:#022;padding:10px 12px;border-radius:8px;border:0;cursor:pointer;font-weight:600;}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .btn.danger{background:var(--danger);color:#fff}
+    .statusline{color:var(--muted);font-size:14px}
+    .meta{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:14px}
+    #timer{font-weight:700;color:var(--accent)}
+    .section{margin-top:12px}
+    .form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+    input[type="text"], input[type="email"]{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#e6eef8;min-width:200px}
+    .quiz{margin-top:12px;max-height:58vh;overflow:auto;padding-right:8px}
+    .question{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)}
+    .qtext{font-weight:700;margin-bottom:8px;color:#f8fafc}
+    .options{display:flex;flex-direction:column;gap:8px}
+    .option{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
+    .option:hover{transform:translateY(-3px)}
+    .option.correct{background:rgba(22,163,74,0.12);border-color:rgba(16,185,129,0.18);color:var(--success)}
+    .option.wrong{background:rgba(220,38,38,0.08);border-color:rgba(220,38,38,0.14);color:var(--danger)}
+    .small{font-size:13px;color:var(--muted)}
+    #result{margin-top:10px;text-align:center;font-weight:700;color:var(--accent)}
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:12px}
+    .note{font-size:13px;color:var(--muted)}
+    .hidden{display:none}
+    @media (max-width:720px){ .meta{flex-direction:column;align-items:flex-start;gap:6px} header{flex-direction:column;align-items:flex-start;gap:8px} }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card" role="application" aria-labelledby="title">
-      <header>
-        <div>
-          <h1 id="title">Uji Kompetensi Kepala Teknik Tambang — Mode Ujian (PT Waja Inti Lestari)</h1>
-          <div class="statusline">Durasi ujian: <strong>60 menit</strong>. Jawaban tampil langsung saat dipilih.</div>
-        </div>
-        <div class="meta">
-          <div>Waktu tersisa: <span id="timer">60:00</span></div>
-          <div>Soal terjawab: <span id="answeredCount">0</span>/30</div>
-          <div>Skor: <span id="score">0</span></div>
-        </div>
-      </header>
+  <div class="wrap">
+    <div class="card" role="application" aria-labelledby="title">
+      <header>
+        <div>
+          <h1 id="title">Uji Kompetensi Kepala Teknik Tambang — Mode Ujian (PT Waja Inti Lestari)</h1>
+          <div class="statusline">Durasi ujian: <strong>60 menit</strong>. Jawaban tampil langsung saat dipilih.</div>
+        </div>
+        <div class="meta">
+          <div>Waktu tersisa: <span id="timer">60:00</span></div>
+          <div>Soal terjawab: <span id="answeredCount">0</span>/30</div>           <div>Skor: <span id="score">0</span></div>
+        </div>
+      </header>
 
-      <!-- FORM NAMA & EMAIL PESERTA -->
-      <div class="section card" style="margin-bottom:12px;background:transparent;border:0;padding:0">
-        <div style="margin-bottom:8px" class="small">Masukkan nama & email peserta sebelum memulai ujian:</div>
-        <div class="form-row">
-          <input id="participantName" type="text" placeholder="Nama peserta (wajib)" autocomplete="name" />
-          <input id="participantEmail" type="email" placeholder="Email peserta (opsional, akan disertakan)" autocomplete="email" />
-          <button id="startBtn" class="btn">Mulai Ujian</button>
-          <button id="sendBtn" class="btn secondary" disabled>Kirim Jawaban (Manual)</button>
-          <button id="resetBtn" class="btn secondary" disabled>Reset (Nonaktif saat ujian)</button>
-        </div>
-        <div class="small note">Selama ujian aktif, tombol reset & navigasi akan dikunci. Jika menutup tab, ujian dianggap selesai dan hasil dikirim otomatis.</div>
-      </div>
+            <div class="section card" style="margin-bottom:12px;background:transparent;border:0;padding:0">
+        <div style="margin-bottom:8px" class="small">Masukkan nama & email peserta sebelum memulai ujian:</div>
+        <div class="form-row">
+          <input id="participantName" type="text" placeholder="Nama peserta (wajib)" autocomplete="name" />
+          <input id="participantEmail" type="email" placeholder="Email peserta (opsional, akan disertakan)" autocomplete="email" />
+          <button id="startBtn" class="btn">Mulai Ujian</button>
+          <button id="sendBtn" class="btn secondary" disabled>Kirim Jawaban (Manual)</button>
+          <button id="resetBtn" class="btn secondary" disabled>Reset (Nonaktif saat ujian)</button>
+        </div>
+        <div class="small note">Selama ujian aktif, tombol reset & navigasi akan dikunci. Jika menutup tab, ujian dianggap selesai dan hasil dikirim otomatis.</div>
+      </div>
 
-      <!-- QUIZ AREA -->
-      <div id="quiz" class="quiz" aria-live="polite"></div>
+            <div id="quiz" class="quiz" aria-live="polite"></div>
 
-      <p id="result" class="hidden"></p>
+      <p id="result" class="hidden"></p>
 
-      <div class="footer">
-        <div class="note">Email hasil akan dikirim ke: <strong>ripanogusman@gmail.com</strong></div>
-        <div>
-          <button id="forceSend" class="btn danger hidden">Kirim Sekarang (paksa)</button>
-        </div>
-      </div>
-    </div>
-  </div>
+      <div class="footer">
+        <div class="note">Email hasil akan dikirim ke: <strong>ripanogusman@gmail.com</strong></div>
+        <div>
+          <button id="forceSend" class="btn danger hidden">Kirim Sekarang (paksa)</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
 
-  <script>
-    /***** KONFIG EMAILJS (dari kamu) *****/
-    const EMAILJS_SERVICE = 'service_xle8k7s';
-    const EMAILJS_TEMPLATE = 'template_3oqbvrq';
-    const EMAILJS_PUBLIC_KEY = 'NbaZK_IYI_BIaPtOZ';
-    const DEST_EMAIL = 'ripanogusman@gmail.com';
-    // Nama pengirim di "From" email
-    const SENDER_NAME = 'PT Waja Inti Lestari - Ujian KTT';
+  <script>
+    /***** KONFIG EMAILJS (dari kamu) *****/
+    const EMAILJS_SERVICE = 'service_xle8k7s';
+    const EMAILJS_TEMPLATE = 'template_3oqbvrq';
+    const EMAILJS_PUBLIC_KEY = 'NbaZK_IYI_BIaPtOZ';
+    const DEST_EMAIL = 'ripanogusman@gmail.com';
+    // Nama pengirim di "From" email
+    const SENDER_NAME = 'PT Waja Inti Lestari - Ujian KTT';
 
-    // init EmailJS
-    (function(){
-      if(window.emailjs) emailjs.init(EMAILJS_PUBLIC_KEY);
-    })();
+    // init EmailJS
+    (function(){
+      if(window.emailjs) emailjs.init(EMAILJS_PUBLIC_KEY);
+    })();
 
-    // ===== Soal 30 (versi final yang kita sepakati) =====
-    const quizData = [
-      { q:'1. Regulasi yang mengatur pelaksanaan kegiatan pertambangan mineral dan batubara (Minerba) di Indonesia adalah …', a:['UU No. 23 Tahun 2014','UU No. 4 Tahun 2009','UU No. 32 Tahun 2009','UU No. 11 Tahun 1967'], correct:1 },
-      { q:'2. Pelaksanaan reklamasi wajib dilakukan paling lambat … hari kalender setelah tidak ada kegiatan usaha pertambangan pada lahan terganggu.', a:['1','15','30','90'], correct:2 },
-      { q:'3. Berikut adalah bagian dari kegiatan reklamasi yang harus diperhitungkan di dokumen rencana reklamasi, kecuali …', a:['Pengendalian erosi dan sedimentasi','Pengaturan permukaan lahan','Pencegahan dan penanggulangan air asam tambang','Penebaran tanah zona pengarakan'], correct:3 },
-      { q:'4. Suatu kecelakaan dapat dikategorikan sebagai kecelakaan tambang setelah memenuhi unsur-unsur di bawah ini, kecuali …', a:['Mengakibatkan kerusakan peralatan dan kerugian material dalam jumlah besar','Mengakibatkan cedera pekerja tambang atau orang yang diberi izin oleh KTT','Akibat kegiatan usaha pertambangan','Terjadi di dalam wilayah kegiatan usaha pertambangan atau wilayah proyek'], correct:0 },
-      { q:'5. Setiap usaha pertambangan yang mempunyai KTT harus memiliki Buku Tambang. Buku Tambang tersebut harus disahkan oleh …', a:['Kepala Teknik Tambang (KTT)','Inspektur Tambang','Kepala Inspektur Tambang','Kepala Dinas Pertambangan dan Energi'], correct:1 },
-      { q:'6. Manakah dari berikut ini bukan tugas dari KTT sebagaimana diatur dalam pedoman kaidah teknik pertambangan yang baik?', a:['Membuat peraturan internal perusahaan terkait penerapan kaidah teknik pertambangan yang baik','Mengesahkan Penanggung Jawab Operasional (PJO)','Menetapkan standar keselamatan pertambangan untuk seluruh industri nasional','Melaporkan penerapan kegiatan pengelolaan lingkungan secara berkala'], correct:2 },
-      { q:'7. Syarat menjadi KTT kelas IV bagi IUP Produksi Batuan atau Non Logam mencakup …', a:['Memiliki pengalaman minimal 10 tahun','Tidak boleh menggunakan bahan peledak','Sertifikat kualifikasi yang diakui oleh KaIT atau mengikuti pelatihan kaidah teknik pertambangan yang baik','Harus lulusan teknik pertambangan'], correct:2 },
-      { q:'8. Dalam dokumen petunjuk teknis Keselamatan Pertambangan dijelaskan bahwa sistem manajemen keselamatan pertambangan mencakup …', a:['Hanya tata kelola administratif','Manajemen risiko, pelatihan, inspeksi, keadaan darurat, dan kampanye keselamatan','Hanya inspeksi alat berat','Pengawasan eksternal saja'], correct:1 },
-      { q:'9. Apa fungsi utama dari Pengawas Operasional dalam struktur pertambangan?', a:['Mengawasi aspek administrasi internal perusahaan','Bertanggung jawab atas keselamatan pekerja di area operasi','Menentukan alokasi anggaran pembangunan','Merumuskan kebijakan publik pertambangan'], correct:1 },
-      { q:'10. Perbedaan utama antara Kecelakaan Tambang dan Kecelakaan Kerja adalah …', a:['Kecelakaan tambang selalu fatal','Kecelakaan kerja tidak pernah dilaporkan','Kecelakaan tambang harus memenuhi kriteria yang diatur dalam peraturan pertambangan','Kecelakaan kerja selalu di luar area tambang'], correct:2 },
+    // ===== DATA SOAL (30 SOAL) =====
+    const quizData = [
+      { q:'1. Perubahan Studi Kelayakan Teknis: Manakah di bawah ini yang BUKAN merupakan faktor yang perlu dipertimbangkan dalam perubahan studi kelayakan secara teknis?', a:['Mempunyai lokasi penambangan baru yang sebelumnya belum ada dalam dokumen studi kelayakan.','Menemukan cadangan baru sehingga merubah umur tambang.','Adanya penambahan peralatan sehingga meningkatkan tingkat produksi tambang yang sesuai kapasitas produksi dokumen studi kelayakan.','Adanya perubahan metode penambangan yang disetujui.','Adanya perubahan batas akhir penambangan.'], correct:2 },
+      { q:'2. Format Laporan Khusus: Format untuk laporan khusus kajian teknis pertambangan dan teknologi baru terdapat dalam:', a:['Kepmen ESDM No 1827 K/30/MEM/2018.','Kepmen ESDM No 1806 K/30/MEM/2018.','Kepmen ESDM No 1825 K/30/MEM/2018.','Kepmen ESDM No 1826 K/30/MEM/2018.','Peraturan Pemerintah No. 55 Tahun 2010.'], correct:0 },
+      { q:'3. Ketentuan Pembersihan Lahan: Dalam ketentuan Kepmen ESDM No. 1827.K/30/MEM/2018, pembersihan lahan dilakukan dengan cara penebangan terhadap:', a:['Tanaman dengan diameter lebih besar dari 5 (lima) cm.','Tanaman dengan diameter lebih besar dari 10 (sepuluh) cm.','Tanaman dengan diameter lebih besar dari 15 (lima belas) cm.','Tanaman dengan diameter lebih besar dari 20 (dua puluh) cm.','Seluruh vegetasi tanpa kecuali.'], correct:1 },
+      { q:'4. Stiffness Ratio Peledakan: Kegiatan pengeboran untuk peledakan di PT ABC menggunakan mata bor 200 mm, burden (B) 7,5 m, spasi 8,5 m, subdrill 1,5 m, kedalaman lubang ledak (H) 16,5m. Berapakah stiffness ratio peledakan dan apakah sesuai dengan ketentuan dalam Kepmen ESDM No.1827.K/30/MEM/2018? (Catatan: Stiffness Ratio = H/B)', a:['Stiffness ratio 2,0, sesuai.','Stiffness ratio 2,0, tidak sesuai.','Stiffness ratio 2,2, sesuai dengan Kepmen ESDM No. 1827.K/30/MEM/2018.','Stiffness ratio 2,2, tidak sesuai.','Stiffness ratio 1,1, sesuai.'], correct:2 },
+      { q:'5. Unjuk Kerja Peralatan: Unjuk kerja peralatan pengolahan dan/atau pemurnian yang terkait dengan waktu kerja, waktu perbaikan, dan waktu standby/tunggu adalah:', a:['Physical Availability (PA).','Mechanical Availability (MA).','Utilization of Availability (UA).','Effective Utilization (EU).','Overall Equipment Effectiveness (OEE).'], correct:0 },
+      { q:'6. Klasifikasi Sumber Daya Mineral: Sumber daya mineral yang dipublikasi secara formal kepada publik atau disampaikan kepada pemerintah untuk keperluan evaluasi adalah:', a:['Sumber daya teridentifikasi, terkira, dan terukur.','Sumber daya tereka, terindikasi, dan terukur.','Sumber daya tereka, terindikasi, dan terbukti.','Sumber daya teridentifikasi, terindikasi, dan terukur.','Sumber daya terindikasi, terukur, dan terbukti.'], correct:1 },
+      { q:'7. Recovery Pengolahan Bauksit: Angka recovery pengolahan optimal untuk komoditas bauksit sesuai dengan Lampiran VII Peraturan Perundangan tentang Pedoman Pelaksanaan Konservasi Minerba (Kepmen ESDM No. 1827.K/30/MEM/2018) adalah:', a:['Paling sedikit 80 %.','Paling sedikit 90 %.','Paling sedikit 85 %.','Paling sedikit 70 %.','Paling sedikit 95 %.'], correct:2 },
+      { q:'8. Faktor Pengubah Cadangan Marginal: Salah satu faktor pengubah yang berkaitan aspek legal sehingga mengakibatkan cadangan terkira tidak dapat ditingkatkan menjadi cadangan terbukti dan ditetapkan sebagai cadangan marginal, kecuali:', a:['Cadangan berada di bawah sungai aktif.','Cadangan berada di buffer zone.','Cadangan yang berada di jalan nasional, provinsi dan kabupaten.','Cadangan berada di bekas lokasi longsoran lereng tambang.','Cadangan berada di area yang dilarang untuk ditambang sesuai peraturan daerah.'], correct:3 },
+      { q:'9. Kewajiban KTT Recovery Tidak Optimal: Yang harus dilakukan oleh KTT jika tidak dapat merencanakan recovery penambangan optimal sesuai Lampiran VII Kepmen ESDM No. 1827.K/30/MEM/2018 adalah:', a:['Menyampaikan di dalam laporan berkala triwulan konservasi.','Merevisi Studi Kelayakan.','Membuat dan menyampaikan kajian teknis konservasi minerba kepada Direktur Teknik dan Lingkungan/Kepala Inspektur Tambang.','Membuat laporan kejadian khusus kepada KaIT.','Tidak ada yang perlu dilakukan karena sudah dilaporkan dalam RKAB.'], correct:2 },
+      { q:'10. Kriteria Batubara Kualitas Rendah: Kriteria batubara kualitas rendah dari aspek konservasi batubara (Lampiran VII Kepmen ESDM No. 1827.K/30/MEM/2018) adalah:', a:['Calorific Value ≤4.500 kkal/kg (gar), Total moisture ≥40 %, Ash >10 %, atau Sulfur >1 %.','Calorific Value ≤4.000 kkal/kg (gar), Total moisture ≥30 %, Ash >5 %, atau Sulfur >2 %.','Calorific Value ≤4.000 kkal/kg (gar), Total moisture ≥30 %, Ash >10 %, atau Sulfur >1 %.','Calorific Value ≤4.000 kkal/kg (gar), Total moisture ≥40 %, Ash >10 %, atau Sulfur >1 %.','Calorific Value ≤4.500 kkal/kg (gar), Total moisture ≥30 %, Ash >10 %, atau Sulfur >1 %.'], correct:3 },
+      { q:'11. Laporan Berkala: Laporan berkala triwulan yang memuat kegiatan teknis dan konservasi mineral dan/atau batubara diatur dalam Lampiran:', a:['Lampiran I Kepmen ESDM No. 1806 K/30/MEM/2018.','Lampiran II Kepmen ESDM No. 1806 K/30/MEM/2018.','Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.'], correct:4 },
+      { q:'12. Keadaan Khusus: Laporan khusus yang harus dibuat oleh KTT dalam hal keadaan khusus yang berkaitan dengan aspek teknis diatur dalam Lampiran:', a:['Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran IV Kepmen ESDM No. 1806 K/30/MEM/2018.','Lampiran IV Kepmen ESDM No. 1827.K/30/MEM/2018.'], correct:4 },
+      { q:'13. Tugas KTT: Yang BUKAN merupakan tugas dan tanggung jawab KTT terkait keselamatan operasi adalah:', a:['Mengangkat Pengawas Operasional dan Pengawas Teknik.','Membuat dan menyampaikan laporan berkala triwulan mengenai keselamatan operasi.','Menetapkan batas akhir pengoperasian tambang.','Menunjuk perusahaan jasa pertambangan sebagai pengawas teknik tambang.','Membuat laporan khusus kejadian yang berkaitan dengan keselamatan operasi.'], correct:3 },
+      { q:'14. Kriteria Kecukupan Tenaga Teknis: Dalam hal kecukupan tenaga teknis, setiap KTT wajib memiliki tenaga teknis minimal untuk masing-masing bidang berikut, kecuali:', a:['Tenaga teknis di bidang geoteknik.','Tenaga teknis di bidang hidrologi.','Tenaga teknis di bidang peledakan.','Tenaga teknis di bidang konservasi.','Tenaga teknis di bidang teknologi informasi.'], correct:4 },
+      { q:'15. Kriteria Kecukupan Fasilitas: Kriteria kecukupan fasilitas untuk pertambangan, kecuali:', a:['Adanya ruang penyimpanan alat berat.','Adanya kantor/ruang kerja bagi KTT.','Adanya laboratorium pengujian.','Adanya fasilitas komunikasi.','Adanya fasilitas penanganan keadaan darurat.'], correct:0 },
+      { q:'16. Tugas Pengawas Operasional: Tugas Pengawas Operasional pada setiap awal shift sebelum memulai pekerjaan adalah:', a:['Melaksanakan dan mengawasi setiap kegiatan operasi penambangan.','Melaporkan setiap kejadian berbahaya dan kecelakaan kepada KTT.','Memastikan semua pekerja menggunakan APD yang sesuai.','Memeriksa kelayakan operasi alat yang akan digunakan.','Memberikan pengarahan kepada pekerja terkait tugas dan bahaya.'], correct:3 },
+      { q:'17. Pelaporan Ketersediaan Fasilitas: Laporan ketersediaan fasilitas penunjang kegiatan pertambangan dilaporkan dalam laporan berkala triwulan yang terdapat dalam Lampiran:', a:['Lampiran I Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran II Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran III Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran IV Kepmen ESDM No. 1827.K/30/MEM/2018.','Lampiran V Kepmen ESDM No. 1827.K/30/MEM/2018.'], correct:2 },
+      { q:'18. Kewajiban KTT Laporan Khusus: KTT wajib membuat dan menyampaikan laporan khusus dalam hal terjadi keadaan khusus terkait teknis yang dapat mengakibatkan:', a:['Peningkatan produksi melebihi 10%.','Penurunan produksi lebih dari 20%.','Perubahan desain teknis dan atau penghentian operasi penambangan.','Perubahan harga komoditas.','Perubahan batas wilayah IUP.'], correct:2 },
+      { q:'19. Kewajiban KTT Pengadaan Fasilitas: Dalam hal KTT tidak dapat memenuhi kewajiban pengadaan fasilitas penunjang kegiatan pertambangan, KTT wajib membuat dan menyampaikan:', a:['Laporan berkala triwulan teknis.','Laporan khusus penghentian operasi.','Revisi RKAB.','Revisi studi kelayakan.','Kajian teknis pengadaan fasilitas penunjang kegiatan pertambangan kepada Direktur Teknik dan Lingkungan/Kepala Inspektur Tambang.'], correct:4 },
+      { q:'20. Kriteria Larangan Penggunaan Bahan Peledak: Penggunaan bahan peledak dilarang pada kegiatan penambangan:', a:['Di area terowongan dengan ventilasi yang buruk.','Pada jarak kurang dari 50 meter dari jalan umum.','Di wilayah yang bersebelahan langsung dengan objek vital nasional.','Di tambang bawah tanah dengan kandungan gas metana tinggi.','Pada kondisi cuaca hujan lebat.'], correct:2 },
+      { q:'21. Tahapan Pembukaan Lahan: Dalam proses pembukaan lahan untuk kegiatan penambangan, pemegang IUP Operasi Produksi maupun IUPK Operasi Produksi menjalankan serangkaian tahapan kegiatan yang mencakup:', a:['monitoring jenis-jenis tanaman; dan pembersihan vegetasi.','identifikasi jenis-jenis tanaman; pembersihan vegetasi; dan pengupasan dan pengelolaan cover crop.','identifikasi jenis-jenis tanaman; pembersihan vegetasi; pengupasan dan pengelolaan lapisan tanah zona pengakaran.','identifikasi jenis-jenis tanaman; pengupasan lapisan tanah subsoil; dan penempatan tanah pucuk.','monitoring jenis-jenis tanaman; pengelolaan hasil kayu; pengupasan dan pengelolaan lapisan tanah zona pengakaran.'], correct:2 },
+      { q:'22. Faktor Perencanaan Kolam Sedimen: Faktor-faktor yang perlu diperhitungkan pada perencanaan kolam sedimen di area pertambangan adalah:', a:['Curah hujan rata-rata tahunan.','Debit air limpasan pada daerah tangkapan.','Ketersediaan dana.','Jawaban A dan B benar.','Seluruh jawaban benar.'], correct:4 },
+      { q:'23. Komponen Penilaian Keberhasilan Reklamasi: Berikut ini merupakan komponen penilaian keberhasilan reklamasi sesuai Lampiran VI Kepmen ESDM Nomor 1827 Tahun 2018, kecuali:', a:['Penataan lahan.','Penanaman tanaman lokal.','Penutupan tajuk.','Pembibitan.','Perawatan.'], correct:3 },
+      { q:'24. Komponen Biaya Pemanfaatan Lubang Bekas Tambang: Berikut ini yang bukan merupakan komponen biaya pemanfaatan lubang bekas tambang sebagaimana tercantum pada Lampiran VI Kepmen ESDM Nomor 1827 Tahun 2018 adalah:', a:['Konsultasi pemangku kepentingan.','Pengamanan lubang bekas tambang.','Pemulihan dan pemantauan kualitas air.','Pemeliharaan lubang bekas tambang.','Stabilisasi lereng.'], correct:3 },
+      { q:'25. Batas Aman Pemboran: Batas toleransi simpangan lubang bor pada kegiatan peledakan di tambang terbuka adalah:', a:['1% dari kedalaman lubang bor.','1,5% dari kedalaman lubang bor.','2% dari kedalaman lubang bor.','2,5% dari kedalaman lubang bor.','3% dari kedalaman lubang bor.'], correct:2 },
+      { q:'26. Kualifikasi Perusahaan Jasa Pertambangan: Berikut merupakan ketentuan Penentuan Kualifikasi Perusahaan Jasa Pertambangan berdasarkan Lampiran VIII Kepmen ESDM 1827.K/30/MEM/2018, kecuali:', a:['Pemegang IUP, dan IUJP terlebih dahulu menentukan persyaratan administrasi perusahaan jasa pertambangan yang akan dipekerjakan.','Perusahaan jasa pertambangan dapat melakukan kegiatan jasa pertambangan inti sesuai dengan lampiran yang terdapat dalam izin yang diterbitkan oleh instansi terkait.','Kegiatan noninti dapat dilakukan oleh perusahaan jasa pertambangan yang telah memiliki izin yang diterbitkan oleh Direktorat Jenderal Mineral dan Batubara.','Kegiatan inti dapat dilakukan oleh perusahaan jasa pertambangan pemegang IUJP, SKT dan Tanda Registrasi.','Pemegang IUP/IUPK wajib melakukan evaluasi kinerja perusahaan jasa pertambangan secara periodik.'], correct:3 },
+      { q:'27. Definisi Standar: Standar adalah persyaratan teknis atau sesuatu yang dibakukan, termasuk tata cara dan metode yang disusun berdasarkan:', a:['Konsensus Pemerintah dan Perusahaan.','Konsensus semua pihak yang berkepentingan.','Konsensus Pemerintah dan Akademisi.','Keputusan Kepala Teknik Tambang.','Keputusan Direksi Perusahaan.'], correct:1 },
+      { q:'28. Standar Nasional Indonesia (SNI): Standar Nasional Indonesia adalah:', a:['Standar yang ditetapkan oleh Kementerian Energi dan Sumber Daya Mineral (ESDM) dan berlaku di wilayah NKRI.','Standar yang ditetapkan oleh Pemerintah dan berlaku di wilayah NKRI.','Standar yang ditetapkan oleh Komite Akreditasi Nasional (KAN) dan berlaku di wilayah NKRI.','Standar yang ditetapkan oleh Badan Standardisasi Nasional (BSN) dan berlaku di wilayah NKRI.','Standar yang ditetapkan oleh Kepala Inspektur Tambang dan berlaku di wilayah kegiatan pertambangan.'], correct:3 },
+      { q:'29. SNI Wajib Diterapkan: Dibawah ini merupakan Standar Nasional Indonesia yang wajib diterapkan pada kegiatan usaha pertambangan mineral atau batubara, kecuali:', a:['SNI 4726:2019 Pedoman pelaporan hasil eksplorasi, sumber daya, dan cadangan mineral.','SNI 5015:2019 Pedoman pelaporan hasil eksplorasi, sumber daya, dan cadangan batubara.','SNI 6350:2016 Demarkasi di area pertambangan.','SNI 7571:2010 Baku tingkat getaran peledakan pada kegiatan terbuka terhadap bangunan.','SNI 13-4726-1998 Klasifikasi sumber daya dan cadangan mineral (versi lama).'], correct:2 },
+      { q:'30. Pihak yang Boleh Memiliki Izin Usaha Jasa Pertambangan (IUJP): Yang boleh memiliki Izin Usaha Jasa Pertambangan (IUJP) adalah:', a:['Badan Usaha, Koperasi, dan Perseorangan yang juga memiliki IUP, IUPK, atau IPR.','Badan Usaha, Koperasi, dan Perseorangan yang tidak memiliki IUP, IUPK, IUPK sebagai Kelanjutan Operasi Kontrak/Perjanjian, IPR, SIPB, Izin pengangkutan dan penjualan, dan IUP untuk penjualan.','Hanya Badan Usaha yang memiliki IUJP dan IUP sekaligus.','Badan Usaha, Koperasi, dan Perseorangan yang tidak memiliki IUP tetapi boleh memiliki IUPK.','Badan Usaha yang memiliki SKT dari Kepala Inspektur Tambang.'], correct:1 }
+    ];
 
-      { q:'11. RKAB adalah singkatan dari …', a:['Rencana Kerja dan Anggaran Biaya','Rencana Kegiatan Administratif Bisnis','Rekaman Kinerja Alat Besar','Rencana K3 dan Audit Berkala'], correct:0 },
-      { q:'12. AMDAL wajib disusun untuk proyek pertambangan apabila …', a:['Kegiatan diperkirakan memberikan dampak besar terhadap lingkungan','Kegiatan berskala kecil dan sementara','Hanya untuk kegiatan reklamasi','Tidak pernah diperlukan'], correct:0 },
-      { q:'13. Overburden dalam penambangan adalah …', a:['Lapisan penutup bijih yang harus dibuang/diangkat','Lapisan batubara','Lapisan ore yang akan diproses','Lapisan reklamasi yang sudah matang'], correct:0 },
-      { q:'14. Siapa yang berwenang melakukan peledakan pada lokasi tambang menurut praktik yang aman?', a:['Operator alat berat','Blaster berlisensi','Pengawas kantor','Mandor tambang tanpa lisensi'], correct:1 },
-      { q:'15. Tanda bahaya gas metana di tambang bawah tanah biasanya diidentifikasi melalui …', a:['Kadar gas di atas ambang batas yang terukur','Kadar air tinggi','Ventilasi kuat','Suhu rendah'], correct:0 },
-      { q:'16. Peraturan terkait pengelolaan limbah bahan berbahaya dan beracun (B3) yang sering dirujuk adalah …', a:['UU Minerba (semata)','PP No. 101 Tahun 2014 tentang Pengelolaan Limbah B3','Peraturan perusahaan saja','Perda lokal tanpa pedoman pusat'], correct:1 },
-      { q:'17. Ventilasi yang baik di tambang bawah tanah terutama bertujuan untuk …', a:['Mengatur tekanan air','Menurunkan suhu dan membuang gas berbahaya','Menambah kadar oksigen pada batuan','Mengatur debit air tambang'], correct:1 },
-      { q:'18. Peta tambang idealnya diperbarui secara berkala; banyak pedoman menyebut interval minimal …', a:['1 bulan','6 bulan','5 tahun','Tidak perlu diperbarui'], correct:1 },
-      { q:'19. Siapa yang biasanya melakukan pengawasan teknis dari sisi regulator pada kegiatan pertambangan di lapangan?', a:['Inspektur Tambang','Kepala Teknik Tambang (KTT)','Kontraktor tambang','Pemasok alat'], correct:0 },
-      { q:'20. Sertifikat kompetensi untuk KTT umumnya dikeluarkan/diakui oleh … (pilih jawaban yang sering dicantumkan pada pretest)', a:['BNSP','ESDM / instansi terkait','Perusahaan swasta','Dinas Tenaga Kerja lokal'], correct:1 },
+    // ===== STATE & TIMER (Logika ini tetap sama) =====
+    let examActive = false;
+    let timerInterval = null;
+    let timeLeft = 60*60;
+    const startBtn = document.getElementById('startBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const forceSend = document.getElementById('forceSend');
+    const timerEl = document.getElementById('timer');
+    const nameInput = document.getElementById('participantName');
+    const emailInput = document.getElementById('participantEmail');
+    const TOTAL_QUESTIONS = quizData.length;
 
-      { q:'21. Salah satu kegiatan penting dalam reklamasi adalah …', a:['Revegetasi (penanaman kembali vegetasi)','Menambah bongkahan batu untuk estetika','Mengecat area bekas tambang','Melebur bekas area tambang'], correct:0 },
-      { q:'22. Indikator produktif dalam aspek K3 yang sering dipakai adalah …', a:['Jumlah tenaga kerja total','Jam kerja aman (safe man-hours) tanpa kecelakaan','Jumlah shift per hari','Profit per ton'], correct:1 },
-      { q:'23. Laporan triwulanan operasional/tambang biasanya diserahkan ke …', a:['Menteri ESDM','Gubernur','Inspektur Tambang','Kepala Dinas setempat'], correct:2 },
-      { q:'24. Alat yang umum dipakai untuk mendeteksi keberadaan gas berbahaya di tambang adalah …', a:['Thermometer','Manometer','Gas detector','Barometer'], correct:2 },
-      { q:'25. Fungsi drainase yang baik pada area pertambangan adalah …', a:['Mengatur aliran air tambang agar tidak menggenang','Menambah kadar oksigen pada tanah','Mengalirkan udara segar','Mengurangi getaran mekanis'], correct:0 },
-      { q:'26. Tujuan konservasi mineral dalam kegiatan pertambangan termasuk …', a:['Menghemat energi listrik','Meningkatkan keselamatan kerja saja','Memanfaatkan sumber daya secara optimal dan berkelanjutan','Mengurangi upah pekerja'], correct:2 },
-      { q:'27. Metode penambangan batubara yang paling lazim di Indonesia adalah …', a:['Tambang bawah tanah','Tambang terbuka (open pit)','Tambang laut','Tambang lubang bor vertikal'], correct:1 },
-      { q:'28. APD (Alat Pelindung Diri) wajib digunakan oleh pekerja pada area berisiko. Mana yang termasuk APD?', a:['Helm keselamatan, sepatu safety, rompi, pelindung telinga','Hanya seragam kantor','Hanya masker kain','Sepatu biasa tanpa pelindung'], correct:0 },
-      { q:'29. Air asam tambang (acid mine drainage) umumnya terjadi akibat …', a:['Reaksi oksidasi mineral sulfida (mis. pirit)','Pembusukan organik sederhana','Evaporasi air permukaan','Penambahan pupuk'], correct:0 },
-      { q:'30. Dokumen lingkungan operasional yang biasanya disusun adalah …', a:['Rencana Kerja dan Anggaran Biaya (RKAB) saja','RKL dan RPL (Rencana Pengelolaan Lingkungan dan Rencana Pemantauan Lingkungan)','Buku tambang tanpa lampiran lingkungan','Laporan keuangan'], correct:1 }
-    ];
+    function formatTime(s){const m=Math.floor(s/60).toString().padStart(2,'0');const sec=(s%60).toString().padStart(2,'0');return `${m}:${sec}`;}
 
-    // ===== Render soal (input disabled until start) =====
-    const quizEl = document.getElementById('quiz');
-    quizData.forEach((item, qIdx) => {
-      const qDiv = document.createElement('div');
-      qDiv.className = 'question';
-      qDiv.setAttribute('data-idx', qIdx);
+    // ===== Render soal (diulang) =====
+    const quizEl = document.getElementById('quiz');
+    quizData.forEach((item, qIdx) => {
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+      qDiv.setAttribute('data-idx', qIdx);
 
-      const qText = document.createElement('div');
-      qText.className = 'qtext';
-      qText.textContent = item.q;
-      qDiv.appendChild(qText);
+      const qText = document.createElement('div');
+      qText.className = 'qtext';
+      qText.textContent = `${qIdx + 1}. ${item.q.replace(/^\d+\.\s*/, '')}`; // Use sequential numbering
+      qDiv.appendChild(qText);
 
-      const opts = document.createElement('div');
-      opts.className = 'options';
+      const opts = document.createElement('div');
+      opts.className = 'options';
 
-      item.a.forEach((optText, optIdx) => {
-        const label = document.createElement('label');
-        label.className = 'option';
-        label.setAttribute('data-opt', optIdx);
+      item.a.forEach((optText, optIdx) => {
+        const label = document.createElement('label');
+        label.className = 'option';
+        label.setAttribute('data-opt', optIdx);
 
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = 'q' + qIdx;
-        radio.value = optIdx;
-        radio.disabled = true;
-        radio.setAttribute('aria-label', optText);
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'q' + qIdx;
+        radio.value = optIdx;
+        radio.disabled = true;
+        radio.setAttribute('aria-label', optText);
 
-        radio.addEventListener('change', () => {
-          handleAnswer(qIdx, optIdx, qDiv);
-        });
+        radio.addEventListener('change', () => {
+          handleAnswer(qIdx, optIdx, qDiv);
+        });
 
-        label.appendChild(radio);
-        const span = document.createElement('span');
-        span.textContent = optText;
-        label.appendChild(span);
-        opts.appendChild(label);
-      });
+        label.appendChild(radio);
+        const span = document.createElement('span');
+        span.textContent = optText;
+        label.appendChild(span);
+        opts.appendChild(label);
+      });
 
-      qDiv.appendChild(opts);
-      quizEl.appendChild(qDiv);
-    });
+      qDiv.appendChild(opts);
+      quizEl.appendChild(qDiv);
+    });
 
-    // ===== STATE & TIMER =====
-    let examActive = false;
-    let timerInterval = null;
-    let timeLeft = 60*60;
-    const startBtn = document.getElementById('startBtn');
-    const sendBtn = document.getElementById('sendBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const forceSend = document.getElementById('forceSend');
-    const timerEl = document.getElementById('timer');
-    const nameInput = document.getElementById('participantName');
-    const emailInput = document.getElementById('participantEmail');
 
-    function formatTime(s){const m=Math.floor(s/60).toString().padStart(2,'0');const sec=(s%60).toString().padStart(2,'0');return `${m}:${sec}`;}
+    function startExam(){
+      const nameVal = nameInput.value.trim();
+      if(!nameVal){ alert('Masukkan nama peserta terlebih dahulu.'); nameInput.focus(); return; }
+      // activate
+      examActive = true;
+      // enable inputs
+      document.querySelectorAll('input[type=radio]').forEach(inp => inp.disabled = false);
+      startBtn.disabled = true;
+      startBtn.classList.add('secondary');
+      sendBtn.disabled = false;
+      resetBtn.disabled = true;
+      // block leaving
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      // start timer
+      timeLeft = 60*60;
+      timerEl.textContent = formatTime(timeLeft);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = formatTime(timeLeft);
+        if(timeLeft <= 0){ clearInterval(timerInterval); finishExamAuto(); }
+      }, 1000);
+    }
 
-    function startExam(){
-      const nameVal = nameInput.value.trim();
-      if(!nameVal){ alert('Masukkan nama peserta terlebih dahulu.'); nameInput.focus(); return; }
-      // activate
-      examActive = true;
-      // enable inputs
-      document.querySelectorAll('input[type=radio]').forEach(inp => inp.disabled = false);
-      startBtn.disabled = true;
-      startBtn.classList.add('secondary');
-      sendBtn.disabled = false;
-      resetBtn.disabled = true;
-      // block leaving
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      // start timer
-      timeLeft = 60*60;
-      timerEl.textContent = formatTime(timeLeft);
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        timerEl.textContent = formatTime(timeLeft);
-        if(timeLeft <= 0){ clearInterval(timerInterval); finishExamAuto(); }
-      }, 1000);
-    }
+    function stopExam(){ examActive=false; clearInterval(timerInterval); window.removeEventListener('beforeunload', beforeUnloadHandler); }
 
-    function stopExam(){ examActive=false; clearInterval(timerInterval); window.removeEventListener('beforeunload', beforeUnloadHandler); }
+    function beforeUnloadHandler(e){ e.preventDefault(); e.returnValue = 'Ujian sedang berlangsung — meninggalkan halaman akan mengakhiri ujian.'; }
 
-    function beforeUnloadHandler(e){ e.preventDefault(); e.returnValue = 'Ujian sedang berlangsung — meninggalkan halaman akan mengakhiri ujian.'; }
+    startBtn.addEventListener('click', startExam);
 
-    startBtn.addEventListener('click', startExam);
+    // ===== handleAnswer (real-time) =====
+    function handleAnswer(questionIndex, selectedIndex, questionDiv){
+      if(!examActive) return;
+      const labels = Array.from(questionDiv.querySelectorAll('.option'));
+      const alreadyAnswered = labels.some(l => l.classList.contains('correct') || l.classList.contains('wrong'));
+      if(alreadyAnswered) return;
 
-    // ===== handleAnswer (real-time) =====
-    function handleAnswer(questionIndex, selectedIndex, questionDiv){
-      if(!examActive) return;
-      const labels = Array.from(questionDiv.querySelectorAll('.option'));
-      const alreadyAnswered = labels.some(l => l.classList.contains('correct') || l.classList.contains('wrong'));
-      if(alreadyAnswered) return;
+      labels.forEach(l => { const inp = l.querySelector('input'); if(inp) inp.disabled = true; });
+      const correctIndex = quizData[questionIndex].correct;
+      const chosenLabel = labels.find(l => Number(l.getAttribute('data-opt')) === selectedIndex);
+      if(selectedIndex === correctIndex){ chosenLabel.classList.add('correct'); }
+      else { chosenLabel.classList.add('wrong'); const correctLabel = labels.find(l => Number(l.getAttribute('data-opt')) === correctIndex); if(correctLabel) correctLabel.classList.add('correct'); }
+      updateScore();
+    }
 
-      labels.forEach(l => { const inp = l.querySelector('input'); if(inp) inp.disabled = true; });
-      const correctIndex = quizData[questionIndex].correct;
-      const chosenLabel = labels.find(l => Number(l.getAttribute('data-opt')) === selectedIndex);
-      if(selectedIndex === correctIndex){ chosenLabel.classList.add('correct'); }
-      else { chosenLabel.classList.add('wrong'); const correctLabel = labels.find(l => Number(l.getAttribute('data-opt')) === correctIndex); if(correctLabel) correctLabel.classList.add('correct'); }
-      updateScore();
-    }
+    // ===== score & update =====
+    function updateScore(){
+      let answered=0, score=0;
+      quizData.forEach((it, idx) => {
+        const sel = document.querySelector(`input[name='q${idx}']:checked`);
+        if(sel) answered++;
+        if(sel && Number(sel.value) === it.correct) score++;
+      });
+      document.getElementById('answeredCount').textContent = answered;
+      document.getElementById('score').textContent = score;
+      if(answered === TOTAL_QUESTIONS && examActive){ finishExamAuto(); }
+    }
 
-    // ===== score & update =====
-    function updateScore(){
-      let answered=0, score=0;
-      quizData.forEach((it, idx) => {
-        const sel = document.querySelector(`input[name='q${idx}']:checked`);
-        if(sel) answered++;
-        if(sel && Number(sel.value) === it.correct) score++;
-      });
-      document.getElementById('answeredCount').textContent = answered;
-      document.getElementById('score').textContent = score;
-      if(answered === quizData.length && examActive){ finishExamAuto(); }
-    }
+    // ===== build results text =====
+    function buildResultsText(){
+      let lines=[];
+      quizData.forEach((it, idx)=>{
+        const sel = document.querySelector(`input[name='q${idx}']:checked`);
+        const selText = sel ? it.a[Number(sel.value)] : '(Belum dijawab)';
+        const correctText = it.a[it.correct];
+        const isCorrect = sel && Number(sel.value) === it.correct;
+        lines.push(`${idx+1}. ${it.q.replace(/^\d+\.\s*/, '')}\nJawaban peserta: ${selText}\nJawaban benar: ${correctText}\nHasil: ${isCorrect ? 'Benar' : 'Salah/Belum jawab'}`);
+      });
+      return lines.join('\n\n');
+    }
 
-    // ===== build results text =====
-    function buildResultsText(){
-      let lines=[];
-      quizData.forEach((it, idx)=>{
-        const sel = document.querySelector(`input[name='q${idx}']:checked`);
-        const selText = sel ? it.a[Number(sel.value)] : '(Belum dijawab)';
-        const correctText = it.a[it.correct];
-        const isCorrect = sel && Number(sel.value) === it.correct;
-        lines.push(`${idx+1}. ${it.q}\nJawaban peserta: ${selText}\nJawaban benar: ${correctText}\nHasil: ${isCorrect ? 'Benar' : 'Salah/Belum jawab'}`);
-      });
-      return lines.join('\n\n');
-    }
+    // ===== send via EmailJS =====
+    function sendResults(manual=false){
+      sendBtn.disabled = true;
+      forceSend.classList.add('hidden');
+      const score = Number(document.getElementById('score').textContent) || 0;
+      const answeredCount = Number(document.getElementById('answeredCount').textContent) || 0;
+      const timeTakenSeconds = (60*60) - timeLeft;
+      const timeTaken = `${Math.floor(timeTakenSeconds/60)} menit ${timeTakenSeconds%60} detik`;
+      const resultsText = buildResultsText();
+      const participantName = nameInput.value.trim() || 'Nama tidak diisi';
+      const participantEmail = emailInput.value.trim() || '(tidak diisi)';
 
-    // ===== send via EmailJS =====
-    function sendResults(manual=false){
-      sendBtn.disabled = true;
-      forceSend.classList.add('hidden');
-      const score = Number(document.getElementById('score').textContent) || 0;
-      const answeredCount = Number(document.getElementById('answeredCount').textContent) || 0;
-      const timeTakenSeconds = (60*60) - timeLeft;
-      const timeTaken = `${Math.floor(timeTakenSeconds/60)} menit ${timeTakenSeconds%60} detik`;
-      const resultsText = buildResultsText();
-      const participantName = nameInput.value.trim() || 'Nama tidak diisi';
-      const participantEmail = emailInput.value.trim() || '(tidak diisi)';
+      const templateParams = {
+        from_name: SENDER_NAME,
+        from_email: 'no-reply@waja-inti.local',
+        to_email: DEST_EMAIL,
+        participant_name: participantName,
+        participant_email: participantEmail,
+        quiz_results: resultsText,
+        quiz_score: `${score} / ${TOTAL_QUESTIONS}`,
+        time_taken: timeTaken
+      };
 
-      const templateParams = {
-        from_name: SENDER_NAME,
-        from_email: 'no-reply@waja-inti.local',
-        to_email: DEST_EMAIL,
-        participant_name: participantName,
-        participant_email: participantEmail,
-        quiz_results: resultsText,
-        quiz_score: `${score} / ${quizData.length}`,
-        time_taken: timeTaken
-      };
+      if(window.emailjs && EMAILJS_SERVICE && EMAILJS_TEMPLATE){
+        emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams)
+          .then(resp => {
+            stopExam();
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('result').textContent = `Hasil berhasil dikirim ke ${DEST_EMAIL}. (Skor: ${score}/${TOTAL_QUESTIONS})`;
+            // lock inputs and allow reset
+            document.querySelectorAll('input[type=radio]').forEach(inp => inp.disabled = true);
+            startBtn.disabled = true;
+            resetBtn.disabled = false;
+          }, err => {
+            console.error('Gagal kirim email:', err);
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('result').textContent = 'Gagal mengirim hasil. Coba kirim manual atau periksa koneksi.';
+            sendBtn.disabled = false;
+            forceSend.classList.remove('hidden');
+          });
+      } else {
+        alert('EmailJS belum tersedia. Periksa koneksi atau konfigurasi EmailJS.');
+        sendBtn.disabled = false;
+        forceSend.classList.remove('hidden');
+      }
+    }
 
-      if(window.emailjs && EMAILJS_SERVICE && EMAILJS_TEMPLATE){
-        emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams)
-          .then(resp => {
-            stopExam();
-            document.getElementById('result').classList.remove('hidden');
-            document.getElementById('result').textContent = `Hasil berhasil dikirim ke ${DEST_EMAIL}. (Skor: ${score}/${quizData.length})`;
-            // lock inputs and allow reset
-            document.querySelectorAll('input[type=radio]').forEach(inp => inp.disabled = true);
-            startBtn.disabled = true;
-            resetBtn.disabled = false;
-          }, err => {
-            console.error('Gagal kirim email:', err);
-            document.getElementById('result').classList.remove('hidden');
-            document.getElementById('result').textContent = 'Gagal mengirim hasil. Coba kirim manual atau periksa koneksi.';
-            sendBtn.disabled = false;
-            forceSend.classList.remove('hidden');
-          });
-      } else {
-        alert('EmailJS belum tersedia. Periksa koneksi atau konfigurasi EmailJS.');
-        sendBtn.disabled = false;
-        forceSend.classList.remove('hidden');
-      }
-    }
+    // auto finish: waktu habis atau semua terjawab
+    function finishExamAuto(){ if(!examActive) return; document.getElementById('result').textContent = 'Waktu habis/semua terjawab, mengirim hasil...'; sendResults(); }
 
-    // auto finish: waktu habis atau semua terjawab
-    function finishExamAuto(){ if(!examActive) return; document.getElementById('result').textContent = 'Waktu habis/semua terjawab, mengirim hasil...'; sendResults(); }
+    // manual send
+    sendBtn.addEventListener('click', () => {
+      if(!examActive){
+        if(confirm('Ujian belum dimulai. Kirim hasil saat ini?')) sendResults(true);
+      } else {
+        if(confirm('Kirim jawaban sekarang? (ujian akan berhenti dan hasil dikirim)')) sendResults(true);
+      }
+    });
 
-    // manual send
-    sendBtn.addEventListener('click', () => {
-      if(!examActive){
-        if(confirm('Ujian belum dimulai. Kirim hasil saat ini?')) sendResults(true);
-      } else {
-        if(confirm('Kirim jawaban sekarang? (ujian akan berhenti dan hasil dikirim)')) sendResults(true);
-      }
-    });
+    forceSend.addEventListener('click', () => { sendResults(true); });
 
-    forceSend.addEventListener('click', () => { sendResults(true); });
+    // reset (only allowed when exam not active)
+    resetBtn.addEventListener('click', () => {
+      if(examActive){ alert('Reset tidak diperbolehkan selama mode ujian aktif.'); return; }
+      if(!confirm('Reset semua jawaban?')) return;
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.classList.remove('correct','wrong');
+        const inp = opt.querySelector('input');
+        if(inp){ inp.checked=false; inp.disabled=true; }
+      });
+      document.getElementById('answeredCount').textContent='0';
+      document.getElementById('score').textContent='0';
+      document.getElementById('result').textContent='';
+      timeLeft = 60*60;
+      timerEl.textContent = formatTime(timeLeft);
+      startBtn.disabled = false;
+    });
 
-    // reset (only allowed when exam not active)
-    resetBtn.addEventListener('click', () => {
-      if(examActive){ alert('Reset tidak diperbolehkan selama mode ujian aktif.'); return; }
-      if(!confirm('Reset semua jawaban?')) return;
-      document.querySelectorAll('.option').forEach(opt => {
-        opt.classList.remove('correct','wrong');
-        const inp = opt.querySelector('input');
-        if(inp){ inp.checked=false; inp.disabled=true; }
-      });
-      document.getElementById('answeredCount').textContent='0';
-      document.getElementById('score').textContent='0';
-      document.getElementById('result').textContent='';
-      timeLeft = 60*60;
-      timerEl.textContent = formatTime(timeLeft);
-      startBtn.disabled = false;
-    });
+    // block some keys while exam active (best-effort)
+    window.addEventListener('keydown', (e) => {
+      if(examActive){
+        if((e.ctrlKey && e.key==='w') || (e.ctrlKey && e.key==='r') || e.key==='F5'){
+          e.preventDefault();
+          alert('Navigasi diblokir selama ujian aktif.');
+        }
+      }
+    });
 
-    // block some keys while exam active (best-effort)
-    window.addEventListener('keydown', (e) => {
-      if(examActive){
-        if((e.ctrlKey && e.key==='w') || (e.ctrlKey && e.key==='r') || e.key==='F5'){
-          e.preventDefault();
-          alert('Navigasi diblokir selama ujian aktif.');
-        }
-      }
-    });
+    // initial states
+    document.getElementById('answeredCount').textContent='0';
+    document.getElementById('score').textContent='0';
+    timerEl.textContent = formatTime(timeLeft);
+    // ensure radios disabled until start
+    document.querySelectorAll('input[type=radio]').forEach(inp => inp.disabled=true);
 
-    // initial states
-    document.getElementById('answeredCount').textContent='0';
-    document.getElementById('score').textContent='0';
-    timerEl.textContent = formatTime(timeLeft);
-    // ensure radios disabled until start
-    document.querySelectorAll('input[type=radio]').forEach(inp => inp.disabled=true);
-
-    // Optional: if user closes tab, try to auto-send (best-effort)
-    window.addEventListener('unload', () => {
-      if(examActive){
-        // Note: async requests may not complete during unload; EmailJS may not work reliably here.
-        // But attempt a synchronous navigator.sendBeacon (not sending EmailJS). Best is user to not close.
-      }
-    });
-  </script>
+    // Optional: if user closes tab, try to auto-send (best-effort)
+    window.addEventListener('unload', () => {
+      if(examActive){
+        // Note: async requests may not complete during unload; EmailJS may not work reliably here.
+        // But attempt a synchronous navigator.sendBeacon (not sending EmailJS). Best is user to not close.
+      }
+    });
+  </script>
 </body>
 </html>
