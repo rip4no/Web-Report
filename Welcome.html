@@ -1,462 +1,387 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Perusahaan Mineral — Beranda</title>
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PT Waja Inti Lestari</title>
   <style>
-    :root{
-      --accent:#0b6b63; /* main brand color (ubah sesuai kebutuhan) */
-      --accent-2:#054a45;
-      --muted:#6b7280;
-      --bg:#f7faf9;
-      --card:#ffffff;
-      --max-width:1100px;
-      --radius:12px;
-      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; }
+
+    /* ===== NAVBAR ===== */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 60px;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:linear-gradient(180deg, #f9fafb 0%, var(--bg) 100%);
-      color:#0f1724;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .container{
-      width:92%;
-      max-width:var(--max-width);
-      margin:0 auto;
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: #2f6f67;
+      color: #fff;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
     }
 
-    /* NAV */
-    .topbar{
-      background:white;
-      position:sticky;
-      top:0;
-      z-index:50;
-      box-shadow:0 6px 18px rgba(10,20,30,0.06);
-      border-bottom:1px solid rgba(15,23,36,0.03);
-    }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:14px 0;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color:inherit;
-    }
-    .logo{
-      width:44px;
-      height:44px;
-      border-radius:10px;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      display:inline-grid;
-      place-items:center;
-      color:white;
-      font-weight:700;
-      font-size:18px;
-      box-shadow:0 6px 18px rgba(11,107,99,0.12);
-    }
-    .brand-text{font-weight:700;font-size:16px}
-    .nav-links{display:flex;gap:18px;align-items:center}
-    .nav-links a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px}
-    .cta{
-      padding:9px 14px;
-      border-radius:10px;
-      background:var(--accent);
-      color:white;
-      font-weight:700;
-      text-decoration:none;
-      box-shadow:0 6px 18px rgba(11,107,99,0.12);
-      font-size:14px;
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 24px;
     }
 
-    /* Mobile nav */
-    .menu-btn{display:none;background:transparent;border:0;font-size:18px}
-    .mobile-menu{display:none}
-
-    /* HERO */
-    .hero{
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:28px;
-      align-items:center;
-      padding:48px 0;
-    }
-    .hero-left h1{
-      margin:0 0 12px 0;
-      font-size:32px;
-      line-height:1.05;
-      letter-spacing:-0.4px;
-    }
-    .eyebrow{
-      display:inline-block;
-      background:rgba(11,107,99,0.08);
-      color:var(--accent-2);
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:700;
-      font-size:12px;
-      margin-bottom:12px;
-    }
-    .hero p{color:var(--muted);margin:0 0 18px 0;max-width:60ch}
-    .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-    .stat-row{display:flex;gap:18px;margin-top:22px}
-    .stat{
-      background:var(--card);
-      padding:14px;
-      border-radius:10px;
-      box-shadow:0 6px 18px rgba(12,20,30,0.06);
-      min-width:120px;
-      text-align:center;
-    }
-    .stat strong{display:block;font-size:18px}
-    .stat small{display:block;color:var(--muted);font-size:13px;margin-top:6px}
-
-    /* hero-right card */
-    .hero-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
-      border-radius:16px;
-      padding:20px;
-      box-shadow:0 12px 30px rgba(7,20,30,0.08);
-      border:1px solid rgba(11,107,99,0.04);
-    }
-    .hero-card img{
-      width:100%;
-      border-radius:10px;
-      display:block;
-      margin-bottom:12px;
-      object-fit:cover;
-      height:200px;
-    }
-    .hero-card h4{margin:6px 0 6px 0;font-size:16px}
-    .hero-card p{margin:0;color:var(--muted);font-size:14px}
-
-    /* SECTIONS */
-    section{padding:42px 0}
-    .grid-3{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:18px;
-    }
-    .card{
-      background:var(--card);
-      padding:18px;
-      border-radius:12px;
-      box-shadow:0 8px 22px rgba(12,20,30,0.06);
-      border:1px solid rgba(15,23,36,0.03);
-    }
-    .card h3{margin:0 0 8px 0}
-    .kpi-grid{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .kpi{
-      background:rgba(5,74,69,0.04);
-      padding:10px 12px;
-      border-radius:10px;
-      min-width:120px;
+    nav a {
+      text-decoration: none;
+      color: #444;
+      font-weight: 600;
+      transition: color 0.3s;
     }
 
-    /* sustainability */
-    .sust{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-      align-items:center;
-    }
-    .sust .icons{display:flex;gap:12px;flex-wrap:wrap}
-    .icon-box{
-      background:linear-gradient(180deg, rgba(11,107,99,0.06), rgba(11,107,99,0.03));
-      padding:14px;border-radius:10px;min-width:140px;
+    nav a:hover { color: #2f6f67; }
+
+    .btn-contact {
+      background: #2f6f67;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
     }
 
-    /* FOOTER */
-    footer{background:#03151a;color:#cfe7e4;padding:30px 0;border-top:1px solid rgba(255,255,255,0.03)}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:18px}
-    .footer a{color:inherit;text-decoration:none}
-    .small{font-size:13px;color:rgba(255,255,255,0.8)}
-
-    /* Responsive */
-    @media (max-width:1000px){
-      .hero{grid-template-columns:1fr;gap:20px}
-      .grid-3{grid-template-columns:repeat(2,1fr)}
-      .sust{grid-template-columns:1fr}
-      .footer-grid{grid-template-columns:1fr}
-    }
-    @media (max-width:640px){
-      .nav-links{display:none}
-      .menu-btn{display:inline-block}
-      .mobile-menu{display:block;padding:10px 0}
-      .nav{padding:10px 0}
-      .grid-3{grid-template-columns:1fr}
+    /* ===== HERO ===== */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      color: #fff;
+      position: relative;
+      margin-top: 80px;
+      background: url('https://github.com/rip4no/Github-RIpano1/blob/main/Gambar/reklamasi.jpg') center center / cover no-repeat; 
+      /* GANTI: hero.jpg -> ubah nama gambar di folder images kamu */
     }
 
-    /* mobile menu panel */
-    .mobile-panel{
-      display:none;
-      background:white;
-      padding:12px;
-      border-top:1px solid rgba(15,23,36,0.03);
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
     }
-    .mobile-panel.open{display:block}
-    .mobile-panel a{display:block;padding:8px 0;color:var(--muted);text-decoration:none;font-weight:700}
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding-left: 8%;
+      max-width: 600px;
+    }
+
+    .hero-content h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      font-weight: 800;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+
+    .cta {
+      background: #3ba7e1;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: background 0.3s;
+    }
+
+    .cta:hover { background: #2c8bc2; }
+
+    /* ===== SAMBUTAN ===== */
+    .welcome {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 80px 10%;
+      gap: 50px;
+      background: #fff;
+      flex-wrap: wrap;
+    }
+
+    .welcome-images {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .welcome-images img {
+      width: 260px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .welcome-text {
+      max-width: 600px;
+    }
+
+    .welcome-text h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: #333;
+    }
+
+    .welcome-text p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 28px;
+    }
+
+    .btn-learn {
+      background: #3ba7e1;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: background 0.3s;
+    }
+
+    .btn-learn:hover { background: #2c8bc2; }
+
+    /* ===== ALL NEWS ===== */
+    .news {
+      padding: 60px 10%;
+      background: #f8f8f8;
+      position: relative;
+    }
+
+    .news h2 {
+      font-size: 1.8rem;
+      color: #2f6f67;
+      margin-bottom: 28px;
+    }
+
+    .news-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 24px;
+    }
+
+    .news-container::-webkit-scrollbar { display: none; }
+
+    .news-card {
+      min-width: 320px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .news-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .news-card .content {
+      padding: 18px;
+    }
+
+    .news-card h3 {
+      font-size: 1.1rem;
+      color: #20665c;
+      margin-bottom: 10px;
+    }
+
+    .news-card p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .news-card a {
+      text-decoration: none;
+      color: #3ba7e1;
+      font-weight: 600;
+    }
+
+    .news-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #e5e5e5;
+      border: none;
+      font-size: 1.5rem;
+      padding: 10px 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .news-btn:hover { background: #ccc; }
+    .prev { left: 30px; }
+    .next { right: 30px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #2f6f67;
+      color: #fff;
+      padding: 60px 10%;
+    }
+
+    footer h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    footer p, footer a {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #e0e0e0;
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    .footer-bottom {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 20px;
+    }
 
   </style>
 </head>
 <body>
-  <!-- TOP NAV -->
-  <header class="topbar">
-    <div class="container nav" role="navigation" aria-label="Main navigation">
-      <a class="brand" href="#">
-        <span class="logo" aria-hidden="true">MI</span>
-        <div>
-          <div class="brand-text">Mineral Indonesia</div>
-          <div style="font-size:12px;color:var(--muted)">Pertambangan & Keberlanjutan</div>
-        </div>
-      </a>
 
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#about">Tentang</a>
-        <a href="#projects">Proyek</a>
-        <a href="#sustainability">Keberlanjutan</a>
-        <a href="#investor">Investor</a>
-      </nav>
-
-      <div style="display:flex;gap:12px;align-items:center">
-        <a class="cta" href="#contact">Hubungi</a>
-        <button class="menu-btn" aria-label="Menu" id="menuBtn">☰</button>
+  <!-- ===== NAVBAR ===== -->
+  <header>
+    <div class="logo-area">
+      <div class="logo">MI</div>
+      <div>
+        <strong>Mineral Indonesia</strong><br>
+        <small>Pertambangan & Keberlanjutan</small>
       </div>
     </div>
-
-    <!-- mobile panel -->
-    <div class="container mobile-panel" id="mobilePanel" aria-hidden="true">
-      <a href="#about">Tentang</a>
-      <a href="#projects">Proyek</a>
-      <a href="#sustainability">Keberlanjutan</a>
-      <a href="#investor">Investor</a>
-      <a href="#careers">Karir</a>
-    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Tentang</a></li>
+        <li><a href="#">Proyek</a></li>
+        <li><a href="#">Keberlanjutan</a></li>
+        <li><a href="#">Investor</a></li>
+      </ul>
+    </nav>
+    <button class="btn-contact">Hubungi</button>
   </header>
 
-  <main class="container" role="main">
-    <!-- HERO -->
-    <section class="hero" aria-label="Hero">
-      <div class="hero-left">
-        <span class="eyebrow">Selama >50 tahun — Beroperasi di Indonesia</span>
-        <h1>Membangun masa depan yang lebih hijau melalui pertambangan bertanggung jawab</h1>
-        <p>
-          Kami berfokus pada operasi yang aman, efisien, dan berkelanjutan — memajukan komunitas lokal, menjaga lingkungan,
-          dan menciptakan nilai jangka panjang bagi pemangku kepentingan.
-        </p>
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Mempercepat transformasi:<br>Sinergi dalam mewujudkan<br>pertumbuhan berkelanjutan</h1>
+      <p>Laporan Tahunan 2024</p>
+      <a href="#" class="cta">Akses di sini</a>
+    </div>
+  </section>
 
-        <div class="hero-cta" role="group" aria-label="Hero actions">
-          <a class="cta" href="#projects">Lihat Proyek</a>
-          <a style="padding:9px 14px;border-radius:10px;border:1px solid rgba(15,23,36,0.06);text-decoration:none;font-weight:700;color:var(--muted)" href="#sustainability">Ringkasan Keberlanjutan</a>
-        </div>
+  <!-- ===== SAMBUTAN ===== -->
+  <section class="welcome">
+    <div class="welcome-images">
+      <img src="images/welcome1.jpg" alt="Foto pekerja" /> <!-- GANTI: welcome1.jpg -->
+      <img src="images/welcome2.jpg" alt="Foto karyawan" /> <!-- GANTI: welcome2.jpg -->
+    </div>
+    <div class="welcome-text">
+      <h2>Selamat datang di PT Vale Indonesia Tbk!</h2>
+      <p>
+        Kami merupakan perusahaan Indonesia yang bergerak dalam pertambangan dan pengolahan nikel. Dalam perjalanan mewujudkan tujuan kami untuk meningkatkan kualitas hidup dan membangun masa depan yang lebih baik, kami selalu berambisi untuk meraih prestasi yang lebih tinggi lagi.
+      </p>
+      <a href="#" class="btn-learn">Pelajari lebih lanjut tentang siapa kami</a>
+    </div>
+  </section>
 
-        <div class="stat-row" aria-hidden="false">
-          <div class="stat">
-            <strong>50+</strong>
-            <small>Tahun operasi</small>
-          </div>
-          <div class="stat">
-            <strong>2,000+</strong>
-            <small>Karyawan</small>
-          </div>
-          <div class="stat">
-            <strong>3</strong>
-            <small>Proyek utama</small>
-          </div>
-        </div>
-      </div>
-
-      <aside class="hero-card" aria-labelledby="heroCardTitle">
-        <!-- Ganti src dengan asset Anda -->
-        <img src="https://images.unsplash.com/photo-1535905748047-14f6f8b8b6e5?auto=format&fit=crop&w=1200&q=60" alt="Aktivitas lapangan pertambangan">
-        <h4 id="heroCardTitle">Growth Project: Pengembangan Unit Baru</h4>
-        <p>Proyek ini meningkatkan kapasitas produksi dan memperkenalkan teknologi pengolahan yang lebih efisien dan rendah emisi.</p>
-      </aside>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" aria-labelledby="aboutTitle">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
-        <h2 id="aboutTitle">Sekilas tentang kami</h2>
-        <div class="small">Komitmen kuat terhadap keselamatan, lingkungan, dan komunitas.</div>
-      </div>
-
-      <div class="grid-3">
-        <div class="card">
-          <h3>Visi & Misi</h3>
-          <p style="color:var(--muted)">Menjadi perusahaan pertambangan terdepan yang menghasilkan nilai berkelanjutan lewat inovasi, tata kelola, dan hubungan yang baik dengan pemangku kepentingan.</p>
-          <div class="kpi-grid" aria-hidden="false">
-            <div class="kpi"><strong>Visi</strong><div style="font-size:13px;color:var(--muted)">Keberlanjutan jangka panjang</div></div>
-            <div class="kpi"><strong>Misi</strong><div style="font-size:13px;color:var(--muted)">Operasi bertanggung jawab</div></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Lokasi Operasi</h3>
-          <p style="color:var(--muted)">Beberapa lokasi tambang dan fasilitas pengolahan di wilayah Indonesia, bekerja sama dengan mitra lokal.</p>
-          <div style="margin-top:12px"><img src="https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=800&q=60" alt="Peta lokasi" style="width:100%;border-radius:10px;height:140px;object-fit:cover"></div>
-        </div>
-
-        <div class="card">
-          <h3>Keamanan & Kesehatan</h3>
-          <p style="color:var(--muted)">Program keselamatan terpadu, pelatihan berkelanjutan, dan target nol kecelakaan pada area operasional.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projects" aria-labelledby="projectsTitle">
-      <h2 id="projectsTitle">Proyek Utama</h2>
-      <p style="color:var(--muted);margin-top:6px">Proyek yang sedang berjalan dan berkontribusi pada pertumbuhan kapabilitas kami.</p>
-
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px">
-        <div class="card">
-          <h3>Proyek A — Ekspansi Pengolahan</h3>
-          <p style="color:var(--muted)">Menambah kapasitas, menurunkan konsumsi energi per unit output.</p>
-        </div>
-        <div class="card">
-          <h3>Proyek B — Teknologi Rendah Emisi</h3>
-          <p style="color:var(--muted)">Implementasi proses yang lebih bersih untuk mengurangi emisi dan limbah.</p>
-        </div>
-        <div class="card">
-          <h3>Proyek C — Reklamasi & Restorasi</h3>
-          <p style="color:var(--muted)">Program rekultivasi area pasca-pertambangan yang terpadu dengan masyarakat setempat.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SUSTAINABILITY -->
-    <section id="sustainability" aria-labelledby="sustTitle">
-      <h2 id="sustTitle">Keberlanjutan</h2>
-      <p style="color:var(--muted);margin-top:6px">Kami mengintegrasikan pendekatan lingkungan, sosial, dan tata kelola dalam setiap aspek operasi.</p>
-
-      <div class="sust" style="margin-top:18px">
-        <div>
-          <div class="icons">
-            <div class="icon-box">
-              <h4 style="margin:0 0 6px 0">Energi Terbarukan</h4>
-              <p style="margin:0;color:var(--muted);font-size:13px">Penggunaan energi terbarukan pada unit pengolahan.</p>
-            </div>
-            <div class="icon-box">
-              <h4 style="margin:0 0 6px 0">Air & Limbah</h4>
-              <p style="margin:0;color:var(--muted);font-size:13px">Manajemen sirkulasi air dan penanganan limbah yang bertanggung jawab.</p>
-            </div>
-            <div class="icon-box">
-              <h4 style="margin:0 0 6px 0">Komunitas</h4>
-              <p style="margin:0;color:var(--muted);font-size:13px">Program pengembangan kapasitas dan infrastruktur di daerah mitra.</p>
-            </div>
-          </div>
-
-          <div style="margin-top:16px;display:flex;gap:12px;align-items:center">
-            <a class="cta" href="#investor">Lihat Laporan Keberlanjutan</a>
-            <a style="padding:9px 14px;border-radius:10px;border:1px solid rgba(15,23,36,0.06);text-decoration:none;font-weight:700;color:var(--muted)" href="#about">Pelajari lebih lanjut</a>
-          </div>
-        </div>
-
-        <div>
-          <div style="background:linear-gradient(180deg,#fff 0%, #f1f6f4 100%);padding:18px;border-radius:12px;box-shadow:0 10px 26px rgba(7,20,30,0.06)">
-            <h3 style="margin-top:0">Angka Kinerja Utama</h3>
-            <ul style="color:var(--muted);margin:8px 0 0 18px">
-              <li>Pengurangan intensitas energi: <strong>—12% (3 tahun)</strong></li>
-              <li>Jumlah program komunitas: <strong>24</strong></li>
-              <li>Persentase pengelolaan limbah terproses: <strong>92%</strong></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- INVESTOR -->
-    <section id="investor" aria-labelledby="investorTitle">
-      <h2 id="investorTitle">Informasi Investor</h2>
-      <p style="color:var(--muted);margin-top:6px">Laporan keuangan, pengumuman, dan informasi pemegang saham.</p>
-
-      <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap">
-        <div style="min-width:220px;background:var(--card);padding:14px;border-radius:10px;box-shadow:0 8px 22px rgba(12,20,30,0.06)">
-          <h4 style="margin:0">Laporan Tahunan</h4>
-          <p style="margin:6px 0 0 0;color:var(--muted)">Unduh PDF laporan tahunan terbaru.</p>
-        </div>
-        <div style="min-width:220px;background:var(--card);padding:14px;border-radius:10px;box-shadow:0 8px 22px rgba(12,20,30,0.06)">
-          <h4 style="margin:0">Rilis & Pengumuman</h4>
-          <p style="margin:6px 0 0 0;color:var(--muted)">Ringkasan pengumuman korporat.</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer role="contentinfo" aria-label="Footer">
-    <div class="container">
-      <div class="footer-grid" style="align-items:start">
-        <div>
-          <div style="display:flex;gap:12px;align-items:center">
-            <span class="logo" style="width:44px;height:44px">MI</span>
-            <div>
-              <div style="font-weight:800">Mineral Indonesia</div>
-              <div class="small">Mentransformasikan sumber daya menjadi manfaat sosial & ekonomi.</div>
-            </div>
-          </div>
-
-          <p class="small" style="margin-top:12px">Alamat kantor pusat — Jl. Contoh No. 1, Kota Contoh, Indonesia. Tel: +62 21 0000 000</p>
-        </div>
-
-        <div>
-          <h4 style="margin:0 0 8px 0">Perusahaan</h4>
-          <a href="#about">Tentang</a><br>
-          <a href="#careers">Karir</a><br>
-          <a href="#contact">Kontak</a>
-        </div>
-
-        <div>
-          <h4 style="margin:0 0 8px 0">Investor</h4>
-          <a href="#investor">Laporan</a><br>
-          <a href="#investor">Rilis</a>
+  <!-- ===== ALL NEWS ===== -->
+  <section class="news">
+    <h2>All News</h2>
+    <button class="news-btn prev" onclick="scrollNews(-1)">&#10094;</button>
+    <div class="news-container" id="newsContainer">
+      
+      <div class="news-card">
+        <img src="images/news1.jpg" alt="Berita 1" /> <!-- GANTI: news1.jpg -->
+        <div class="content">
+          <h3>Sinergi untuk Asta Cita, PT Vale Turut Memeriahkan Hari Jadi</h3>
+          <p>PT Vale Indonesia Tbk menegaskan komitmennya dalam memperkuat peran UMKM dan pembangunan ekonomi daerah.</p>
+          <a href="#" target="_blank">Baca selengkapnya</a> <!-- GANTI LINK: berita 1 -->
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:18px;border-top:1px solid rgba(255,255,255,0.03);padding-top:14px">
-        <div class="small">© <span id="year"></span> Mineral Indonesia — Semua hak dilindungi.</div>
-        <div class="small">Kebijakan Privasi · Syarat & Ketentuan</div>
+      <div class="news-card">
+        <img src="images/news2.jpg" alt="Berita 2" /> <!-- GANTI: news2.jpg -->
+        <div class="content">
+          <h3>Sinergi TNI dan Dunia Industri</h3>
+          <p>Kolaborasi lintas sektor dalam mendukung agenda pembangunan nasional dan penguatan SDM lokal.</p>
+          <a href="#" target="_blank">Baca selengkapnya</a> <!-- GANTI LINK: berita 2 -->
+        </div>
       </div>
+
+      <div class="news-card">
+        <img src="images/news3.jpg" alt="Berita 3" /> <!-- GANTI: news3.jpg -->
+        <div class="content">
+          <h3>Komitmen Transparansi dan Kolaborasi</h3>
+          <p>Bagian dari upaya panjang dalam memastikan keberlanjutan sosial dan lingkungan di wilayah operasi.</p>
+          <a href="#" target="_blank">Baca selengkapnya</a> <!-- GANTI LINK: berita 3 -->
+        </div>
+      </div>
+
+    </div>
+    <button class="news-btn next" onclick="scrollNews(1)">&#10095;</button>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div>
+      <h3>Mineral Indonesia</h3>
+      <p>Berkomitmen untuk pertambangan berkelanjutan dan pembangunan ekonomi masyarakat Indonesia.</p>
+    </div>
+    <div class="footer-bottom">
+      © 2025 Mineral Indonesia. Seluruh hak cipta dilindungi.
     </div>
   </footer>
 
   <script>
-    // mobile menu toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const mobilePanel = document.getElementById('mobilePanel');
-    menuBtn && menuBtn.addEventListener('click', () => {
-      mobilePanel.classList.toggle('open');
-      const open = mobilePanel.classList.contains('open');
-      mobilePanel.setAttribute('aria-hidden', open ? 'false' : 'true');
-      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-
-    // set current year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const newsContainer = document.getElementById("newsContainer");
+    function scrollNews(direction) {
+      const scrollAmount = 360;
+      newsContainer.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth",
+      });
+    }
   </script>
+
 </body>
 </html>
