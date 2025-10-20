@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tentang Kami - PT Waja Inti Lestari</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; }
+
+    /* ===== NAVBAR ===== */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 60px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #444;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover { color: #2f6f67; }
+
+    .btn-contact {
+      background: #2f6f67;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      color: #fff;
+      position: relative;
+      margin-top: 80px;
+      background: url('https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/reklamasi.jpg') center center / cover no-repeat; 
+      /* GANTI: about-hero.jpg -> ubah nama gambar di folder images kamu */
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding-left: 8%;
+      max-width: 600px;
+    }
+
+    .hero-content h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      font-weight: 800;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about {
+      padding: 80px 10%;
+      background: #fff;
+      color: #333;
+    }
+
+    .about h2 {
+      font-size: 2rem;
+      color: #2f6f67;
+      margin-bottom: 16px;
+    }
+
+    .about p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 32px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .info-box {
+      background: #f8f8f8;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .info-box h3 {
+      color: #2f6f67;
+      margin-bottom: 16px;
+      font-size: 1.3rem;
+    }
+
+    .info-box table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .info-box td {
+      padding: 8px 0;
+      vertical-align: top;
+      font-size: 1rem;
+      color: #444;
+    }
+
+    .info-box td:first-child {
+      width: 40%;
+      font-weight: 600;
+      color: #2f6f67;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #2f6f67;
+      color: #fff;
+      padding: 60px 10%;
+      margin-top: 80px;
+    }
+
+    footer h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    footer p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #e0e0e0;
+    }
+
+    .footer-bottom {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header>
+    <div class="logo-area">
+      <div class="logo">
+        <img src="https://raw.githubusercontent.com/rip4no/Github-RIpano1/refs/heads/main/Gambar/Logo%20Wil.png" alt="Logo PT Waja Inti Lestari">
+      </div>
+      <div>
+        <strong>PT Waja Inti Lestari</strong><br>
+        <small>Pertambangan Komoditas Nikel</small>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="https://rip4no.github.io/Welcome.html/">Home</a></li>
+        <li><a href="https://rip4no.github.io/Career.html/" class="active">Career</a></li>
+        <li><a href="https://rip4no.github.io/Web-Report/">Report</a></li>
+        <li><a href="https://rip4no.github.io/Aboutus.html/">About Us</a></li>
+      </ul>
+    </nav>
+    <button class="btn-contact" onclick="window.open('https://wa.me/6282271244421?text=Halo%20PT%20Waja%20Inti%20Lestari,%20saya%20ingin%20menanyakan%20informasi%20lebih%20lanjut.', '_blank')">
+  Hubungi
+</button>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Tentang Kami</h1>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT CONTENT ===== -->
+  <section class="about">
+    <h2>Profil Perusahaan</h2>
+    <p>
+      <strong>WAJA INTI LESTARI</strong> memiliki izin untuk Nikel dalam lingkup Operasi Produksi. 
+      Izin ini berlaku dari <strong>27 Juli 2020</strong> hingga <strong>26 Juli 2030</strong>. 
+      Konsesi mencakup area seluas <strong>210,30 hektar</strong>. 
+      WAJA INTI LESTARI beroperasi di <strong>Kabupaten Kolaka</strong>. 
+      Untuk pertanyaan lebih lanjut, silakan hubungi kami.
+    </p>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <h3>Gambaran Umum Perusahaan</h3>
+        <table>
+          <tr><td>Nama</td><td>Waja Inti Lestari</td></tr>
+          <tr><td>Entitas</td><td>PT (Perseroan Terbatas)</td></tr>
+          <tr><td>Lokasi</td><td>Kabupaten Kolaka</td></tr>
+          <tr><td>Komoditas</td><td>Nikel</td></tr>
+        </table>
+      </div>
+
+      <div class="info-box">
+        <h3>Detail Izin</h3>
+        <table>
+          <tr><td>Jenis Izin</td><td>IUP (Izin Usaha Pertambangan)</td></tr>
+          <tr><td>Kode WIUP</td><td>3474012122014024</td></tr>
+          <tr><td>Luas Areal</td><td>210,30 Hektar</td></tr>
+          <tr><td>Periode Berlaku</td><td>Hingga 26 Juli 2030</td></tr>
+          <tr><td>CNC</td><td>CNC-7</td></tr>
+          <tr><td>Nomor Izin</td><td>418/DPMPTSP/VII/2020</td></tr>
+          <tr><td>Tanggal Pendirian</td><td>-</td></tr>
+          <tr><td>Alamat</td><td>Jln. Nelayan 1, Kelurahan Wolo, Kecamatan Wolo, Kabupaten Kolaka, Sulawesi Tenggara</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+   <!-- ===== FOOTER ===== -->
+  <footer>
+    <div>
+      <h3>PT Waja Inti Lestari</h3>
+      <p>Berkomitmen untuk pertambangan yang efisien dan pembangunan ekonomi masyarakat sekitar.</p>
+    </div>
+    <div class="footer-bottom">
+      © 2025 PT Waja Inti Lestari. Seluruh hak cipta dilindungi.
+    </div>
+  </footer>
+
+</body>
+</html>
