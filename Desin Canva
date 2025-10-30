@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Koleksi Desain Canva — PT WIL</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#9aa7bd;
+      --accent:#06b6d4;
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+      --radius:12px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#081022 0%, #071226 60%);
+      color:#e6eef6;
+      padding:28px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#7c3aed);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#042027;
+      box-shadow:0 6px 18px rgba(6,22,36,0.6), inset 0 -6px 18px rgba(255,255,255,0.02);
+    }
+    h1{margin:0;font-size:18px;}
+    p.lead{margin:0;color:var(--muted);font-size:13px;}
+    .controls{
+      margin-left:auto;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .search{
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.04);
+      padding:8px 12px;
+      border-radius:999px;
+      color:inherit;
+      width:320px;
+      outline:none;
+      font-size:14px;
+    }
+    .view-toggle{
+      display:flex;
+      gap:8px;
+      background:var(--glass-2);
+      padding:6px;
+      border-radius:10px;
+    }
+    .btn{
+      background:transparent;
+      color:var(--muted);
+      border:0;
+      padding:6px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .btn.primary{
+      background:linear-gradient(90deg,var(--accent),#7c3aed);
+      color:#02121a;
+      font-weight:600;
+      box-shadow:0 8px 20px rgba(7,26,34,0.45);
+    }
+    main{margin-top:18px;}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+      gap:14px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      padding:12px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      box-shadow: 0 6px 20px rgba(2,8,12,0.45);
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .card:hover{ transform:translateY(-6px); box-shadow:0 14px 40px rgba(2,8,12,0.6); }
+    .thumb{
+      width:88px;
+      height:64px;
+      border-radius:8px;
+      background:linear-gradient(135deg,#061022, #082033);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--muted);
+      font-size:11px;
+      text-align:center;
+      padding:8px;
+      flex:0 0 88px;
+    }
+    .meta{flex:1; min-width:0;}
+    .title{font-weight:700;font-size:14px;margin:0 0 6px 0;}
+    .link{display:block;color:var(--muted);font-size:13px;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .actions{display:flex;gap:8px; margin-top:8px;}
+    .small{padding:6px 8px;border-radius:8px;font-size:13px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer;}
+    .small.ghost{background:transparent;}
+    .small.copy{display:flex;gap:8px;align-items:center;}
+    footer{margin-top:22px;color:var(--muted);font-size:13px;text-align:center;}
+    .empty{padding:28px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px dashed rgba(255,255,255,0.03);color:var(--muted);}
+    @media (max-width:640px){
+      .search{width:100%;}
+      header{flex-direction:column;align-items:flex-start;gap:12px;}
+      .controls{width:100%;display:flex;flex-direction:column;gap:8px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">WIL</div>
+      <div>
+        <h1>Koleksi Desain Canva — PT WIL</h1>
+        <p class="lead">Semua link desain yang kamu kirim — cari, buka, atau salin link dengan cepat.</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <input id="q" class="search" placeholder="Cari judul, kata kunci... (mis. SAMPUL, BANNER, STRUKTUR)" />
+      <div class="view-toggle" title="Toggle view (grid/list)">
+        <button id="toggleView" class="btn" aria-pressed="false">Grid</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="count" style="color:var(--muted); margin-bottom:10px">Menampilkan <strong id="num">0</strong> item</div>
+
+    <div id="list" class="grid"></div>
+
+    <div id="noresult" class="empty" style="display:none; margin-top:12px;">
+      Tidak ada hasil. Coba kata lain.
+    </div>
+  </main>
+
+  <footer>
+    <div>Tekan tombol "Buka" untuk membuka Canva di tab baru. Tombol "Salin link" menyalin URL ke clipboard.</div>
+  </footer>
+
+  <script>
+    // data: title + url (dari input pengguna)
+    const items = [
+{"title":"PERMIT PARTA","url":"https://www.canva.com/design/DAGVkLLQUms/RoBmskwA9LQ3TJavhjugSQ/view?utm_content=DAGVkLLQUms&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"TEMPLATE AUDITOR HALAMAN TANDA TANGAN","url":"https://www.canva.com/design/DAGXQQ8QFWM/APTOHP49OkWre3pZfI-LQQ/view?utm_content=DAGXQQ8QFWM&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SAMPUL LAPORAN AUDIT SMKP  2023","url":"https://www.canva.com/design/DAGXQJuGcO0/aLILLwkG6NWnT88JtDS3aw/view?utm_content=DAGXQJuGcO0&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"PROFILE COMPANY","url":"https://www.canva.com/design/DAGYwrTm60U/Q9T8qZKyRdxZHTVFXLBHkA/view?utm_content=DAGYwrTm60U&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"laporan pengelolaan lingkungan kerja dan Kesehatan kerja pertambangan Tahun 2023","url":"https://www.canva.com/design/DAGZJp_dPMU/tyzt7n8comXyTOdQDX5ixA/view?utm_content=DAGZJp_dPMU&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SAMPUL LAPORAN KUALITAS TANAH","url":"https://www.canva.com/design/DAGZIZWboCE/kfieJKG8e3dIeKibOVY-hA/view?utm_content=DAGZIZWboCE&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SAMPUL RINCIAN TEKNIS PENYIMPANAN AIR LIMBAH B3","url":"https://www.canva.com/design/DAGYHgNRzyQ/E43FtaVHQxll8kKW1iRsMA/view?utm_content=DAGYHgNRzyQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SAMPUL KAJIAN TEKNIS GRADE JALAN LEBIH DARI 12%","url":"https://www.canva.com/design/DAGXtwWxMS4/Ywlg__Wx5XCislb8elPn7g/view?utm_content=DAGXtwWxMS4&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"STRUKTUR ORGANISASI PT WIL","url":"https://www.canva.com/design/DAG1o97xugI/4shsaP3nMp9-9sDtJFCkWQ/view?utm_content=DAG1o97xugI&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SAMPUL DOKUMEN RENCANA REKLAMASI","url":"https://www.canva.com/design/DAGVYp7Ja6E/6PQiUCUcVcW489KrL9oIaQ/view?utm_content=DAGVYp7Ja6E&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"BANNER DILARANG MANDI MANCING BERENANG","url":"https://www.canva.com/design/DAGZO_q5Euo/xleBIm-MBnpQE8uhMCtzNg/view?utm_content=DAGZO_q5Euo&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"PPT MEETING KOF RENCAN KERJA TAHUNAN 2025","url":"https://www.canva.com/design/DAGchz7oxN0/J9CzNHzY3msLBywfohuMug/view?utm_content=DAGchz7oxN0&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SAMPUL LAPORAN Pengelolaan limbah b3","url":"https://www.canva.com/design/DAGa09u3nwQ/vpKwyzZbbLe9QRyQ9d674w/view?utm_content=DAGa09u3nwQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"BANNER DILARANG MASUK","url":"https://www.canva.com/design/DAGRc5R4Ljw/hf_6Prrzrolft8d0sdnxRw/view?utm_content=DAGRc5R4Ljw&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SAMPUL LAPORAN TW 3 2024","url":"https://www.canva.com/design/DAGTDi-9qmo/aIKbjmytQCZigxbXuF18jA/view?utm_content=DAGTDi-9qmo&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"BANNER TERMINAL KHUSUS","url":"https://www.canva.com/design/DAGRYzXN7_o/a_se-JTyJywClP60AFQN_w/view?utm_content=DAGRYzXN7_o&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"DESIGN SIMPER","url":"https://www.canva.com/design/DAGnZJ7lzHI/Iiaw8vUTFUyL7VgVXEuyyA/view?utm_content=DAGnZJ7lzHI&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"DESIGN PERMIT","url":"https://www.canva.com/design/DAGnZMkMQwM/IRU2DZh3V3EJFvbqyPf1Sg/view?utm_content=DAGnZMkMQwM&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"DESIGN BAJU SPESIAL EDITION TANPA LOGO WIL","url":"https://www.canva.com/design/DAGk3wxDB4Y/Swm533kkdXUcQblH6QNEpw/view?utm_content=DAGk3wxDB4Y&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"UCAPAN SELAMAT ULTAH SULAWESI TENGGARA","url":"https://www.canva.com/design/DAGlCLvQ7tg/XsoBe0MvFPs64BbnR3ke1w/view?utm_content=DAGlCLvQ7tg&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"DESIGN BAJU SPESIAL EDITION DENGAN LOGO WIL","url":"https://www.canva.com/design/DAGkY-kd_XQ/8dc2GEjkdnVX_ldvSmC-wQ/view?utm_content=DAGkY-kd_XQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"PPT RDP DPRD KOLAKA","url":"https://www.canva.com/design/DAGmdTgp3LQ/WLAQOqkx82qihdyQ3qsmJw/view?utm_content=DAGmdTgp3LQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"JADWAL DINAS TEAM ERT","url":"https://www.canva.com/design/DAGmua5IBcE/eCXgnf4HvsJ4vyetX0_RAA/view?utm_content=DAGmua5IBcE&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"STRUKTUR ORGANIASI RENCANA KERJA PASANG PAL BATAS","url":"https://www.canva.com/design/DAGnYA_Gpkg/JFas7jpCukYKCy5uUiJxfQ/view?utm_content=DAGnYA_Gpkg&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"LAPORAN KONSERVASI TRIWULAN","url":"https://www.canva.com/design/DAGomHFpwqE/WdHYKFaSI7p90NL32vjm7A/view?utm_content=DAGomHFpwqE&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"DESIGN IDUL ADHA","url":"https://www.canva.com/design/DAGpWtf_nAI/06ZCwFRfKjzdpdxOwIznlQ/view?utm_content=DAGpWtf_nAI&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SAMPUL RR TANDA BATAS","url":"https://www.canva.com/design/DAGqBYijmeI/yyj5lKieK6dmo1JVsNNTIA/view?utm_content=DAGqBYijmeI&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"RDP DPRD","url":"https://www.canva.com/design/DAGqqPkPZ3g/4mq-4hCZ_cy2b0SPjiXJaw/view?utm_content=DAGqqPkPZ3g&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Sampul laporan PKKPRL","url":"https://www.canva.com/design/DAGry6gY5xY/Yf0t7pKQ57QI2udVfZ338Q/view?utm_content=DAGry6gY5xY&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"sampul laporan hari lingkungan hidup","url":"https://www.canva.com/design/DAGqkLn8Icg/upprcArZJ-irmTSeEcc-cA/view?utm_content=DAGqkLn8Icg&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Banner hari lingkungan hidup sedunia 2025","url":"https://www.canva.com/design/DAGqF0-pEXE/cyhDF1olhUW4Sjayo6I7AA/view?utm_content=DAGqF0-pEXE&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Banner sosialisasi tanda batas iup","url":"https://www.canva.com/design/DAGr4uosEvs/tKw06UPnXeVKdu22PwYiFQ/view?utm_content=DAGr4uosEvs&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"struktur TKBM","url":"https://www.canva.com/design/DAGsop_njZU/otwfmv8Lw8uVSIwjZOacHA/view?utm_content=DAGsop_njZU&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"potrait watermark","url":"https://www.canva.com/design/DAGsoImMK0o/JfIOTFd2rjkWS9ooExAhhQ/view?utm_content=DAGsoImMK0o&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"landscap watermark","url":"https://www.canva.com/design/DAGsoGHRVXU/VNLFHQ0safRtI41vChHiDw/view?utm_content=DAGsoGHRVXU&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"alur penambangan PT wil","url":"https://www.canva.com/design/DAGsiUnnmOo/0_dlRXPJZdLXR7Nzcjjhlw/view?utm_content=DAGsiUnnmOo&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"laporan Kewajiban Perusahaan terkait Tindak Lanjut Kecelakaan Tambang Berakibat Mati","url":"https://www.canva.com/design/DAGsRR2wiio/wnNvPRyUMU1qNHXBc5ckYg/view?utm_content=DAGsRR2wiio&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"lapopran Laporan Penilaian Ulang Tingkat Pencapaian Kinerja Keselamatan Pertambangan","url":"https://www.canva.com/design/DAGsd43N07o/qaCLw2j8kr7_K-qCQB6D9Q/view?utm_content=DAGsd43N07o&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"SOSIALISassi PEMASANGAN TANDA BATAS IUP","url":"https://www.canva.com/design/DAGr4uosEvs/tKw06UPnXeVKdu22PwYiFQ/view?utm_content=DAGr4uosEvs&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"kajian teknis 24 jam","url":"https://www.canva.com/design/DAGradSToOo/hSPdh_fzRzqa0R_sPnAguw/view?utm_content=DAGradSToOo&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Banner HUT RI","url":"https://www.canva.com/design/DAGus7duVZ8/V1DSATZdS5oycxgDZZmbIA/view?utm_content=DAGus7duVZ8&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Desin Baju WIL","url":"https://www.canva.com/design/DAGuC35DWfU/nP68F-7QBFwwuTqXB-3igw/view?utm_content=DAGuC35DWfU&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Bantuan Pos Nelayan","url":"https://www.canva.com/design/DAGuUOiM1cs/TIpHaAFAlMkav0Iuh6_gWg/view?utm_content=DAGuUOiM1cs&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Titik Pantau Air Limbah","url":"https://www.canva.com/design/DAGt2y3cJY0/q8grvfb_pt0LgpciuxzTKw/view?utm_content=DAGt2y3cJY0&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Titik Pantau SP","url":"https://www.canva.com/design/DAGt2wBXFJY/oTJDrG2kmbDugIwid9nuQw/view?utm_content=DAGt2wBXFJY&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Koordinat Foto Landscape","url":"https://www.canva.com/design/DAGsoGHRVXU/VNLFHQ0safRtI41vChHiDw/view?utm_content=DAGsoGHRVXU&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Koordinat Foto Potrait","url":"https://www.canva.com/design/DAGsoImMK0o/JfIOTFd2rjkWS9ooExAhhQ/view?utm_content=DAGsoImMK0o&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"},
+{"title":"Project DBK","url":"https://www.canva.com/design/DAG3JUq_vL8/bjpvNX1SV4pItJzKc-vryQ/view?utm_content=DAG3JUq_vL8&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview"}
+    ];
+
+    const listEl = document.getElementById('list');
+    const qEl = document.getElementById('q');
+    const numEl = document.getElementById('num');
+    const noresult = document.getElementById('noresult');
+    const toggleViewBtn = document.getElementById('toggleView');
+    let gridView = true;
+
+    function render(filtered){
+      listEl.innerHTML = '';
+      numEl.textContent = filtered.length;
+      if(filtered.length === 0){
+        noresult.style.display = 'block';
+      } else noresult.style.display = 'none';
+
+      filtered.forEach((it, idx) => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        // make a short label inside thumb
+        const words = it.title.split(' ');
+        let label = (words[0] || '').toUpperCase();
+        if(label.length > 6) label = label.slice(0,6);
+        thumb.innerText = label;
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const title = document.createElement('h3');
+        title.className = 'title';
+        title.innerText = it.title;
+        const link = document.createElement('a');
+        link.className = 'link';
+        link.href = it.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.innerText = it.url;
+
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+
+        const openBtn = document.createElement('a');
+        openBtn.className = 'small primary';
+        openBtn.innerText = 'Buka';
+        openBtn.href = it.url;
+        openBtn.target = '_blank';
+        openBtn.rel = 'noopener noreferrer';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'small copy';
+        copyBtn.innerText = 'Salin link';
+        copyBtn.title = 'Salin link ke clipboard';
+        copyBtn.addEventListener('click', async (e) => {
+          try{
+            await navigator.clipboard.writeText(it.url);
+            copyBtn.innerText = 'Tersalin ✓';
+            setTimeout(()=> copyBtn.innerText = 'Salin link',1200);
+          }catch(err){
+            // fallback
+            const ta = document.createElement('textarea');
+            ta.value = it.url;
+            document.body.appendChild(ta);
+            ta.select();
+            try{ document.execCommand('copy'); copyBtn.innerText = 'Tersalin ✓'; setTimeout(()=> copyBtn.innerText = 'Salin link',1200); } catch(e){ alert('Gagal menyalin. Silakan salin manual.'); }
+            document.body.removeChild(ta);
+          }
+        });
+
+        const previewBtn = document.createElement('button');
+        previewBtn.className = 'small ghost';
+        previewBtn.innerText = 'Pratinjau';
+        previewBtn.addEventListener('click', (e) => {
+          // open small preview window
+          window.open(it.url + '&mode=preview', '_blank', 'noopener,noreferrer');
+        });
+
+        actions.appendChild(openBtn);
+        actions.appendChild(copyBtn);
+        actions.appendChild(previewBtn);
+
+        meta.appendChild(title);
+        meta.appendChild(link);
+        meta.appendChild(actions);
+
+        card.appendChild(thumb);
+        card.appendChild(meta);
+        listEl.appendChild(card);
+      });
+    }
+
+    // initial render
+    render(items);
+
+    qEl.addEventListener('input', (e) => {
+      const q = (e.target.value || '').trim().toLowerCase();
+      if(!q) { render(items); return; }
+      const filtered = items.filter(it => (it.title + ' ' + it.url).toLowerCase().includes(q));
+      render(filtered);
+    });
+
+    toggleViewBtn.addEventListener('click', ()=>{
+      gridView = !gridView;
+      if(gridView){
+        listEl.className = 'grid';
+        toggleViewBtn.innerText = 'Grid';
+        toggleViewBtn.setAttribute('aria-pressed','false');
+      } else {
+        listEl.className = 'grid';
+        // change layout to list-like via CSS runtime tweak
+        listEl.style.gridTemplateColumns = '1fr';
+        toggleViewBtn.innerText = 'List';
+        toggleViewBtn.setAttribute('aria-pressed','true');
+      }
+    });
+
+    // optional: keyboard shortcut "/" to focus search
+    window.addEventListener('keydown', (e)=>{ if(e.key === '/' && document.activeElement !== qEl){ e.preventDefault(); qEl.focus(); } });
+
+  </script>
+</body>
+</html>
